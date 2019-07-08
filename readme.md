@@ -1,2 +1,0 @@
-# Simanja
-Simanja
