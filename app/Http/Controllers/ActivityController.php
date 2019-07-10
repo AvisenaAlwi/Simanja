@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Activity;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
+use Yajra\Datatables\Datatables;
 
 class ActivityController extends Controller
 {
@@ -167,5 +168,20 @@ class ActivityController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function anyData()
+    {
+        // echo "Sena";
+        // die();
+        return Datatables::of(
+            DB::table('sub_activity')
+            ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
+            ->select([
+                'sub_activity.name as sub_activity_name',
+                'activity.name as activity_name',
+                'sub_activity.*',
+            ])
+        )->make(true);
     }
 }

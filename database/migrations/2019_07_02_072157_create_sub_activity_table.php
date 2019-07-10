@@ -28,7 +28,7 @@ class CreateSubActivityTable extends Migration
             $table->json('petugas')->default('[]');
 
             $table->string('pendidikan')->default('SMA');
-            $table->string('it')->default('Tinggi');
+            $table->string('ti')->default('Tinggi');
             $table->string('menulis')->default('Tinggi');
             $table->string('administrasi')->default('Tinggi');
             $table->string('pengalaman_survei')->default('Tinggi');

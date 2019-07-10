@@ -1,4 +1,15 @@
 @extends('layouts.app')
+@push('style')
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+@endpush
+@push('js')
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#table').DataTable();
+        } );
+    </script>
+@endpush
 @section('content')
 @include('users.partials.header', [
 'title' => 'Kegiatan',
@@ -28,7 +39,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table tablesorter table align-items-center table-flush">
+                    <table class="table tablesorter table align-items-center table-flush" id="tabel">
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Kegiatan</th>

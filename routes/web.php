@@ -30,5 +30,6 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group([
 	'middleware' => ['auth', 'supervisor']
 ], function () {
+	Route::get('activity/any-data', 'ActivityController@anyData');
 	Route::resource('activity', 'ActivityController');
 });
