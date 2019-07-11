@@ -39,7 +39,7 @@ class ActivityController extends Controller
                 'activity.name as activity_name',
                 'sub_activity.*',
             ])
-            ->where('awal_bulan','=', $month)
+            ->where('bulan_awal','=', $month)
             ->paginate(10);
             return view('activity.index', ['sub_activity' => $sub_activity]);
         }
@@ -93,28 +93,37 @@ class ActivityController extends Controller
             {
             $data = [
                 'name' => $activity_name, 
-                'kategori' => $activity_kategori, 
-                'awal_bulan' => $request['activity_start_month'],
-                'tahun' => now()->format('Y')
+                'kategori' => $activity_kategori,
+                'created_by_user_id' => auth()->user()->id,
+                'bulan_awal' => $request['activity_start_month'],
+                'tahun_awal' => $request['activity_end_year']
             ];
-            if($request['issatubulan'] == false || $request['activity_start_month'] == $request['activity_end_month'])
-                $data['akhir_bulan'] = $request['activity_end_month'];
+            if($request['issatubulan'] == false || $request['activity_start_month'] == $request['activity_end_month']){
+                $data['bulan_akhir'] = $request['activity_end_month'];
+                $data['tahun_akhir'] = $request['activity_end_year'];
+            }
 
             $activity = Activity::create($data);
+            if (sizeof(DB::table('autocomplete_activity')->where('name', $activity_name)->get()) == 0)
+                DB::table('autocomplete_activity')->insert(['name' => $activity_name]);
+            
             foreach($sub_activity as $key => $value){
                 SubActivity::create([
                     'activity_id' => $activity->id,
-                    'satuan' => $value['satuan'], 
                     'name' => $value['name'],
+                    'satuan' => $value['satuan'], 
                     'volume' => $value['volume'],
-                    'tahun' => now()->format('Y'),
 
-                    'pendidikan' =>$value['qualifikasi']['pendidikan'],
-                    'ti' =>$value['qualifikasi']['ti'],
-                    'menulis' =>$value['qualifikasi']['menulis'],
-                    'administrasi' =>$value['qualifikasi']['administrasi'],
-                    'pengalaman_survei' =>$value['qualifikasi']['pengalaman'],
+                    'pendidikan' => config('scale.pendidikan')[((int)$value['qualifikasi']['pendidikan']-1)],
+                    'ti' => config('scale.likert')[((int)$value['qualifikasi']['ti']-1)],
+                    'menulis' =>config('scale.likert')[((int)$value['qualifikasi']['menulis']-1)],
+                    'administrasi' =>config('scale.likert')[((int)$value['qualifikasi']['administrasi']-1)],
+                    'pengalaman_survei' => config('scale.likert')[((int)$value['qualifikasi']['pengalaman'] -1)],
                 ]);
+                if (sizeof(DB::table('autocomplete_sub_activity')->where('name', $value['name'])->get()) == 0)
+                    DB::table('autocomplete_sub_activity')->insert(['name' => $value['name']]);
+                if (sizeof(DB::table('autocomplete_satuan')->where('name', $value['satuan'])->get()) == 0)
+                    DB::table('autocomplete_satuan')->insert(['name' => $value['satuan']]);
             }
         });
         // echo $activity_name."<br>";
@@ -167,7 +176,47 @@ class ActivityController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::transaction(function() use($id) {
+            $subactivity = SubActivity::find($id);
+            if ($subactivity != null){
+                $parentActivityId = $subactivity->activity_id;
+                $statusDelete = $subactivity->delete();
+                if ($statusDelete){
+                    if (sizeof(DB::table('sub_activity')->where('activity_id',$parentActivityId)->get()) == 0 )
+                        Activity::find($parentActivityId)->delete();
+                    return response()->json(['status'=>'sukses', 'message'=>'Berhasil menghapus kegiatan'], 202);
+                }else{
+                    return response()->json(['status'=>'gagal', 'message'=>'Gagal meghapus kegiatan']);
+                }
+            }else{
+                return response()->json(['status'=>'gagal', 'message'=>'ID tidak ditemukan'], 404);
+            }
+        });
+    }
+
+    public function autocomplete_activity(){
+        $from_database = DB::table('autocomplete_activity')
+                        ->select('name')
+                        ->orderBy('name')
+                        ->distinct()
+                        ->get();
+        return response()->json($from_database);
+    }
+    public function autocomplete_sub_activity(){
+        $from_database = DB::table('autocomplete_sub_activity')
+                        ->select('name')
+                        ->orderBy('name')
+                        ->distinct()
+                        ->get();
+        return response()->json($from_database);
+    }
+    public function autocomplete_satuan(){
+        $from_database = DB::table('autocomplete_satuan')
+                        ->select('name')
+                        ->orderBy('name')
+                        ->distinct()
+                        ->get();
+        return response()->json($from_database);
     }
 
     public function anyData()

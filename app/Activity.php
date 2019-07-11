@@ -8,5 +8,10 @@ class Activity extends Model
 {
     public $table = "activity";
 
-    protected $fillable = ['name', 'kategori', 'volume','tahun', 'awal_bulan', 'akhir_bulan'];
+    // protected $fillable = ['*'];
+    protected $guarded = [];
+
+    public function created_by_user(){
+        return $this->belongsTo(User::class, 'created_by_user_id', 'id');
+    }
 }

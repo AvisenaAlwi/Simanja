@@ -13,29 +13,22 @@
     }
 </style>
 @endpush
+
+@php
+$bulan_now = (int)now()->format('m');
+$tahun_now = (int)now()->format('Y');
+$tahun = [];
+for($i = 0; $i < 5; $i++){
+    array_push($tahun, $tahun_now++);
+}
+@endphp
+
 @section('content')
 @include('users.partials.header', [
 'title' => 'Kegiatan',
 'description' => __('Tabel berikut menunjukkan tabel kegiatan yang dapat ditambah ke sistem.'),
 'class' => 'col-lg-7'
 ])
-@php
-    $bulan = [
-        '<option value="Januari">Januari</option>',
-        '<option value="Februari">Februari</option>',
-        '<option value="Maret">Maret</option>',
-        '<option value="April">April</option>',
-        '<option value="Mei">Mei</option>',
-        '<option value="Juni">Juni</option>',
-        '<option value="Juli">Juli</option>',
-        '<option value="Agustus">Agustus</option>',
-        '<option value="September">September</option>',
-        '<option value="Oktober">Oktober</option>',
-        '<option value="November">November</option>',
-        '<option value="Desember">Desember</option>'
-];
-$bulan_now = (int)now()->format('m');
-@endphp
 <div class="container-fluid mt--7">
     <div class="row">
         <div class="col-xl-12 order-xl-1">
@@ -63,7 +56,7 @@ $bulan_now = (int)now()->format('m');
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-activity-name">Nama Kegiatan</label>
-                                <input type="text" name="activity_name" id="input-activity-name" class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" placeholder="Sakernas 2019" value="{{ old('activity_name') }}" required autofocus>
+                                <input type="text" name="activity_name" id="input-activity-name" class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_name') }}" required autofocus>
 
                                 @if ($errors->has('activity_name'))
                                 <span class="invalid-feedback" role="alert">
@@ -88,34 +81,56 @@ $bulan_now = (int)now()->format('m');
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-name">Awal Bulan</label>
-                                        <select name="activity_start_month" id="activity-start-month"
-                                        class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                            @for ($i = 1; $i <= sizeof($bulan); $i++)
-                                                @if ($i >= $bulan_now)
-                                                    {!! $bulan[$i-1] !!}
-                                                @endif
-                                            @endfor
-                                        </select>
-
-                                        @if ($errors->has('activity_start_month'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('activity_start_month') }}</strong>
-                                        </span>
-                                        @endif
+                                        <label class="form-control-label" for="input-activity-name">Awal</label>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <select name="activity_start_month" id="activity-start-month"
+                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
+                                                    @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++)
+                                                        @if ($i == $bulan_now)
+                                                            <option value="{{ config('scale.bulan')[$i-1] }}" selected>{{ config('scale.bulan')[$i-1] }}</option>
+                                                        @else
+                                                            <option value="{{ config('scale.bulan')[$i-1] }}">{{ config('scale.bulan')[$i-1] }}</option>
+                                                        @endif
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                            <div class="col-6">
+                                                <select name="activity_start_year" id="activity-start-year"
+                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
+                                                    @foreach ($tahun as $t)
+                                                        <option value="{{ $t }}">{{ $t }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6" id="zzx">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-name">Akhir Bulan</label>
-                                        <select name="activity_end_month" id="activity-end-month"
-                                        class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                        @for ($i = 1; $i <= sizeof($bulan); $i++)
-                                            @if ($i >= $bulan_now)
-                                                {!! $bulan[$i-1] !!}
-                                            @endif
-                                        @endfor
-                                        </select>
+                                        <label class="form-control-label" for="input-activity-name">Akhir</label>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <select name="activity_end_month" id="activity-end-month"
+                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
+                                                @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++)
+                                                    @if ($i == $bulan_now)
+                                                        <option value="{{ config('scale.bulan')[$i-1] }}" selected>{{ config('scale.bulan')[$i-1] }}</option>
+                                                    @else
+                                                        <option value="{{ config('scale.bulan')[$i-1] }}">{{ config('scale.bulan')[$i-1] }}</option>
+                                                    @endif
+                                                @endfor
+                                                </select>
+                                            </div>
+                                            <div class="col-6">
+                                                <select name="activity_end_year" id="activity-end-year"
+                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
+                                                    @foreach ($tahun as $t)
+                                                        <option value="{{ $t }}">{{ $t }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
 
                                         @if ($errors->has('activity_end_month'))
                                         <span class="invalid-feedback" role="alert">
@@ -132,7 +147,7 @@ $bulan_now = (int)now()->format('m');
                         <div id="container-sub-activity">
                             <div class="sub-kegiatan" number="1">
                                 <hr class="my-4" />
-                                <h6 class="heading-small text-muted mb-4">Sub Kegiatan 1</h6>
+                                <div class="col-6"><h6 class="heading-small text-muted mb-4">Sub Kegiatan 1</h6></div>
 
                                 {{-- @if (session('sub_activity'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -240,14 +255,18 @@ $bulan_now = (int)now()->format('m');
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center">
-                            <button type="button" id="add-sub-activity" class="btn btn-info mt-4">Tambah Sub
-                                Kegiatan</button>
-                        </div>
                         <hr class="my-4" />
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-success mt-4">Simpan</button>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" id="add-sub-activity" class="btn btn-warning">Tambah Sub Kegiatan</button>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-success">Simpan</button>
+                            </div>
                         </div>
+                        {{-- <div class="text-center">
+                            
+                        </div> --}}
                     </form>
                 </div>
             </div>
@@ -318,7 +337,6 @@ $bulan_now = (int)now()->format('m');
                 $(arr_qualifikasi_menulis[i]).slider({ value : value[i].qualifikasi.menulis});
                 $(arr_qualifikasi_administrasi[i]).slider({ value : value[i].qualifikasi.administrasi});
                 $(arr_qualifikasi_pengalaman[i]).slider({ value : value[i].qualifikasi.pengalaman});
-                
             }
             value = [];
         }
@@ -334,7 +352,14 @@ $bulan_now = (int)now()->format('m');
                 let html = `
                 <div class="sub-kegiatan" number="1">
                                 <hr class="my-4" />
-                                <h6 class="heading-small text-muted mb-4">Sub Kegiatan 1</h6>
+                                <div class="row">
+                                    <div class="col-6"><h6 class="heading-small text-muted mb-4">Sub Kegiatan 1</h6></div>
+                                    <div class="col-6 d-flex justify-content-end" >
+                                        <h1 class="delete-sub-activity" style="cursor: pointer;">
+                                            <i aria-hidden="true" class="fa fa-times text-danger"></i>
+                                        </h1>
+                                    </div>
+                                </div>
 
                                 <div class="pl-lg-4">
                                     <div class="row">
@@ -438,7 +463,14 @@ $bulan_now = (int)now()->format('m');
                 html = html.replace(/sub_activity_\d+/g, "sub_activity_" + sub_activity_count);
                 before += html;
                 $('#container-sub-activity').append(before);
-
+                $('.delete-sub-activity').hide();
+                $('.delete-sub-activity').last().show();
+                
+                setTimeout(function(){
+                    $('html, body').animate({
+                        scrollTop: $('.sub-kegiatan').last().offset().top
+                    }, 1000);
+                }, 10);
                 restoreValue();
             });
 
@@ -448,21 +480,34 @@ $bulan_now = (int)now()->format('m');
                 // console.log(me.serialize());
             });
             $("#input-activity-name").easyAutocomplete({
-                url: "{{ asset('kegiatan.json') }}",
+                url: "{{ route('activity.autocomplete.activity') }}",
+                getValue: "name",
                 list: {
-                    sort: {
-                        enabled: true
-                    }
-                }
+                    maxNumberOfElements: 15,
+                    match: {enabled: true},
+                    sort: {enabled: true}
+                },
             });
             $('.nama-sub-kegiatan').each(function () {
                 $(this).easyAutocomplete({
-                    url: "{{ asset('sub_kegiatan.json') }}"
+                    url: "{{ route('activity.autocomplete.subactivity') }}",
+                    getValue: 'name',
+                    list: {
+                        maxNumberOfElements: 15,
+                        match: {enabled: true},
+                        sort: {enabled: true}
+                    }
                 });
             });
             $('.satuan-sub-kegiatan').each(function () {
                 $(this).easyAutocomplete({
-                    url: "{{ asset('satuan_kegiatan.json') }}"
+                    url: "{{ route('activity.autocomplete.satuan') }}",
+                    getValue: 'name',
+                    list: {
+                        maxNumberOfElements: 15,
+                        match: {enabled: true},
+                        sort: {enabled: true}
+                    }
                 });
             });
 
@@ -497,6 +542,24 @@ $bulan_now = (int)now()->format('m');
                 showLabels: false
             });
 
+            $(document).arrive('.delete-sub-activity', function(newElement){
+            $(newElement).click(function(){
+                me = $(this);
+
+                me.parent().parent().parent().hide(function(){
+                    $(this).remove();
+                    $('.delete-sub-activity').hide();
+                    $('.delete-sub-activity').last().show();
+                    sub_activity_count--;
+                    // setTimeout(function(){
+                        // $('html, body').animate({
+                        //     scrollTop: $('.sub-kegiatan').last().offset().top
+                        // }, 1000);
+                    // }, 10);
+                });
+            })
+        });
+
         });
 
         $(document).arrive('.nama-sub-kegiatan', function (newElement) {
@@ -504,7 +567,13 @@ $bulan_now = (int)now()->format('m');
             $('.nama-sub-kegiatan').unbind('easyAutocomplete');
             zzz.each(function () {
                 $(this).easyAutocomplete({
-                    url: "{{ asset('sub_kegiatan.json') }}"
+                    url: "{{ route('activity.autocomplete.subactivity') }}",
+                    getValue: 'name',
+                    list: {
+                        maxNumberOfElements: 15,
+                        match: {enabled: true},
+                        sort: {enabled: true}
+                    }
                 });
             });
         });
@@ -513,7 +582,13 @@ $bulan_now = (int)now()->format('m');
             $('.satuan-sub-kegiatan').unbind('easyAutocomplete');
             zzz.each(function () {
                 $(this).easyAutocomplete({
-                    url: "{{ asset('satuan_kegiatan.json') }}"
+                    url: "{{ route('activity.autocomplete.satuan') }}",
+                    getValue: 'name',
+                    list: {
+                        maxNumberOfElements: 15,
+                        match: {enabled: true},
+                        sort: {enabled: true}
+                    }
                 });
             });
         });

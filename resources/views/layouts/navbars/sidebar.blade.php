@@ -86,18 +86,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-bullet-list-67 text-green"></i> {{ __('My Tasks') }}
+                    <a class="nav-link" href="{{ route('activity.index') }}">
+                        <i class="ni ni-bullet-list-67 text-blue"></i> Kegiatan
                     </a>
                 </li>
-
-                @if (!Auth::guest() && in_array(2, Auth::user()->multilevel_role()))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('activity.index') }}">
-                            <i class="ni ni-bullet-list-67 text-blue"></i> Kegiatan
-                        </a>
-                    </li>
-                @endif
 
                 {{-- <li class="nav-item">
                     <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">

@@ -17,9 +17,12 @@ class CreateActivityTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('kategori')->default('Utama');
-            $table->string('awal_bulan');
-            $table->string('akhir_bulan')->nullable();
-            $table->year('tahun');
+            $table->unsignedSmallInteger('created_by_user_id');
+            $table->foreign('created_by_user_id')->references('id')->on('users');
+            $table->string('bulan_awal');
+            $table->string('tahun_awal');
+            $table->string('bulan_akhir')->nullable();
+            $table->string('tahun_akhir')->nullable();
             $table->timestamps();
         });
     }

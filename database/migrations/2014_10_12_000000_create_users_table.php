@@ -22,10 +22,13 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('jabatan')->default('Staf');
-            $table->string('pendidikan')->default('SLTA');
-            $table->boolean('ti')->default(false);
-            $table->json('pengalaman')->default('[]');
-            $table->json('tag')->default('[]');
+            
+            $table->string('pendidikan')->default('SMA');
+            $table->string('ti')->default('Tinggi');
+            $table->string('menulis')->default('Tinggi');
+            $table->string('administrasi')->default('Tinggi');
+            $table->string('pengalaman_survei')->default('Tinggi');
+
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

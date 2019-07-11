@@ -33,7 +33,6 @@ class CreateSubActivityTable extends Migration
             $table->string('administrasi')->default('Tinggi');
             $table->string('pengalaman_survei')->default('Tinggi');
 
-            $table->year('tahun');
             $table->timestamps();
         });
     }

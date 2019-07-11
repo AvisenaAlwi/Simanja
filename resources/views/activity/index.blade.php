@@ -1,14 +1,6 @@
 @extends('layouts.app')
 @push('style')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-@endpush
-@push('js')
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <script>
-        $(document).ready( function () {
-            $('#table').DataTable();
-        } );
-    </script>
+    
 @endpush
 @section('content')
 @include('users.partials.header', [
@@ -51,12 +43,15 @@
                         </thead>
                         <tbody class="list">
                             @foreach ($sub_activity as $sub)
+                                @php
+                                    $full_name = $sub->sub_activity_name . " " . $sub->activity_name;
+                                @endphp
                                 <tr>
                                     <th scope="row">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="name mb-0 text-sm">
-                                                    {{ $sub->sub_activity_name . " " . $sub->activity_name . " " . $sub->tahun}}
+                                                    {{ $full_name }}
                                                 </span>
                                             </div>
                                         </div>
@@ -100,289 +95,17 @@
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                                 class="btn btn-sm btn-icon-only text-light"><i
                                                     class="fas fa-ellipsis-v"></i></a>
-                                            <ul class="dropdown-menu dropdown-menu-right"><a href="#"
-                                                    class="dropdown-item">Edit</a><a href="#"
-                                                    class="dropdown-item">Hapus</a></ul>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <a href=""class="dropdown-item">Edit</a>
+                                                <a href=""
+                                                    class="dropdown-item btn-delete-item" 
+                                                    title="{{ $full_name }}"
+                                                    id-item="{{ $sub->id }}"
+                                                    style="color: red;"><b>Hapus</b></a></ul>
                                         </li>
                                     </td>
                                 </tr>
                             @endforeach
-                            {{-- <tr>
-                                <th scope="row">
-                                    <div class="media align-items-center"><a href="#"
-                                            class="avatar rounded-circle mr-3"><img alt="Image placeholder"
-                                                src="img/theme/angular.jpg"></a>
-                                        <div class="media-body"><span class="name mb-0 text-sm">Angular Now UI Kit
-                                                PRO</span></div>
-                                    </div>
-                                </th>
-                                <td class="budget">
-                                    $1800 USD
-                                </td>
-                                <td><span class="badge badge-dot mr-4 badge-success"><i class="bg-success"></i><span
-                                            class="status">completed</span></span></td>
-                                <td>
-                                    <div class="avatar-group"><a href="#" data-toggle="tooltip"
-                                            data-original-title="Ryan Tompson"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-1-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Romina Hadid"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-2-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Alexander Smith"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-3-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Jessica Doe"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-4-800x800.jpg"></a></div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center"><span class="completion mr-2">100%</span>
-                                        <div>
-                                            <div class="progress-wrapper pt-0">
-                                                <!---->
-                                                <div class="progress" style="height: 3px;">
-                                                    <div role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                                        aria-valuemax="100" class="progress-bar bg-success"
-                                                        style="width: 100%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                            class="btn btn-sm btn-icon-only text-light"><i
-                                                class="fas fa-ellipsis-v"></i></a>
-                                        <ul class="dropdown-menu dropdown-menu-right"><a href="#"
-                                                class="dropdown-item">Action</a><a href="#"
-                                                class="dropdown-item">Another action</a><a href="#"
-                                                class="dropdown-item">Something else here</a></ul>
-                                    </li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="media align-items-center"><a href="#"
-                                            class="avatar rounded-circle mr-3"><img alt="Image placeholder"
-                                                src="img/theme/bootstrap.jpg"></a>
-                                        <div class="media-body"><span class="name mb-0 text-sm">Argon Design
-                                                System</span></div>
-                                    </div>
-                                </th>
-                                <td class="budget">
-                                    2019
-                                </td>
-                                <td><span class="badge badge-dot mr-4 badge-warning"><i class="bg-warning"></i><span
-                                            class="status">pending</span></span></td>
-                                <td>
-                                    <div class="avatar-group"><a href="#" data-toggle="tooltip"
-                                            data-original-title="Ryan Tompson"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-1-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Romina Hadid"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-2-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Alexander Smith"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-3-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Jessica Doe"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-4-800x800.jpg"></a></div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center"><span class="completion mr-2">60%</span>
-                                        <div>
-                                            <div class="progress-wrapper pt-0">
-                                                <!---->
-                                                <div class="progress" style="height: 3px;">
-                                                    <div role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                                                        aria-valuemax="100" class="progress-bar bg-warning"
-                                                        style="width: 60%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                            class="btn btn-sm btn-icon-only text-light"><i
-                                                class="fas fa-ellipsis-v"></i></a>
-                                        <ul class="dropdown-menu dropdown-menu-right"><a href="#"
-                                                class="dropdown-item">Action</a><a href="#"
-                                                class="dropdown-item">Another action</a><a href="#"
-                                                class="dropdown-item">Something else here</a></ul>
-                                    </li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="media align-items-center"><a href="#"
-                                            class="avatar rounded-circle mr-3"><img alt="Image placeholder"
-                                                src="img/theme/angular.jpg"></a>
-                                        <div class="media-body"><span class="name mb-0 text-sm">Angular Now UI Kit
-                                                PRO</span></div>
-                                    </div>
-                                </th>
-                                <td class="budget">
-                                    $1800 USD
-                                </td>
-                                <td><span class="badge badge-dot mr-4 badge-success"><i class="bg-success"></i><span
-                                            class="status">completed</span></span></td>
-                                <td>
-                                    <div class="avatar-group"><a href="#" data-toggle="tooltip"
-                                            data-original-title="Ryan Tompson"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-1-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Romina Hadid"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-2-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Alexander Smith"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-3-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Jessica Doe"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-4-800x800.jpg"></a></div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center"><span class="completion mr-2">100%</span>
-                                        <div>
-                                            <div class="progress-wrapper pt-0">
-                                                <!---->
-                                                <div class="progress" style="height: 3px;">
-                                                    <div role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                                        aria-valuemax="100" class="progress-bar bg-success"
-                                                        style="width: 100%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                            class="btn btn-sm btn-icon-only text-light"><i
-                                                class="fas fa-ellipsis-v"></i></a>
-                                        <ul class="dropdown-menu dropdown-menu-right"><a href="#"
-                                                class="dropdown-item">Action</a><a href="#"
-                                                class="dropdown-item">Another action</a><a href="#"
-                                                class="dropdown-item">Something else here</a></ul>
-                                    </li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="media align-items-center"><a href="#"
-                                            class="avatar rounded-circle mr-3"><img alt="Image placeholder"
-                                                src="img/theme/sketch.jpg"></a>
-                                        <div class="media-body"><span class="name mb-0 text-sm">Black Dashboard</span>
-                                        </div>
-                                    </div>
-                                </th>
-                                <td class="budget">
-                                    $3150 USD
-                                </td>
-                                <td><span class="badge badge-dot mr-4 badge-danger"><i class="bg-danger"></i><span
-                                            class="status">delayed</span></span></td>
-                                <td>
-                                    <div class="avatar-group"><a href="#" data-toggle="tooltip"
-                                            data-original-title="Ryan Tompson"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-1-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Romina Hadid"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-2-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Alexander Smith"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-3-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Jessica Doe"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-4-800x800.jpg"></a></div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center"><span class="completion mr-2">72%</span>
-                                        <div>
-                                            <div class="progress-wrapper pt-0">
-                                                <!---->
-                                                <div class="progress" style="height: 3px;">
-                                                    <div role="progressbar" aria-valuenow="72" aria-valuemin="0"
-                                                        aria-valuemax="100" class="progress-bar bg-danger"
-                                                        style="width: 72%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                            class="btn btn-sm btn-icon-only text-light"><i
-                                                class="fas fa-ellipsis-v"></i></a>
-                                        <ul class="dropdown-menu dropdown-menu-right"><a href="#"
-                                                class="dropdown-item">Action</a><a href="#"
-                                                class="dropdown-item">Another action</a><a href="#"
-                                                class="dropdown-item">Something else here</a></ul>
-                                    </li>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="media align-items-center"><a href="#"
-                                            class="avatar rounded-circle mr-3"><img alt="Image placeholder"
-                                                src="img/theme/react.jpg"></a>
-                                        <div class="media-body"><span class="name mb-0 text-sm">React Material
-                                                Dashboard</span></div>
-                                    </div>
-                                </th>
-                                <td class="budget">
-                                    $4400 USD
-                                </td>
-                                <td><span class="badge badge-dot mr-4 badge-info"><i class="bg-info"></i><span
-                                            class="status">on schedule</span></span></td>
-                                <td>
-                                    <div class="avatar-group"><a href="#" data-toggle="tooltip"
-                                            data-original-title="Ryan Tompson"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-1-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Romina Hadid"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-2-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Alexander Smith"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-3-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Jessica Doe"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-4-800x800.jpg"></a></div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center"><span class="completion mr-2">90%</span>
-                                        <div>
-                                            <div class="progress-wrapper pt-0">
-                                                <!---->
-                                                <div class="progress" style="height: 3px;">
-                                                    <div role="progressbar" aria-valuenow="90" aria-valuemin="0"
-                                                        aria-valuemax="100" class="progress-bar bg-info"
-                                                        style="width: 90%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                            class="btn btn-sm btn-icon-only text-light"><i
-                                                class="fas fa-ellipsis-v"></i></a>
-                                        <ul class="dropdown-menu dropdown-menu-right"><a href="#"
-                                                class="dropdown-item">Action</a><a href="#"
-                                                class="dropdown-item">Another action</a><a href="#"
-                                                class="dropdown-item">Something else here</a></ul>
-                                    </li>
-                                </td>
-                            </tr>
-                             --}}
                         </tbody>
                     </table>
                 </div>
@@ -407,3 +130,43 @@
     @include('layouts.footers.auth')
 </div>
 @endsection
+@push('js')
+    <script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('vendor/axios/axios.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.btn-delete-item').click(function(e){
+                e.preventDefault();
+                let me = $(this);
+                let title = me.attr('title');
+                let id = me.attr('id-item');
+                Swal.fire({
+                    title: '',
+                    text: 'Yakin Ingin Menghapus '+ title +'?',
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus'
+                }).then((result) => {
+                    if (result.value) {
+                        axios({
+                            method: 'delete',
+                            url: '{{ url('/') }}/activity/'+id
+                        }).then(function(res){
+                            Swal.fire('Berhasil',title + " berhasil dihapus",'success')
+                            .then((result) => {
+                                if (result.value){
+                                    window.location.reload();
+                                }
+                            });
+                            
+                        }).catch(function(err){
+                            Swal.fire('Gagal Menghapus',"Terjadi kesalahan saat menghapus",'error');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
