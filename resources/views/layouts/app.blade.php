@@ -1,3 +1,7 @@
+@php
+    if (!isset($showSearch))
+        $showSearch = false;
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -28,7 +32,7 @@
         @endauth
         
         <div class="main-content">
-            @include('layouts.navbars.navbar')
+            @include('layouts.navbars.navbar', ['showSearch' => $showSearch])
             @yield('content')
         </div>
 

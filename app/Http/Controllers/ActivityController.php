@@ -139,10 +139,14 @@ class ActivityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($activity)
     {
-        $sub_activity = Activity::find($id);
-        return view('activity.show', ['data' => $sub_activity]);
+        $sub_activity = Activity::find($activity);
+        if ($sub_activity != null){
+            return view('activity.show', ['data' => $sub_activity]);
+        }else{
+            return abort(404, "Kegiatan atau Sub-Kegiatan dengan id $activity tidak ditemukan");
+        }
     }
 
     /**
@@ -153,7 +157,12 @@ class ActivityController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sub_activity = SubActivity::with('activity')->where('id','=',$id)->first();
+        if ($sub_activity != null){
+            return view('activity.edit', ['sub_activity' => $sub_activity]);
+        }else{
+            return abort(404, "Kegiatan atau Sub-Kegiatan yang akan diedit tidak ditemukan");
+        }
     }
 
     /**
@@ -165,7 +174,62 @@ class ActivityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+        $SubActivityOriginal = SubActivity::find($id);
+        $field = $request->all();
+        $activity_name = $field['activity_name'];
+        $activity_kategori = $field['activity_kategori'];
+        $sub_activity = [];
+        foreach($field as $key=>$value){
+            preg_match("/sub_activity_(name|satuan|volume)/", $key, $re);
+            if(sizeof($re) != 0) {
+                $sub_activity[$re[1]] = $value;
+            }
+            preg_match("/q_sub_activity_(.*)/", $key, $qualifikasi);
+            if(sizeof($qualifikasi) != 0){
+                if(!isset($sub_activity['qualifikasi']))
+                    $sub_activity['qualifikasi'] = [];
+                $sub_activity['qualifikasi'][$qualifikasi[1]] = (int)$value;
+            }
+        }
+        DB::transaction(function () 
+        use(
+            $SubActivityOriginal,
+            $activity_name, 
+            $activity_kategori, 
+            $sub_activity,
+            $request)
+            {
+            $data = [
+                'name' => $activity_name, 
+                'kategori' => $activity_kategori,
+                'bulan_awal' => $request['activity_start_month'],
+                'tahun_awal' => $request['activity_end_year'],
+                'bulan_akhir' => null,
+                'tahun_akhir' => null,
+            ];
+            if($request['issatubulan'] == false || 
+                ( $request['activity_start_month'] != $request['activity_end_month'] && 
+                    $request['activity_start_year'] != $request['activity_end_year']) ){
+                $data['bulan_akhir'] = $request['activity_end_month'];
+                $data['tahun_akhir'] = $request['activity_end_year'];
+            }
+
+            $activity = Activity::where('id','=', $SubActivityOriginal->activity_id)->update($data);
+            $SubActivityOriginal->update([
+                'activity_id' => $SubActivityOriginal->activity_id,
+                'name' => $sub_activity['name'],
+                'satuan' => $sub_activity['satuan'], 
+                'volume' => $sub_activity['volume'],
+
+                'pendidikan' => config('scale.pendidikan')[((int)$sub_activity['qualifikasi']['pendidikan']-1)],
+                'ti' => config('scale.likert')[((int)$sub_activity['qualifikasi']['ti']-1)],
+                'menulis' =>config('scale.likert')[((int)$sub_activity['qualifikasi']['menulis']-1)],
+                'administrasi' =>config('scale.likert')[((int)$sub_activity['qualifikasi']['administrasi']-1)],
+                'pengalaman_survei' => config('scale.likert')[((int)$sub_activity['qualifikasi']['pengalaman'] -1)],
+            ]);
+        });
+        return redirect()->route('activity.index');
     }
 
     /**

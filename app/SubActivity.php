@@ -16,7 +16,7 @@ class SubActivity extends Model
     //     'tahun', 'ti', 'pendidikan', 'menulis', 'pengalaman_survei','administrasi',
     // ];
 
-    public function activityParent(){
-        return $this->belongsTo(Activity::class, 'activity_id','id');
+    public function activity(){
+        return $this->belongsTo(Activity::class);
     }
 }

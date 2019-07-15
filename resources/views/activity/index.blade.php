@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['showSearch' => true])
 @push('style')
     
 @endpush
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table tablesorter table align-items-center table-flush" id="tabel">
+                    <table class="table tablesorter table align-items-center table-flush table-hover" id="tabel">
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Kegiatan</th>
@@ -46,7 +46,7 @@
                                 @php
                                     $full_name = $sub->sub_activity_name . " " . $sub->activity_name;
                                 @endphp
-                                <tr>
+                                <tr style="cursor: pointer;" id-item="{{ $sub->id }}">
                                     <th scope="row">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -56,9 +56,6 @@
                                             </div>
                                         </div>
                                     </th>
-                                    {{-- <td class="budget">
-                                        {{ $sub->tahun }}
-                                    </td> --}}
                                     <td><span class="badge badge-dot mr-4 badge-warning"><i class="bg-warning"></i><span
                                                 class="status">pending</span></span></td>
                                     <td>
@@ -96,7 +93,7 @@
                                                 class="btn btn-sm btn-icon-only text-light"><i
                                                     class="fas fa-ellipsis-v"></i></a>
                                             <ul class="dropdown-menu dropdown-menu-right">
-                                                <a href=""class="dropdown-item">Edit</a>
+                                                <a href="{{ route('activity.edit', $sub->id) }}"class="dropdown-item" >Edit</a>
                                                 <a href=""
                                                     class="dropdown-item btn-delete-item" 
                                                     title="{{ $full_name }}"
@@ -141,24 +138,28 @@
                 let title = me.attr('title');
                 let id = me.attr('id-item');
                 Swal.fire({
-                    title: '',
-                    text: 'Yakin Ingin Menghapus '+ title +'?',
+                    title: 'Hapus kegiatan?',
+                    html: 'Yakin Ingin Menghapus <br/><strong style="lead">'+ title +'</strong> ?',
                     type: 'question',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus'
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#bbb',
+                    cancelTextColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus',
+                    cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.value) {
                         axios({
                             method: 'delete',
                             url: '{{ url('/') }}/activity/'+id
                         }).then(function(res){
-                            Swal.fire('Berhasil',title + " berhasil dihapus",'success')
+                            Swal.fire({
+                                title: 'Berhasil',
+                                html: '<strong style="lead">'+title + '</strong><br>berhasil dihapus.',
+                                type: 'success'
+                            })
                             .then((result) => {
-                                if (result.value){
-                                    window.location.reload();
-                                }
+                                window.location.reload();
                             });
                             
                         }).catch(function(err){
