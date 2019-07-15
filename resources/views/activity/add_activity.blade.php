@@ -30,7 +30,7 @@ for($i = 0; $i < 5; $i++){
 'class' => 'col-lg-7'
 ])
 <div class="container-fluid mt--7">
-    <div class="row">
+        <div class="row">
         <div class="col-xl-12 order-xl-1">
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
@@ -54,30 +54,35 @@ for($i = 0; $i < 5; $i++){
                         @endif
 
                         <div class="pl-lg-4">
-                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-activity-name">Nama Kegiatan</label>
-                                <input type="text" name="activity_name" id="input-activity-name" class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_name') }}" required autofocus>
+                            <div class ="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-activity-name">Nama Kegiatan</label>
+                                    <input type="text" name="activity_name" id="input-activity-name" class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_name') }}" required autofocus>
 
-                                @if ($errors->has('activity_name'))
-                                <span class="invalid-feedback" role="alert">
+                                    @if ($errors->has('activity_name'))
+                                    <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('activity_name') }}</strong>
-                                </span>
-                                @endif
+                                    </span>
+                                    @endif
+                                    </div>
+                                </div>
+                                <div class ="col-lg-6">
+                                    <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-kategori">Kategori</label>
+                                    <select class="form-control form-control-alternative{{ $errors->has('activity_kategori') ? ' is-invalid' : '' }}" id="input-kategori" name="activity_kategori" required autofocus>
+                                        <option value="Utama">Utama</option>
+                                        <option value="Tambahan">Tambahan</option>
+                                    </select>
+                                    @if ($errors->has('activity_kategori'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('activity_kategori') }}</strong>
+                                    </span>
+                                    @endif
+                                    </div>
+                                </div>                          
                             </div>
-
-                            <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-kategori">Kategori</label>
-                                <select class="form-control form-control-alternative{{ $errors->has('activity_kategori') ? ' is-invalid' : '' }}" id="input-kategori" name="activity_kategori" required autofocus>
-                                    <option value="Utama">Utama</option>
-                                    <option value="Tambahan">Tambahan</option>
-                                </select>
-                                @if ($errors->has('activity_kategori'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('activity_kategori') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-
+                            
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
