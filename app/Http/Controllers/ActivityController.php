@@ -9,6 +9,7 @@ use App\Activity;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
@@ -20,28 +21,50 @@ class ActivityController extends Controller
     public function index()
     {
         $showAll = Input::get('all', 'false');
+        $showing = Input::get('showing', 'showAll');
+        $userId = Auth::id();
         if ($showAll == 'true'){
             $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
+            ->join('users', 'activity.created_by_user_id', '=', 'users.id')
             ->select([
                 'sub_activity.name as sub_activity_name',
                 'activity.name as activity_name',
-                'sub_activity.*',
+                'users.id as users_id',
+                'sub_activity.*'
             ])
             ->paginate(10);
-            return view('activity.index', ['sub_activity' => $sub_activity]);
-        }else{
+            return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
+        }
+        else if ($showing == 'showOnlyMe'){
+            $sub_activity = DB::table('sub_activity')
+            ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
+            ->join('users', 'activity.created_by_user_id', '=', 'users.id')
+            ->select([
+                'sub_activity.name as sub_activity_name',
+                'activity.name as activity_name',
+                'users.id as users_id',
+                'sub_activity.*'
+            ])
+            ->where('users.id','=', $userId)
+            ->paginate(10);
+            return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
+        }
+        else{
             $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
             $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
+            ->join('users', 'activity.created_by_user_id', '=', 'users.id')
             ->select([
                 'sub_activity.name as sub_activity_name',
                 'activity.name as activity_name',
-                'sub_activity.*',
+                'users.id as users_id',
+                'sub_activity.*'
             ])
             ->where('bulan_awal','=', $month)
             ->paginate(10);
-            return view('activity.index', ['sub_activity' => $sub_activity]);
+
+            return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
         }
     }
 
@@ -84,15 +107,15 @@ class ActivityController extends Controller
                 $sub_activity[$qualifikasi[1]]['qualifikasi'][$qualifikasi[2]] = (int)$value;
             }
         }
-        DB::transaction(function () 
+        DB::transaction(function ()
         use(
-            $activity_name, 
-            $activity_kategori, 
+            $activity_name,
+            $activity_kategori,
             $sub_activity,
             $request)
             {
             $data = [
-                'name' => $activity_name, 
+                'name' => $activity_name,
                 'kategori' => $activity_kategori,
                 'created_by_user_id' => auth()->user()->id,
                 'bulan_awal' => $request['activity_start_month'],
@@ -106,12 +129,12 @@ class ActivityController extends Controller
             $activity = Activity::create($data);
             if (sizeof(DB::table('autocomplete_activity')->where('name', $activity_name)->get()) == 0)
                 DB::table('autocomplete_activity')->insert(['name' => $activity_name]);
-            
+
             foreach($sub_activity as $key => $value){
                 SubActivity::create([
                     'activity_id' => $activity->id,
                     'name' => $value['name'],
-                    'satuan' => $value['satuan'], 
+                    'satuan' => $value['satuan'],
                     'volume' => $value['volume'],
 
                     'pendidikan' => config('scale.pendidikan')[((int)$value['qualifikasi']['pendidikan']-1)],
@@ -139,10 +162,14 @@ class ActivityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($activity)
     {
-        $sub_activity = Activity::find($id);
-        return view('activity.show', ['data' => $sub_activity]);
+        $sub_activity = Activity::find($activity);
+        if ($sub_activity != null){
+            return view('activity.show', ['data' => $sub_activity]);
+        }else{
+            return abort(404, "Kegiatan atau Sub-Kegiatan dengan id $activity tidak ditemukan");
+        }
     }
 
     /**
@@ -153,7 +180,12 @@ class ActivityController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sub_activity = SubActivity::with('activity')->where('id','=',$id)->first();
+        if ($sub_activity != null){
+            return view('activity.edit', ['sub_activity' => $sub_activity]);
+        }else{
+            return abort(404, "Kegiatan atau Sub-Kegiatan yang akan diedit tidak ditemukan");
+        }
     }
 
     /**
@@ -165,7 +197,62 @@ class ActivityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+        $SubActivityOriginal = SubActivity::find($id);
+        $field = $request->all();
+        $activity_name = $field['activity_name'];
+        $activity_kategori = $field['activity_kategori'];
+        $sub_activity = [];
+        foreach($field as $key=>$value){
+            preg_match("/sub_activity_(name|satuan|volume)/", $key, $re);
+            if(sizeof($re) != 0) {
+                $sub_activity[$re[1]] = $value;
+            }
+            preg_match("/q_sub_activity_(.*)/", $key, $qualifikasi);
+            if(sizeof($qualifikasi) != 0){
+                if(!isset($sub_activity['qualifikasi']))
+                    $sub_activity['qualifikasi'] = [];
+                $sub_activity['qualifikasi'][$qualifikasi[1]] = (int)$value;
+            }
+        }
+        DB::transaction(function () 
+        use(
+            $SubActivityOriginal,
+            $activity_name, 
+            $activity_kategori, 
+            $sub_activity,
+            $request)
+            {
+            $data = [
+                'name' => $activity_name, 
+                'kategori' => $activity_kategori,
+                'bulan_awal' => $request['activity_start_month'],
+                'tahun_awal' => $request['activity_end_year'],
+                'bulan_akhir' => null,
+                'tahun_akhir' => null,
+            ];
+            if($request['issatubulan'] == false || 
+                ( $request['activity_start_month'] != $request['activity_end_month'] && 
+                    $request['activity_start_year'] != $request['activity_end_year']) ){
+                $data['bulan_akhir'] = $request['activity_end_month'];
+                $data['tahun_akhir'] = $request['activity_end_year'];
+            }
+
+            $activity = Activity::where('id','=', $SubActivityOriginal->activity_id)->update($data);
+            $SubActivityOriginal->update([
+                'activity_id' => $SubActivityOriginal->activity_id,
+                'name' => $sub_activity['name'],
+                'satuan' => $sub_activity['satuan'], 
+                'volume' => $sub_activity['volume'],
+
+                'pendidikan' => config('scale.pendidikan')[((int)$sub_activity['qualifikasi']['pendidikan']-1)],
+                'ti' => config('scale.likert')[((int)$sub_activity['qualifikasi']['ti']-1)],
+                'menulis' =>config('scale.likert')[((int)$sub_activity['qualifikasi']['menulis']-1)],
+                'administrasi' =>config('scale.likert')[((int)$sub_activity['qualifikasi']['administrasi']-1)],
+                'pengalaman_survei' => config('scale.likert')[((int)$sub_activity['qualifikasi']['pengalaman'] -1)],
+            ]);
+        });
+        return redirect()->route('activity.index');
     }
 
     /**
