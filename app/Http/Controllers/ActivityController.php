@@ -9,6 +9,7 @@ use App\Activity;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
@@ -20,28 +21,50 @@ class ActivityController extends Controller
     public function index()
     {
         $showAll = Input::get('all', 'false');
+        $showing = Input::get('showing', 'showAll');
+        $userId = Auth::id();
         if ($showAll == 'true'){
             $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
+            ->join('users', 'activity.created_by_user_id', '=', 'users.id')
             ->select([
                 'sub_activity.name as sub_activity_name',
                 'activity.name as activity_name',
-                'sub_activity.*',
+                'users.id as users_id',
+                'sub_activity.*'
             ])
             ->paginate(10);
-            return view('activity.index', ['sub_activity' => $sub_activity]);
-        }else{
+            return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
+        }
+        else if ($showing == 'showOnlyMe'){
+            $sub_activity = DB::table('sub_activity')
+            ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
+            ->join('users', 'activity.created_by_user_id', '=', 'users.id')
+            ->select([
+                'sub_activity.name as sub_activity_name',
+                'activity.name as activity_name',
+                'users.id as users_id',
+                'sub_activity.*'
+            ])
+            ->where('users.id','=', $userId)
+            ->paginate(10);
+            return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
+        }
+        else{
             $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
             $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
+            ->join('users', 'activity.created_by_user_id', '=', 'users.id')
             ->select([
                 'sub_activity.name as sub_activity_name',
                 'activity.name as activity_name',
-                'sub_activity.*',
+                'users.id as users_id',
+                'sub_activity.*'
             ])
             ->where('bulan_awal','=', $month)
             ->paginate(10);
-            return view('activity.index', ['sub_activity' => $sub_activity]);
+
+            return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
         }
     }
 
@@ -84,15 +107,15 @@ class ActivityController extends Controller
                 $sub_activity[$qualifikasi[1]]['qualifikasi'][$qualifikasi[2]] = (int)$value;
             }
         }
-        DB::transaction(function () 
+        DB::transaction(function ()
         use(
-            $activity_name, 
-            $activity_kategori, 
+            $activity_name,
+            $activity_kategori,
             $sub_activity,
             $request)
             {
             $data = [
-                'name' => $activity_name, 
+                'name' => $activity_name,
                 'kategori' => $activity_kategori,
                 'created_by_user_id' => auth()->user()->id,
                 'bulan_awal' => $request['activity_start_month'],
@@ -106,12 +129,12 @@ class ActivityController extends Controller
             $activity = Activity::create($data);
             if (sizeof(DB::table('autocomplete_activity')->where('name', $activity_name)->get()) == 0)
                 DB::table('autocomplete_activity')->insert(['name' => $activity_name]);
-            
+
             foreach($sub_activity as $key => $value){
                 SubActivity::create([
                     'activity_id' => $activity->id,
                     'name' => $value['name'],
-                    'satuan' => $value['satuan'], 
+                    'satuan' => $value['satuan'],
                     'volume' => $value['volume'],
 
                     'pendidikan' => config('scale.pendidikan')[((int)$value['qualifikasi']['pendidikan']-1)],
