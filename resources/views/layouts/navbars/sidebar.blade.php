@@ -90,6 +90,11 @@
                         <i class="ni ni-bullet-list-67 text-blue"></i> Kegiatan
                     </a>
                 </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="{{ route('user.index') }}">
+                            <i class="ni ni-key-25 text-blue"></i> Manajemen Akun
+                        </a>
+                    </li>
 
                 {{-- <li class="nav-item">
                     <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
