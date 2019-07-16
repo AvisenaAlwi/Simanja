@@ -3,5 +3,5 @@
 @endauth
     
 @guest()
-    @include('layouts.navbars.navs.guest')
+    @include('layouts.navbars.navs.guest', ['showSearch' => $showSearch])
 @endguest

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['showSearch' => true])
 @push('style')
 
 @endpush
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table tablesorter table align-items-center table-flush" id="tabel">
+                    <table class="table tablesorter table align-items-center table-flush table-hover" id="tabel">
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Kegiatan</th>

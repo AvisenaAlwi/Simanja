@@ -2,9 +2,7 @@
 @push('style')
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/easy-autocomplete.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css" />
-<link rel="stylesheet" type="text/css" href="{{ asset('vendor/jRange') }}/jquery.range.css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrapslider') }}/bootstrap-slider.min.css" />
 <style>
     .slider.slider-horizontal{
         margin-left: 7%;
@@ -26,11 +24,11 @@ for($i = 0; $i < 5; $i++){
 @section('content')
 @include('users.partials.header', [
 'title' => 'Kegiatan',
-'description' => __('Tabel berikut menunjukkan tabel kegiatan yang dapat ditambah ke sistem.'),
+'description' => __('Halaman ini bertujuan menambahkan kegiatan sekaligus sub-kegiatan. Minimal terdapat satu sub kegiatan dalam 1 kegiatan.'),
 'class' => 'col-lg-7'
 ])
 <div class="container-fluid mt--7">
-    <div class="row">
+        <div class="row">
         <div class="col-xl-12 order-xl-1">
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
@@ -54,30 +52,35 @@ for($i = 0; $i < 5; $i++){
                         @endif
 
                         <div class="pl-lg-4">
-                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-activity-name">Nama Kegiatan</label>
-                                <input type="text" name="activity_name" id="input-activity-name" class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_name') }}" required autofocus>
+                            <div class ="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-activity-name">Nama Kegiatan</label>
+                                    <input type="text" name="activity_name" id="input-activity-name" class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_name') }}" required autofocus>
 
-                                @if ($errors->has('activity_name'))
-                                <span class="invalid-feedback" role="alert">
+                                    @if ($errors->has('activity_name'))
+                                    <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('activity_name') }}</strong>
-                                </span>
-                                @endif
+                                    </span>
+                                    @endif
+                                    </div>
+                                </div>
+                                <div class ="col-lg-6">
+                                    <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-kategori">Kategori</label>
+                                    <select class="form-control form-control-alternative{{ $errors->has('activity_kategori') ? ' is-invalid' : '' }}" id="input-kategori" name="activity_kategori" required autofocus>
+                                        <option value="Utama">Utama</option>
+                                        <option value="Tambahan">Tambahan</option>
+                                    </select>
+                                    @if ($errors->has('activity_kategori'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('activity_kategori') }}</strong>
+                                    </span>
+                                    @endif
+                                    </div>
+                                </div>                          
                             </div>
-
-                            <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-kategori">Kategori</label>
-                                <select class="form-control form-control-alternative{{ $errors->has('activity_kategori') ? ' is-invalid' : '' }}" id="input-kategori" name="activity_kategori" required autofocus>
-                                    <option value="Utama">Utama</option>
-                                    <option value="Tambahan">Tambahan</option>
-                                </select>
-                                @if ($errors->has('activity_kategori'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('activity_kategori') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-
+                            
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
@@ -147,7 +150,7 @@ for($i = 0; $i < 5; $i++){
                         <div id="container-sub-activity">
                             <div class="sub-kegiatan" number="1">
                                 <hr class="my-4" />
-                                <div class="col-6"><h6 class="heading-small text-muted mb-4">Sub Kegiatan 1</h6></div>
+                                <div class="col-6"><h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan 1</b></h6></div>
 
                                 {{-- @if (session('sub_activity'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -277,12 +280,10 @@ for($i = 0; $i < 5; $i++){
     @endsection
     @push('js')
     <!-- Latest compiled and minified JavaScript -->
-    <script src="{{ asset('vendor/arrive') }}/arrive.min.js"></script>
-    <script src="{{ asset('vendor/easyautocomplete') }}/jquery.easy-autocomplete.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
-    <script type="text/javascript" src="{{ asset('vendor/jRange') }}/jquery.range-min.js"></script>
+    <script type="text/javascript" src="{{ asset('vendor/arrive') }}/arrive.min.js"></script>
+    <script type="text/javascript" src="{{ asset('vendor/easyautocomplete') }}/jquery.easy-autocomplete.min.js"></script>
+    <script type="text/javascript" src="{{ asset('vendor/momentjs') }}/moment.min.js"></script>
+    <script type="text/javascript" src="{{ asset('vendor/bootstrapslider') }}/bootstrap-slider.min.js"></script>
     <script>
         var value = [];
 
@@ -353,7 +354,7 @@ for($i = 0; $i < 5; $i++){
                 <div class="sub-kegiatan" number="1">
                                 <hr class="my-4" />
                                 <div class="row">
-                                    <div class="col-6"><h6 class="heading-small text-muted mb-4">Sub Kegiatan 1</h6></div>
+                                    <div class="col-6"><h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan 1</b></h6></div>
                                     <div class="col-6 d-flex justify-content-end" >
                                         <h1 class="delete-sub-activity" style="cursor: pointer;">
                                             <i aria-hidden="true" class="fa fa-times text-danger"></i>
@@ -522,26 +523,6 @@ for($i = 0; $i < 5; $i++){
                 }
             });
 
-            $('.slider-input[identifier=pendidikan]').jRange({
-                from: 1,
-                to: 5,
-                scale: ['S2','S1','D-IV','D-III','SMA'],
-                width: 400,
-                snap: true,
-                showLabels: false
-            });
-            $(`.slider-input[identifier=ti], 
-            .slider-input[identifier=menulis], 
-            .slider-input[identifier=administrasi],
-            .slider-input[identifier=pengalaman]`).jRange({
-                from: 1,
-                to: 5,
-                scale: ['Sangat Kurang','Kurang','Cukup','Tinggi','Sangat Tinggi'],
-                width: 400,
-                snap: true,
-                showLabels: false
-            });
-
             $(document).arrive('.delete-sub-activity', function(newElement){
             $(newElement).click(function(){
                 me = $(this);
@@ -551,11 +532,6 @@ for($i = 0; $i < 5; $i++){
                     $('.delete-sub-activity').hide();
                     $('.delete-sub-activity').last().show();
                     sub_activity_count--;
-                    // setTimeout(function(){
-                        // $('html, body').animate({
-                        //     scrollTop: $('.sub-kegiatan').last().offset().top
-                        // }, 1000);
-                    // }, 10);
                 });
             })
         });
@@ -592,27 +568,6 @@ for($i = 0; $i < 5; $i++){
                 });
             });
         });
-        // $(document).arrive('.slider-input', function (newElement) {
-        //     $('.slider-input[identifier=pendidikan]').jRange({
-        //         from: 1,
-        //         to: 5,
-        //         scale: ['S2','S1','D-IV','D-III','SMA'],
-        //         width: 400,
-        //         snap: true,
-        //         showLabels: false
-        //     });
-        //     $(`.slider-input[identifier=ti], 
-        //     .slider-input[identifier=menulis], 
-        //     .slider-input[identifier=administrasi],
-        //     .slider-input[identifier=pengalaman]`).jRange({
-        //         from: 1,
-        //         to: 5,
-        //         scale: ['Sangat Kurang','Kurang','Cukup','Tinggi','Sangat Tinggi'],
-        //         width: 400,
-        //         snap: true,
-        //         showLabels: false
-        //     });
-        // });
         $(document).arrive('input[data-provide=slider]', function(newElement){
             $(newElement).slider();
         });

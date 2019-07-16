@@ -11,7 +11,12 @@ class Activity extends Model
     // protected $fillable = ['*'];
     protected $guarded = [];
 
-    public function created_by_user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, 'created_by_user_id', 'id');
+    }
+    public function subactivity()
+    {
+        return $this->hasMany(SubActivity::class);
     }
 }

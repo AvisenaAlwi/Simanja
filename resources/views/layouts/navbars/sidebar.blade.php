@@ -11,6 +11,30 @@
             <h1>{{ config('app.name') }}</h1>
             {{-- </span> --}}
         </a>
+        <style>
+        #asd{
+            background-color: #89f7fe;
+            background-image: linear-gradient(90deg, ##89f7fe, #66a6ff);
+            padding: px;
+            margin: 7px;
+            border-top-left-radius: 80px;
+            border-bottom-right-radius: 80px;
+            border-bottom-style: outset;
+
+        }
+        #as{
+            padding: 0px;
+            margin: 7px 10px;
+            border-radius: 20px 5px ;
+            border-bottom-style: outset;
+            font-size: 15px;
+            color: #32325d;
+        }
+        #text{
+            font-size: 15px;
+            color: #32325d;
+        }
+        </style>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
             <li class="nav-item dropdown">
@@ -80,21 +104,38 @@
             </form>
             <!-- Navigation -->
             <ul class="navbar-nav">
-                <li class="nav-item">
+                <li class="nav-item" id="as">
                     <a class="nav-link" href="{{ route('home') }}">
-                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
+                        <i class="ni ni-tv-2 text-primary"></i> <b id="text">Dashboard</b>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="as">
                     <a class="nav-link" href="{{ route('activity.index') }}">
-                        <i class="ni ni-bullet-list-67 text-blue"></i> Kegiatan
+                        <i class="ni ni-bullet-list-67 text-blue"></i> <b id="text">Kegiatan</b>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="as">
+                    <a class="nav-link" href="{{ route('activity.index') }}">
+                        <i class="ni ni-single-copy-04 text-blue"></i> <b id="text">Tugasku</b>
+                    </a>
+                </li>
+                <li class="nav-item" id="as">
+                    <a class="nav-link" href="{{ route('activity.index') }}">
+                        <i class="ni ni-books text-blue"></i> <b id="text">Penugasan</b>
+                    </a>
+                </li>
+                    <li class="nav-item" id="asd">
+                    <a class="nav-link" href="{{ route('activity.index') }}">
+                        <i class="ni ni-collection text-blue"></i> <b id="text">Pelaporan</b>
+                    </a>
+                </li>
+
+                <li class="nav-item" id="as">
                         <a class="nav-link" href="{{ route('user.index') }}">
-                            <i class="ni ni-key-25 text-blue"></i> Manajemen Akun
-                        </a>
+                        <i class="ni ni-key-25 text-blue"></i> <b id="text">Penugasan</b>
+                    </a>
                     </li>
+
 
                 {{-- <li class="nav-item">
                     <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
