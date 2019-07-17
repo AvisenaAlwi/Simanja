@@ -120,7 +120,7 @@
                     </a>
                 </li>
                 <li class="nav-item" id="as">
-                    <a class="nav-link" href="{{ route('activity.index') }}">
+                    <a class="nav-link" href="{{ route('assignment.index') }}">
                         <i class="ni ni-books text-blue"></i> <b id="text">Penugasan</b>
                     </a>
                 </li>

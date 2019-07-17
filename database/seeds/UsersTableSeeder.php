@@ -22,6 +22,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@bps.go.id',
             'jabatan' => 'Pimpinan',
             'pendidikan' => 'S1',
+            'ti' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
         ]);
@@ -33,6 +34,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'supervisor@bps.go.id',
             'jabatan' => 'Kepala Seksi',
             'pendidikan' => 'S1',
+            'ti' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
         ]);
@@ -44,6 +46,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'staf@bps.go.id',
             'jabatan' => 'Staf',
             'pendidikan' => 'SMA',
+            'ti' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
         ]);

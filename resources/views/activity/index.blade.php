@@ -65,9 +65,6 @@
                                         </div>
                                     </div>
                                 </th>
-                                {{-- <td class="budget">
-                                        {{ $sub->tahun }}
-                                </td> --}}
                                 <td><span class="badge badge-dot mr-4 badge-warning"><i class="bg-warning"></i><span
                                             class="status">pending</span></span></td>
                                 <td>
@@ -105,7 +102,7 @@
                                             class="btn btn-sm btn-icon-only text-light"><i
                                                 class="fas fa-ellipsis-v"></i></a>
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <a href="" class="dropdown-item">Edit</a>
+                                            <a href="{{ route('activity.edit', $sub->id) }}" class="dropdown-item">Edit</a>
                                             <a href="" class="dropdown-item btn-delete-item" title="{{ $full_name }}"
                                                 id-item="{{ $sub->id }}" style="color: red;"><b>Hapus</b></a></ul>
                                     </li>
@@ -166,7 +163,6 @@
                                     window.location.reload();
                                 }
                             });
-
                     }).catch(function (err) {
                         Swal.fire('Gagal Menghapus', "Terjadi kesalahan saat menghapus",
                             'error');
@@ -176,9 +172,8 @@
         });
         $("#select").change(function(){
             $("#formChange").submit();
-  });
-    }
-    );
+        });
+    });
 
 
 </script>
