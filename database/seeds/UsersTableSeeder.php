@@ -45,11 +45,11 @@ class UsersTableSeeder extends Seeder
             'name' => 'Staf',
             'email' => 'staf@bps.go.id',
             'jabatan' => 'Staf',
-            'pendidikan' => 'SLTA',
+            'pendidikan' => 'SMA',
             'ti' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
         ]);
-        
+
     }
 }

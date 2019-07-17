@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AutocompleteActivity::class);
         $this->call(AutocompleteSubActivity::class);
         $this->call(AutocompleteSatuan::class);
+        $this->call(AutocompleteJabatan::class);
         $this->call(RolesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
     }

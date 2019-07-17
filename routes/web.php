@@ -30,11 +30,18 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group([
 	'middleware' => ['auth', 'supervisor']
 ], function () {
-	Route::get('activity/any-data', 'ActivityController@anyData');
+    Route::get('activity/any-data', 'ActivityController@anyData');
 	Route::get('activity/request-autocomplete-activity', 'ActivityController@autocomplete_activity')->name('activity.autocomplete.activity');
 	Route::get('activity/request-autocomplete-sub-activity', 'ActivityController@autocomplete_sub_activity')->name('activity.autocomplete.subactivity');
 	Route::get('activity/request-autocomplete-satuan', 'ActivityController@autocomplete_satuan')->name('activity.autocomplete.satuan');
 	Route::resource('activity', 'ActivityController');
 
 	Route::resource('assignment', 'AssignmentController');
+});
+
+Route::group([
+    'middleware' => ['auth', 'admin'],
+], function () {
+    Route::get('user/request-autocomplete-jabatan', 'UserController@autocomplete_jabatan')->name('user.autocomplete.jabatan');
+    Route::resource('user', 'UserController');
 });

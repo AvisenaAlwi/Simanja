@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -17,6 +18,10 @@ class UserController extends Controller
     public function index(User $model)
     {
         return view('users.index', ['users' => $model->paginate(15)]);
+    }
+
+    public function show(User $model)
+    {
     }
 
     /**
@@ -38,7 +43,16 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
-        $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        // dd($model->toArray(), $request->all(), config('scale.pendidikan')[$request['q_sub_account_1_pendidikan']-1]);
+        $model->create($request->merge([
+            'email_verified_at' => now(),
+            'password' => Hash::make($request->get('password')),
+            'pendidikan' => config('scale.pendidikan')[$request['pendidikan']-1],
+            'ti' => config('scale.likert')[$request['ti']-1],
+            'menulis' => config('scale.likert')[$request['menulis']-1],
+            'administrasi' => config('scale.likert')[$request['administrasi']-1],
+            'pengalaman_survei' => config('scale.likert')[$request['pengalaman_survei']-1]
+            ])->all());
 
         return redirect()->route('user.index')->withStatus(__('User successfully created.'));
     }
@@ -64,7 +78,14 @@ class UserController extends Controller
     public function update(UserRequest $request, User  $user)
     {
         $user->update(
-            $request->merge(['password' => Hash::make($request->get('password'))])
+            $request->merge([
+                'password' => Hash::make($request->get('password')),
+                'pendidikan' => config('scale.pendidikan')[$request['pendidikan']-1],
+                'ti' => config('scale.likert')[$request['ti']-1],
+                'menulis' => config('scale.likert')[$request['menulis']-1],
+                'administrasi' => config('scale.likert')[$request['administrasi']-1],
+                'pengalaman_survei' => config('scale.likert')[$request['pengalaman_survei']-1]
+                ])
                 ->except([$request->get('password') ? '' : 'password']
         ));
 
@@ -82,5 +103,14 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('user.index')->withStatus(__('User successfully deleted.'));
+    }
+
+    public function autocomplete_jabatan(){
+        $from_database = DB::table('autocomplete_jabatan')
+                        ->select('name')
+                        ->orderBy('name')
+                        ->distinct()
+                        ->get();
+        return response()->json($from_database);
     }
 }

@@ -20,7 +20,7 @@
             border-top-left-radius: 80px;
             border-bottom-right-radius: 80px;
             border-bottom-style: outset;
-            
+
         }
         #as{
             padding: 0px;
@@ -129,7 +129,14 @@
                         <i class="ni ni-collection text-blue"></i> <b id="text">Pelaporan</b>
                     </a>
                 </li>
-                
+
+                <li class="nav-item" id="as">
+                        <a class="nav-link" href="{{ route('user.index') }}">
+                        <i class="ni ni-key-25 text-blue"></i> <b id="text">Penugasan</b>
+                    </a>
+                    </li>
+
+
                 {{-- <li class="nav-item">
                     <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
                         <i class="fab fa-laravel" style="color: #f4645f;"></i>
