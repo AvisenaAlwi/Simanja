@@ -132,7 +132,7 @@
 
                 <li class="nav-item" id="as">
                         <a class="nav-link" href="{{ route('user.index') }}">
-                        <i class="ni ni-key-25 text-blue"></i> <b id="text">Penugasan</b>
+                        <i class="ni ni-key-25 text-blue"></i> <b id="text">Manajemen Akun</b>
                     </a>
                     </li>
 
