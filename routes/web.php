@@ -26,7 +26,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 });
 
-// Group route for user
+
 Route::group([
 	'middleware' => ['auth', 'supervisor']
 ], function () {
@@ -35,4 +35,6 @@ Route::group([
 	Route::get('activity/request-autocomplete-sub-activity', 'ActivityController@autocomplete_sub_activity')->name('activity.autocomplete.subactivity');
 	Route::get('activity/request-autocomplete-satuan', 'ActivityController@autocomplete_satuan')->name('activity.autocomplete.satuan');
 	Route::resource('activity', 'ActivityController');
+
+	Route::resource('assignment', 'AssignmentController');
 });
