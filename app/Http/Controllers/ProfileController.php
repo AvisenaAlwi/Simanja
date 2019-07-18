@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -13,6 +14,16 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\View\View
      */
+    public function index()
+    {
+            $sub_activity = DB::table('sub_activity')
+            ->select([
+                'petugas'
+            ])
+            ->get(10);
+            return view('profile.index', ['sub_activity' => $sub_activity]);
+        }
+
     public function edit()
     {
         return view('profile.edit');
@@ -28,7 +39,7 @@ class ProfileController extends Controller
     {
         auth()->user()->update($request->all());
 
-        return back()->withStatus(__('Profile successfully updated.'));
+        return back()->withStatus(__('Data diri berhasil diubah.'));
     }
 
     /**
@@ -41,6 +52,6 @@ class ProfileController extends Controller
     {
         auth()->user()->update(['password' => Hash::make($request->get('password'))]);
 
-        return back()->withPasswordStatus(__('Password successfully updated.'));
+        return redirect('profile')->withPasswordStatus(__('Password berhasil diganti.'));
     }
 }

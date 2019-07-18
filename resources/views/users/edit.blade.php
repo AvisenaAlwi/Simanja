@@ -181,8 +181,7 @@
                                             }
 
                                             @endphp
-                                            <div class="form-control-label" for="input-current-password">Minimal
-                                                Pendidikan</div>
+                                            <div class="form-control-label" for="input-current-password">Pendidikan</div>
                                             <input type="text" name="pendidikan" class="qualifikasi-pendidikan"
                                                 data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
                                                 data-slider-ticks-labels='["S2", "S1", "D-IV", "D-III","SMA"]'
@@ -312,8 +311,6 @@
     </div>
 </div>
 </div>
-
-@include('layouts.footers.auth')
 </div>
 
 

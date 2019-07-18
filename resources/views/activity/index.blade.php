@@ -27,16 +27,18 @@
                             </h3>
                         </div>
                         <form id="formChange" action="{{ route('activity.index') }}" method="get">
-                        <select name="showing" id="select" class="browser-default custom-select">
-                                <option value="showAll"  {{ $showing == 'showAll' ? 'selected' :'' }}>Tampilkan semua kegiatan</option>
-                                <option value="showOnlyMe" {{ $showing == 'showOnlyMe' ? 'selected' :'' }}>Tampilkan hanya yang saya buat</option>
-                              </select>
-                            </form>
+                            <select name="showing" id="select" class="browser-default custom-select">
+                                <option value="showAll" {{ $showing == 'showAll' ? 'selected' :'' }}>Tampilkan semua
+                                    kegiatan</option>
+                                <option value="showOnlyMe" {{ $showing == 'showOnlyMe' ? 'selected' :'' }}>Tampilkan
+                                    hanya yang saya buat</option>
+                            </select>
+                        </form>
                         <div class="col text-right">
                             <a href="{{ route('activity.create') }}"><button type="button"
                                     class="btn btn-primary btn-sm">Tambah</button></a>
                         </div>
-                    </form>
+                        </form>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -45,7 +47,7 @@
                             <tr>
                                 <th>Nama Kegiatan</th>
                                 <th>Status</th>
-                                <th>Users</th>
+                                <th>Pembuat</th>
                                 <th>Completion</th>
                                 <th></th>
                             </tr>
@@ -58,29 +60,25 @@
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <span class="name mb-0 text-sm">
-                                                {{ $full_name }}
-                                            </span>
-                                        </div>
+                                        <a href="{{ route('activity.show', $sub->id) }}">
+                                            <div class="media-body">
+                                                <span class="name mb-0 text-sm">
+                                                    {{ $full_name }}
+                                                </span>
+                                            </div>
                                     </div>
+                                    </a>
                                 </th>
                                 <td><span class="badge badge-dot mr-4 badge-warning"><i class="bg-warning"></i><span
                                             class="status">pending</span></span></td>
                                 <td>
-                                    <div class="avatar-group"><a href="#" data-toggle="tooltip"
-                                            data-original-title="Ryan Tompson"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-1-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Romina Hadid"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-2-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Alexander Smith"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-3-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Jessica Doe"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-4-800x800.jpg"></a></div>
+                                    <div class="avatar-group"><a href="#" data-toggle="tooltip">
+                                                    <a href="#" data-toggle="tooltip"
+                                                        data-original-title="{{ $sub->users_name }}"
+                                                        class="avatar avatar-sm rounded-circle">
+                                                        <img alt="Image placeholder" src="{{ asset('img/theme/team-1-800x800.jpg') }}">
+                                                    </a>
+                                            </div>
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center"><span class="completion mr-2">60%</span>
@@ -102,7 +100,10 @@
                                             class="btn btn-sm btn-icon-only text-light"><i
                                                 class="fas fa-ellipsis-v"></i></a>
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ route('activity.edit', $sub->id) }}" class="dropdown-item">Edit</a>
+                                            <a href="{{ route('activity.show', $sub->id) }}" class="dropdown-item">Detil
+                                                kegiatan</a>
+                                            <a href="{{ route('activity.edit', $sub->id) }}"
+                                                class="dropdown-item">Edit</a>
                                             <a href="" class="dropdown-item btn-delete-item" title="{{ $full_name }}"
                                                 id-item="{{ $sub->id }}" style="color: red;"><b>Hapus</b></a></ul>
                                     </li>
@@ -170,11 +171,10 @@
                 }
             });
         });
-        $("#select").change(function(){
+        $("#select").change(function () {
             $("#formChange").submit();
         });
     });
-
 
 </script>
 @endpush
