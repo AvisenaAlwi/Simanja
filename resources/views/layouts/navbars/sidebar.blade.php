@@ -111,31 +111,33 @@
                 </li>
                 <li class="nav-item" id="as">
                     <a class="nav-link" href="{{ route('activity.index') }}">
-                        <i class="ni ni-bullet-list-67 text-blue"></i> <b id="text">Kegiatan</b>
+                        <i class="ni ni-single-copy-04 text-danger"></i> <b id="text">Tugasku</b>
                     </a>
                 </li>
+                @if (auth()->user()->role_id != 3)
                 <li class="nav-item" id="as">
                     <a class="nav-link" href="{{ route('activity.index') }}">
-                        <i class="ni ni-single-copy-04 text-blue"></i> <b id="text">Tugasku</b>
+                        <i class="ni ni-bullet-list-67 text-info"></i> <b id="text">Kegiatan</b>
                     </a>
                 </li>
                 <li class="nav-item" id="as">
                     <a class="nav-link" href="{{ route('assignment.index') }}">
-                        <i class="ni ni-books text-blue"></i> <b id="text">Penugasan</b>
+                        <i class="ni ni-books text-success"></i> <b id="text">Penugasan</b>
                     </a>
                 </li>
-                    <li class="nav-item" id="asd">
+                @endif
+                <li class="nav-item" id="asd">
                     <a class="nav-link" href="{{ route('activity.index') }}">
-                        <i class="ni ni-collection text-blue"></i> <b id="text">Pelaporan</b>
+                        <i class="ni ni-collection text-warning"></i> <b id="text">Pelaporan</b>
                     </a>
                 </li>
-
+                @if (auth()->user()->role_id == 1)
                 <li class="nav-item" id="as">
                         <a class="nav-link" href="{{ route('user.index') }}">
-                        <i class="ni ni-key-25 text-blue"></i> <b id="text">Penugasan</b>
+                        <i class="ni ni-key-25 text-success"></i> <b id="text">Manajemen Akun</b>
                     </a>
-                    </li>
-
+                </li>
+                @endif
 
                 {{-- <li class="nav-item">
                     <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">

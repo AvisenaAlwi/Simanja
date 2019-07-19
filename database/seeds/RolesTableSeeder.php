@@ -21,8 +21,8 @@ class RolesTableSeeder extends Seeder
             'slug' => 'supervisor'
         ]);
         Roles::create([
-            'name' => 'User',
-            'slug' => 'user'
+            'name' => 'Staf',
+            'slug' => 'staf'
         ]);
     }
 }

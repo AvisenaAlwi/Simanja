@@ -31,7 +31,6 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
 @section('content')
 @include('users.partials.header', [
 'title' => 'Kegiatan',
-'description' => __('Form dibawah ini bertujuan mengedit kegiatan maupun sub-kegiatan yang sudah ada.'),
 'class' => 'col-lg-7'
 ])
 <div class="container-fluid mt--7">
@@ -59,40 +58,43 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                         @endif
 
                         <div class="pl-lg-4">
-                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-activity-name">Nama Kegiatan</label>
-                                <input type="text" name="activity_name" id="input-activity-name"
-                                    class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
-                                    value="{{ $sub_activity->activity->name }}" required autofocus>
-
-                                @if ($errors->has('activity_name'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('activity_name') }}</strong>
-                                </span>
-                                @endif
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label" for="input-activity-name">Nama Kegiatan</label>
+                                        <input type="text" name="activity_name" id="input-activity-name"
+                                            class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
+                                            value="{{ $sub_activity->activity->name }}" required autofocus>
+        
+                                        @if ($errors->has('activity_name'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('activity_name') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label" for="input-kategori">Kategori</label>
+                                        <select
+                                            class="form-control form-control-alternative{{ $errors->has('activity_kategori') ? ' is-invalid' : '' }}"
+                                            id="input-kategori" name="activity_kategori" required autofocus>
+                                            <option value="Utama" {{ $sub_activity->activity->kategori == 'Utama' ? 'selected' : '' }}>Utama</option>
+                                            <option value="Tambahan" {{ $sub_activity->activity->kategori == 'Tambahan' ? 'selected' : '' }}>Tambahan</option>
+                                        </select>
+                                        @if ($errors->has('activity_kategori'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('activity_kategori') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-kategori">Kategori</label>
-                                <select
-                                    class="form-control form-control-alternative{{ $errors->has('activity_kategori') ? ' is-invalid' : '' }}"
-                                    id="input-kategori" name="activity_kategori" required autofocus>
-                                    <option value="Utama" {{ $sub_activity->activity->kategori == 'Utama' ? 'selected' : '' }}>Utama</option>
-                                    <option value="Tambahan" {{ $sub_activity->activity->kategori == 'Tambahan' ? 'selected' : '' }}>Tambahan</option>
-                                </select>
-                                @if ($errors->has('activity_kategori'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('activity_kategori') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-name">Awal</label>
+                                        <label class="form-control-label" for="input-activity-start-month">Awal</label>
                                         <div class="row">
-                                            
                                             <div class="col-6">
                                                 <select name="activity_start_month" id="activity-start-month"
                                                     class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
@@ -124,7 +126,7 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                 </div>
                                 <div class="col-lg-6" id="zzx">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-name">Akhir</label>
+                                        <label class="form-control-label" for="input-activity-end-month">Akhir</label>
                                         <div class="row">
                                             <div class="col-6">
                                                 <select name="activity_end_month" id="activity-end-month"
@@ -163,8 +165,8 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                 </div>
                             </div>
                             <div>
-                                <input type="checkbox" id="checkbox-periode-1-bulan" name="issatubulan"> Periode Tugas 1
-                                Bulan
+                                <input type="checkbox" id="checkbox-periode-1-bulan" name="issatubulan"
+                                {{ $sub_activity->activity->bulan_akhir == null ? 'checked' : ''}}> Periode Tugas 1 Bulan
                             </div>
                         </div>
                         <div id="container-sub-activity">
@@ -533,14 +535,59 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
             });
         });
 
-        $('#checkbox-periode-1-bulan').change(function () {
+        $('#checkbox-periode-1-bulan').change(function(){
             let me = $(this);
-            if (me.is(":checked")) {
+            if(me.is(":checked")){
                 $('#zzx').hide();
                 me.val(true);
-            } else {
+                $('label[for=input-activity-start-month]').html("Awal - Akhir")
+            }else{
                 $('#zzx').show();
                 me.val(false);
+                $('label[for=input-activity-start-month]').html("Awal")
+            }
+        });
+        $('#checkbox-periode-1-bulan').trigger('change');
+        $('#activity-start-month').change(function(){
+            let selectedIndex = this.selectedIndex;
+            let endMonthChildernOption = $('#activity-end-month').children();
+            for(let i = 0; i < endMonthChildernOption.length; i++){
+                $(endMonthChildernOption[i]).show();
+            }
+            for(let i = 0; i < selectedIndex; i++){
+                $(endMonthChildernOption[i]).hide();
+            }
+            if(selectedIndex > $('#activity-end-month')[0].selectedIndex){
+                for(let i = 0; i < endMonthChildernOption.length; i++){
+                    $(endMonthChildernOption[i]).removeAttr('selected');
+                }
+                $(endMonthChildernOption[selectedIndex]).attr('selected', true);
+            }
+        });
+        $('#activity-start-month').trigger('change');
+        $('#activity-start-year').change(function(){
+            let selectedIndex = this.selectedIndex;
+            let endYearChildernOption = $('#activity-end-year').children();
+            for(let i = 0; i < endYearChildernOption.length; i++){
+                $(endYearChildernOption[i]).show();
+            }
+            for(let i = 0; i < selectedIndex; i++){
+                $(endYearChildernOption[i]).hide();
+            }
+            if(selectedIndex > $('#activity-end-year')[0].selectedIndex){
+                for(let i = 0; i < endYearChildernOption.length; i++){
+                    $(endYearChildernOption[i]).removeAttr('selected');
+                }
+                $(endYearChildernOption[selectedIndex]).attr('selected', true);
+            }
+        });
+        $('#activity-end-year').change(function(){
+            let selectedIndex = this.selectedIndex;
+            let endMonthChildernOption = $('#activity-end-month').children();
+            if (selectedIndex > $('#activity-start-year')[0].selectedIndex){
+                for(let i = 0; i < endMonthChildernOption.length; i++){
+                    $(endMonthChildernOption[i]).show();
+                }
             }
         });
 

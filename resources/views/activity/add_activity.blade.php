@@ -24,7 +24,6 @@ for($i = 0; $i < 5; $i++){
 @section('content')
 @include('users.partials.header', [
 'title' => 'Kegiatan',
-'description' => __('Halaman ini bertujuan menambahkan kegiatan sekaligus sub-kegiatan. Minimal terdapat satu sub kegiatan dalam 1 kegiatan.'),
 'class' => 'col-lg-7'
 ])
 <div class="container-fluid mt--7">
@@ -78,13 +77,13 @@ for($i = 0; $i < 5; $i++){
                                     </span>
                                     @endif
                                     </div>
-                                </div>                          
+                                </div>
                             </div>
                             
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-name">Awal</label>
+                                        <label class="form-control-label" for="input-activity-start-month">Awal</label>
                                         <div class="row">
                                             <div class="col-6">
                                                 <select name="activity_start_month" id="activity-start-month"
@@ -111,7 +110,7 @@ for($i = 0; $i < 5; $i++){
                                 </div>
                                 <div class="col-lg-6" id="zzx">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-name">Akhir</label>
+                                        <label class="form-control-label" for="input-activity-end-month">Akhir</label>
                                         <div class="row">
                                             <div class="col-6">
                                                 <select name="activity_end_month" id="activity-end-month"
@@ -264,7 +263,7 @@ for($i = 0; $i < 5; $i++){
                                 <button type="button" id="add-sub-activity" class="btn btn-warning">Tambah Sub Kegiatan</button>
                             </div>
                             <div class="col-6 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success">Simpan</button>
+                                <button type="submit" class="btn btn-success" id="btn-submit">Simpan</button>
                             </div>
                         </div>
                         {{-- <div class="text-center">
@@ -303,11 +302,11 @@ for($i = 0; $i < 5; $i++){
                 zzz.satuan_sub_kegiatan = $(arr_satuan_kegiatan[i]).val();
                 zzz.volume_sub_kegiatan = $(arr_volume_kegiatan[i]).val();
                 zzz.qualifikasi = {
-                    pendidikan : $(arr_qualifikasi_pendidikan[i]).val(),
-                    ti : $(arr_qualifikasi_ti[i]).val(),
-                    menulis : $(arr_qualifikasi_menulis[i]).val(),
-                    administrasi : $(arr_qualifikasi_administrasi[i]).val(),
-                    pengalaman : $(arr_qualifikasi_pengalaman[i]).val(),
+                    pendidikan: $(arr_qualifikasi_pendidikan[i]).val(),
+                    ti: $(arr_qualifikasi_ti[i]).val(),
+                    menulis: $(arr_qualifikasi_menulis[i]).val(),
+                    administrasi: $(arr_qualifikasi_administrasi[i]).val(),
+                    pengalaman: $(arr_qualifikasi_pengalaman[i]).val(),
                 }
                 value.push(zzz);
             }
@@ -326,18 +325,18 @@ for($i = 0; $i < 5; $i++){
                 $(arr_nama_kegiatan[i]).val(value[i].nama_sub_kegiatan);
                 $(arr_satuan_kegiatan[i]).val(value[i].satuan_sub_kegiatan);
                 $(arr_volume_kegiatan[i]).val(value[i].volume_sub_kegiatan);
-                
+
                 $(arr_qualifikasi_pendidikan[i]).val(value[i].qualifikasi.pendidikan);
                 $(arr_qualifikasi_ti[i]).val(value[i].qualifikasi.ti);
                 $(arr_qualifikasi_menulis[i]).val(value[i].qualifikasi.menulis);
                 $(arr_qualifikasi_administrasi[i]).val(value[i].qualifikasi.administrasi);
                 $(arr_qualifikasi_pengalaman[i]).val(value[i].qualifikasi.pengalaman);
-                
-                $(arr_qualifikasi_pendidikan[i]).slider({ value : value[i].qualifikasi.pendidikan});
-                $(arr_qualifikasi_ti[i]).slider({ value : value[i].qualifikasi.ti});
-                $(arr_qualifikasi_menulis[i]).slider({ value : value[i].qualifikasi.menulis});
-                $(arr_qualifikasi_administrasi[i]).slider({ value : value[i].qualifikasi.administrasi});
-                $(arr_qualifikasi_pengalaman[i]).slider({ value : value[i].qualifikasi.pengalaman});
+
+                $(arr_qualifikasi_pendidikan[i]).slider({ value: value[i].qualifikasi.pendidikan });
+                $(arr_qualifikasi_ti[i]).slider({value: value[i].qualifikasi.ti });
+                $(arr_qualifikasi_menulis[i]).slider({ value: value[i].qualifikasi.menulis });
+                $(arr_qualifikasi_administrasi[i]).slider({ value: value[i].qualifikasi.administrasi });
+                $(arr_qualifikasi_pengalaman[i]).slider({ value: value[i].qualifikasi.pengalaman });
             }
             value = [];
         }
@@ -466,19 +465,13 @@ for($i = 0; $i < 5; $i++){
                 $('#container-sub-activity').append(before);
                 $('.delete-sub-activity').hide();
                 $('.delete-sub-activity').last().show();
-                
-                setTimeout(function(){
+
+                setTimeout(function () {
                     $('html, body').animate({
                         scrollTop: $('.sub-kegiatan').last().offset().top
                     }, 1000);
                 }, 10);
                 restoreValue();
-            });
-
-            $('#form-activity').submit(function (e) {
-                // e.preventDefault();
-                // let me = $(this);
-                // console.log(me.serialize());
             });
             $("#input-activity-name").easyAutocomplete({
                 url: "{{ route('activity.autocomplete.activity') }}",
@@ -495,8 +488,12 @@ for($i = 0; $i < 5; $i++){
                     getValue: 'name',
                     list: {
                         maxNumberOfElements: 15,
-                        match: {enabled: true},
-                        sort: {enabled: true}
+                        match: {
+                            enabled: true
+                        },
+                        sort: {
+                            enabled: true
+                        }
                     }
                 });
             });
@@ -512,29 +509,73 @@ for($i = 0; $i < 5; $i++){
                 });
             });
 
-            $('#checkbox-periode-1-bulan').change(function(){
+            $('#checkbox-periode-1-bulan').change(function() {
                 let me = $(this);
-                if(me.is(":checked")){
+                if (me.is(":checked")) {
                     $('#zzx').hide();
                     me.val(true);
-                }else{
+                    $('label[for=input-activity-start-month]').html("Awal - Akhir")
+                } else {
                     $('#zzx').show();
                     me.val(false);
+                    $('label[for=input-activity-start-month]').html("Awal")
+                }
+            });
+            $('#activity-start-month').change(function () {
+                let selectedIndex = this.selectedIndex;
+                let endMonthChildernOption = $('#activity-end-month').children();
+                for (let i = 0; i < endMonthChildernOption.length; i++) {
+                    $(endMonthChildernOption[i]).show();
+                }
+                for (let i = 0; i < selectedIndex; i++) {
+                    $(endMonthChildernOption[i]).hide();
+                }
+                if (selectedIndex > $('#activity-end-month')[0].selectedIndex) {
+                    for (let i = 0; i < endMonthChildernOption.length; i++) {
+                        $(endMonthChildernOption[i]).removeAttr('selected');
+                    }
+                    $(endMonthChildernOption[selectedIndex]).attr('selected', true);
+                }
+            });
+            $('#activity-start-month').trigger('change');
+            $('#activity-start-year').change(function () {
+                let selectedIndex = this.selectedIndex;
+                let endYearChildernOption = $('#activity-end-year').children();
+                for (let i = 0; i < endYearChildernOption.length; i++) {
+                    $(endYearChildernOption[i]).show();
+                }
+                for (let i = 0; i < selectedIndex; i++) {
+                    $(endYearChildernOption[i]).hide();
+                }
+                if (selectedIndex > $('#activity-end-year')[0].selectedIndex) {
+                    for (let i = 0; i < endYearChildernOption.length; i++) {
+                        $(endYearChildernOption[i]).removeAttr('selected');
+                    }
+                    $(endYearChildernOption[selectedIndex]).attr('selected', true);
+                }
+            });
+            $('#activity-end-year').change(function () {
+                let selectedIndex = this.selectedIndex;
+                let endMonthChildernOption = $('#activity-end-month').children();
+                if (selectedIndex > $('#activity-start-year')[0].selectedIndex) {
+                    for (let i = 0; i < endMonthChildernOption.length; i++) {
+                        $(endMonthChildernOption[i]).show();
+                    }
                 }
             });
 
-            $(document).arrive('.delete-sub-activity', function(newElement){
-            $(newElement).click(function(){
-                me = $(this);
+            $(document).arrive('.delete-sub-activity', function (newElement) {
+                $(newElement).click(function () {
+                    me = $(this);
 
-                me.parent().parent().parent().hide(function(){
-                    $(this).remove();
-                    $('.delete-sub-activity').hide();
-                    $('.delete-sub-activity').last().show();
-                    sub_activity_count--;
-                });
-            })
-        });
+                    me.parent().parent().parent().hide(function () {
+                        $(this).remove();
+                        $('.delete-sub-activity').hide();
+                        $('.delete-sub-activity').last().show();
+                        sub_activity_count--;
+                    });
+                })
+            });
 
         });
 
@@ -568,7 +609,7 @@ for($i = 0; $i < 5; $i++){
                 });
             });
         });
-        $(document).arrive('input[data-provide=slider]', function(newElement){
+        $(document).arrive('input[data-provide=slider]', function(newElement) {
             $(newElement).slider();
         });
 

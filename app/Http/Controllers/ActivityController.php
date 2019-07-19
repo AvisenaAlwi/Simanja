@@ -20,50 +20,45 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $showAll = Input::get('all', 'false');
-        $showing = Input::get('showing', 'showAll');
+        $showing = Input::get('showing', 'showCurrentMonth');
+        $searchQuery = Input::get('query', '');
         $userId = Auth::id();
-        if ($showAll == 'true'){
-            $sub_activity = DB::table('sub_activity')
+        $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
             ->join('users', 'activity.created_by_user_id', '=', 'users.id')
             ->select([
                 'sub_activity.name as sub_activity_name',
                 'activity.name as activity_name',
                 'users.id as users_id',
-                'sub_activity.*'
+                'sub_activity.*',
+                'activity.tahun_awal',
+                'activity.tahun_akhir',
             ])
-            ->paginate(10);
+            ->orderBy('created_at', 'DESC');
+        if (!empty($searchQuery)){
+            // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
+            $sub_activity = $sub_activity
+                                ->where('sub_activity.name','LIKE',"%$searchQuery%")
+                                ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
+        }
+
+        if ($showing == 'showAll'){
+            // Menampilkan semua sub dan kegiatan yang ada pada tabel sub_activity
+            $sub_activity = $sub_activity->paginate(10);
             return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
         }
         else if ($showing == 'showOnlyMe'){
-            $sub_activity = DB::table('sub_activity')
-            ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
-            ->join('users', 'activity.created_by_user_id', '=', 'users.id')
-            ->select([
-                'sub_activity.name as sub_activity_name',
-                'activity.name as activity_name',
-                'users.id as users_id',
-                'sub_activity.*'
-            ])
-            ->where('users.id','=', $userId)
-            ->paginate(10);
+            // Menampilkan sub dan kegiatan yang dibuat oleh user yang login saat ini
+            $sub_activity = $sub_activity->where('users.id','=', $userId)
+                                ->paginate(10);
             return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
         }
         else{
+            // Menampilkan sub dan kegiatan yang aktif bulan dan tahub saat ini
             $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
-            $sub_activity = DB::table('sub_activity')
-            ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
-            ->join('users', 'activity.created_by_user_id', '=', 'users.id')
-            ->select([
-                'sub_activity.name as sub_activity_name',
-                'activity.name as activity_name',
-                'users.id as users_id',
-                'sub_activity.*'
-            ])
-            ->where('bulan_awal','=', $month)
-            ->paginate(10);
-
+            $sub_activity = $sub_activity
+                                ->whereRaw('Is_In_Month_Range(?, activity.bulan_awal, activity.tahun_awal, activity.bulan_akhir, activity.tahun_akhir)', [$month])
+                                ->paginate(10);
             return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
         }
     }
@@ -86,7 +81,6 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $validatedData = $request->validate([
             'activity_name' => 'required',
             'activity_kategori' => 'required'
@@ -119,9 +113,11 @@ class ActivityController extends Controller
                 'kategori' => $activity_kategori,
                 'created_by_user_id' => auth()->user()->id,
                 'bulan_awal' => $request['activity_start_month'],
-                'tahun_awal' => $request['activity_end_year']
+                'tahun_awal' => $request['activity_start_year']
             ];
-            if($request['issatubulan'] == false || $request['activity_start_month'] == $request['activity_end_month']){
+            if($request['issatubulan'] == false && 
+                $request['activity_start_month'] != $request['activity_end_month'] &&
+                ($request['activity_start_month'] == $request['activity_end_month'] && $request['activity_start_year'] != $request['activity_end_year'])){
                 $data['bulan_akhir'] = $request['activity_end_month'];
                 $data['tahun_akhir'] = $request['activity_end_year'];
             }
@@ -149,10 +145,6 @@ class ActivityController extends Controller
                     DB::table('autocomplete_satuan')->insert(['name' => $value['satuan']]);
             }
         });
-        // echo $activity_name."<br>";
-        // echo $activity_kategori."<br>";
-        // echo $activity_volume."<br>";
-        // print_r($sub_activity);
         return redirect()->route('activity.index');
     }
 
@@ -182,7 +174,11 @@ class ActivityController extends Controller
     {
         $sub_activity = SubActivity::with('activity')->where('id','=',$id)->first();
         if ($sub_activity != null){
-            return view('activity.edit', ['sub_activity' => $sub_activity]);
+            if ($sub_activity->activity->created_by_user_id == auth()->user()->id){
+                return view('activity.edit', ['sub_activity' => $sub_activity]);
+            }else{
+                return abort(403, "Anda tidak diizinkan untuk mengedit kegiatan ini.");
+            }
         }else{
             return abort(404, "Kegiatan atau Sub-Kegiatan yang akan diedit tidak ditemukan");
         }
@@ -197,7 +193,12 @@ class ActivityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
+        $sub_activity = SubActivity::find($id);
+        if ($sub_activity == null)
+            return abort(404,"Kegiatan atau Sub-Kegiatan yang akan diedit tidak ditemukan");
+        if ($sub_activity->activity->created_by_user_id != auth()->user()->id)
+            return abort(403, "Anda tidak diizinkan untuk mengedit kegiatan ini.");
+
         $SubActivityOriginal = SubActivity::find($id);
         $field = $request->all();
         $activity_name = $field['activity_name'];
@@ -263,22 +264,26 @@ class ActivityController extends Controller
      */
     public function destroy($id)
     {
-        DB::transaction(function() use($id) {
-            $subactivity = SubActivity::find($id);
-            if ($subactivity != null){
-                $parentActivityId = $subactivity->activity_id;
-                $statusDelete = $subactivity->delete();
-                if ($statusDelete){
-                    if (sizeof(DB::table('sub_activity')->where('activity_id',$parentActivityId)->get()) == 0 )
-                        Activity::find($parentActivityId)->delete();
-                    return response()->json(['status'=>'sukses', 'message'=>'Berhasil menghapus kegiatan'], 202);
-                }else{
-                    return response()->json(['status'=>'gagal', 'message'=>'Gagal meghapus kegiatan']);
-                }
+        $sub_activity = SubActivity::find($id);
+        if ($sub_activity != null){
+            if ($sub_activity->activity->created_by_user_id == auth()->user()->id){
+                DB::transaction(function() use($sub_activity) {
+                    $parentActivityId = $sub_activity->activity_id;
+                    $statusDelete = $sub_activity->delete();
+                    if ($statusDelete){
+                        if (sizeof(DB::table('sub_activity')->where('activity_id',$parentActivityId)->get()) == 0 )
+                            Activity::find($parentActivityId)->delete();
+                        return response()->json(['status'=>'sukses', 'message'=>'Berhasil menghapus kegiatan'], 202);
+                    }else{
+                        return response()->json(['status'=>'gagal', 'message'=>'Gagal meghapus kegiatan']);
+                    }
+                });
             }else{
-                return response()->json(['status'=>'gagal', 'message'=>'ID tidak ditemukan'], 404);
+                return response()->json(['status'=>'gagal', 'message'=>'Anda tidak diizinkan untuk menghapus kegiatan ini.'], 403);
             }
-        });
+        }else{
+            return response()->json(['status'=>'gagal', 'message'=>'ID tidak ditemukan'], 404);
+        }
     }
 
     public function autocomplete_activity(){
@@ -308,8 +313,6 @@ class ActivityController extends Controller
 
     public function anyData()
     {
-        // echo "Sena";
-        // die();
         return Datatables::of(
             DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')

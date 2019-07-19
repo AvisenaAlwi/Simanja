@@ -1,3 +1,7 @@
+@inject('Input', 'Illuminate\Support\Facades\Input')
+@inject('Carbon', '\Carbon\Carbon')
+@inject('Activity', '\App\Activity')
+
 @extends('layouts.app', ['showSearch' => true])
 @push('style')
 
@@ -5,7 +9,7 @@
 @section('content')
 @include('users.partials.header', [
 'title' => 'Kegiatan',
-'description' => __('Tabel berikut menunjukkan tabel kegiatan yang dapat ditambah ke sistem.'),
+'description' => __('Tabel berikut menunjukkan tabel kegiatan yang sudah ditambah ke sistem.'),
 'class' => 'col-lg-7'
 ])
 
@@ -15,26 +19,44 @@
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
-                        <div class="col">
+                        <div class="col-3">
                             <h3 class="mb-0">
-                                @if (Illuminate\Support\Facades\Input::get('all', 'false') == 'true')
-                                Tabel Kegiatan
+                                @if ($showing == 'showAll')
+                                Semua Kegiatan
+                                @elseif ($showing == 'showOnlyMe')
+                                Kegiatan Yang Saya Buat
                                 @else
-                                Tabel Kegiatan Periode
-                                {{ \Carbon\Carbon::parse('first day of this month')->format('d') }} -
-                                {{ \Carbon\Carbon::parse('last day of this month')->formatLocalized('%d %B %Y') }}
+                                Kegiatan Periode
+                                {{ $Carbon::parse('first day of this month')->format('d') }} -
+                                {{ $Carbon::parse('last day of this month')->formatLocalized('%d %B %Y') }}
                                 @endif
                             </h3>
                         </div>
-                        <form id="formChange" action="{{ route('activity.index') }}" method="get">
-                        <select name="showing" id="select" class="browser-default custom-select">
-                                <option value="showAll"  {{ $showing == 'showAll' ? 'selected' :'' }}>Tampilkan semua kegiatan</option>
-                                <option value="showOnlyMe" {{ $showing == 'showOnlyMe' ? 'selected' :'' }}>Tampilkan hanya yang saya buat</option>
-                              </select>
+                        <div class="col-4">
+                            <form id="formChange" action="{{ route('activity.index') }}" method="get">
+                                <select name="showing" id="select" class="browser-default custom-select">
+                                    <option value="showCurrentMonth" {{ $showing == 'showCurrentMonth' ? 'selected' :'' }}>Tampilkan kegiatan bulan saat ini</option>
+                                    <option value="showAll"  {{ $showing == 'showAll' ? 'selected' :'' }}>Tampilkan semua kegiatan</option>
+                                    <option value="showOnlyMe" {{ $showing == 'showOnlyMe' ? 'selected' :'' }}>Tampilkan hanya yang saya buat</option>
+                                </select>
+                        </div>
+                        <div class="col-4">
+                                <div class="form-group mb-0">
+                                    <div class="input-group text-dark">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text text-dark"
+                                            onclick="$(this).parent().parent().parent().parent().submit()"
+                                            ><i class="fas fa-search"></i></span>
+                                        </div>
+                                    <input class="form-control text-dark pl-2" placeholder="Cari berdasarkan nama" type="text" name="query"
+                                    value="{{ $Input::get('query','') }}">
+                                    </div>
+                                </div>
                             </form>
-                        <div class="col text-right">
+                        </div>
+                        <div class="col-1 text-right">
                             <a href="{{ route('activity.create') }}"><button type="button"
-                                    class="btn btn-primary btn-sm">Tambah</button></a>
+                                    class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button></a>
                         </div>
                     </form>
                     </div>
@@ -45,7 +67,7 @@
                             <tr>
                                 <th>Nama Kegiatan</th>
                                 <th>Status</th>
-                                <th>Users</th>
+                                <th>Tahun</th>
                                 <th>Completion</th>
                                 <th></th>
                             </tr>
@@ -68,19 +90,11 @@
                                 <td><span class="badge badge-dot mr-4 badge-warning"><i class="bg-warning"></i><span
                                             class="status">pending</span></span></td>
                                 <td>
-                                    <div class="avatar-group"><a href="#" data-toggle="tooltip"
-                                            data-original-title="Ryan Tompson"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-1-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Romina Hadid"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-2-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Alexander Smith"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-3-800x800.jpg"></a><a href="#" data-toggle="tooltip"
-                                            data-original-title="Jessica Doe"
-                                            class="avatar avatar-sm rounded-circle"><img alt="Image placeholder"
-                                                src="img/theme/team-4-800x800.jpg"></a></div>
+                                    @if ($sub->tahun_awal == $sub->tahun_akhir || $sub->tahun_akhir == null)
+                                    {{ $sub->tahun_awal }}
+                                    @else
+                                    {{ $sub->tahun_awal . ' - ' . $sub->tahun_akhir }}
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center"><span class="completion mr-2">60%</span>
@@ -102,9 +116,12 @@
                                             class="btn btn-sm btn-icon-only text-light"><i
                                                 class="fas fa-ellipsis-v"></i></a>
                                         <ul class="dropdown-menu dropdown-menu-right">
+                                            @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
                                             <a href="{{ route('activity.edit', $sub->id) }}" class="dropdown-item">Edit</a>
                                             <a href="" class="dropdown-item btn-delete-item" title="{{ $full_name }}"
-                                                id-item="{{ $sub->id }}" style="color: red;"><b>Hapus</b></a></ul>
+                                                id-item="{{ $sub->id }}" style="color: red;"><b>Hapus</b></a>
+                                            @endif
+                                        </ul>
                                     </li>
                                 </td>
                             </tr>

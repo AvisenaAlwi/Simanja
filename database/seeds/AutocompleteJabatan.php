@@ -10,7 +10,8 @@ class AutocompleteJabatan  extends Seeder
      * @return void
      */
     public function run()
-    {DB::table('autocomplete_jabatan')->insert(['name' => 'Kepala']);
+    {   
+        DB::table('autocomplete_jabatan')->insert(['name' => 'Kepala']);
         DB::table('autocomplete_jabatan')->insert(['name' => 'Kasubbag Tata Usaha']);
         DB::table('autocomplete_jabatan')->insert(['name' => 'Kasi Statistik Sosial']);
         DB::table('autocomplete_jabatan')->insert(['name' => 'Kasi Statistik Produksi']);

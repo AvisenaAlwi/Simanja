@@ -29,11 +29,11 @@
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
-            @include('layouts.navbars.sidebar')
+            @include('layouts.navbars.sidebar', ['selectedMenu' => $selectedMenu ?? 'dashboard'])
         @endauth
         
         <div class="main-content">
-            @include('layouts.navbars.navbar', ['showSearch' => $showSearch])
+            @include('layouts.navbars.navbar', ['showSearch' => $showSearch ?? false])
             @yield('content')
         </div>
 

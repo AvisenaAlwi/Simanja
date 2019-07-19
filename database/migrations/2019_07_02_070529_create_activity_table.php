@@ -20,9 +20,9 @@ class CreateActivityTable extends Migration
             $table->unsignedSmallInteger('created_by_user_id');
             $table->foreign('created_by_user_id')->references('id')->on('users');
             $table->string('bulan_awal');
-            $table->string('tahun_awal');
+            $table->year('tahun_awal');
             $table->string('bulan_akhir')->nullable();
-            $table->string('tahun_akhir')->nullable();
+            $table->year('tahun_akhir')->nullable();
             $table->timestamps();
         });
     }
