@@ -110,8 +110,8 @@
                     </a>
                 </li>
                 <li class="nav-item" id="as">
-                    <a class="nav-link" href="{{ route('activity.index') }}">
-                        <i class="ni ni-single-copy-04 text-danger"></i> <b id="text">Tugasku</b>
+                    <a class="nav-link" href="{{ route('myactivity.index') }}">
+                        <i class="ni ni-single-copy-04 text-danger"></i> <b id="text">Kegiatanku</b>
                     </a>
                 </li>
                 @if (auth()->user()->role_id != 3)

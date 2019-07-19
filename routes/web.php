@@ -46,3 +46,9 @@ Route::group([
     Route::get('user/request-autocomplete-jabatan', 'UserController@autocomplete_jabatan')->name('user.autocomplete.jabatan');
     Route::resource('user', 'UserController');
 });
+
+Route::group([
+    'middleware' => ['auth', 'user'],
+], function () {
+    Route::resource('myactivity', 'MyActivityController');
+});

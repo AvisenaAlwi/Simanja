@@ -41,16 +41,10 @@
                                     @php
                                     $userId = Auth::id();
                                     $counter = 0;
+                                    foreach($sub_activity as $sub)
+                                            if((in_array($userId, json_decode($sub->petugas))))
+                                                $counter++;
                                     @endphp
-                                    @foreach ($sub_activity as $sub)
-                                    @foreach (json_decode($sub->petugas) as $person)
-                                    @if ($person == $userId)
-                                    @php
-                                        $counter = $counter + 1;
-                                    @endphp
-                                    @endif
-                                    @endforeach
-                                    @endforeach
                                     <span class="heading">0</span>
                                     <span class="description">{{ __('Diproses') }}</span>
                                 </div>
