@@ -58,7 +58,7 @@
                             <a href="{{ route('activity.create') }}"><button type="button"
                                     class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button></a>
                         </div>
-                    </form>
+                        </form>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -66,8 +66,8 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Kegiatan</th>
-                                <th>Status</th>
                                 <th>Tahun</th>
+                                <th>Pembuat</th>
                                 <th>Completion</th>
                                 <th></th>
                             </tr>
@@ -80,21 +80,30 @@
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <span class="name mb-0 text-sm">
-                                                {{ $full_name }}
-                                            </span>
-                                        </div>
+                                        <a href="{{ route('activity.show', $sub->id) }}">
+                                            <div class="media-body">
+                                                <span class="name mb-0 text-sm">
+                                                    {{ $full_name }}
+                                                </span>
+                                            </div>
                                     </div>
+                                    </a>
                                 </th>
-                                <td><span class="badge badge-dot mr-4 badge-warning"><i class="bg-warning"></i><span
-                                            class="status">pending</span></span></td>
                                 <td>
                                     @if ($sub->tahun_awal == $sub->tahun_akhir || $sub->tahun_akhir == null)
                                     {{ $sub->tahun_awal }}
                                     @else
                                     {{ $sub->tahun_awal . ' - ' . $sub->tahun_akhir }}
                                     @endif
+                                </td>
+                                <td>
+                                    <div class="avatar-group"><a href="#" data-toggle="tooltip">
+                                            <a href="#" data-toggle="tooltip"
+                                                data-original-title="{{ $sub->users_name }}"
+                                                class="avatar avatar-sm rounded-circle">
+                                                <img alt="Image placeholder" src="{{ asset('img/theme/team-1-800x800.jpg') }}">
+                                            </a>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center"><span class="completion mr-2">60%</span>
@@ -116,8 +125,11 @@
                                             class="btn btn-sm btn-icon-only text-light"><i
                                                 class="fas fa-ellipsis-v"></i></a>
                                         <ul class="dropdown-menu dropdown-menu-right">
+                                            <a href="{{ route('activity.show', $sub->id) }}" 
+                                                class="dropdown-item">Detil kegiatan</a>
                                             @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
-                                            <a href="{{ route('activity.edit', $sub->id) }}" class="dropdown-item">Edit</a>
+                                            <a href="{{ route('activity.edit', $sub->id) }}"
+                                                class="dropdown-item">Edit</a>
                                             <a href="" class="dropdown-item btn-delete-item" title="{{ $full_name }}"
                                                 id-item="{{ $sub->id }}" style="color: red;"><b>Hapus</b></a>
                                             @endif
@@ -187,11 +199,10 @@
                 }
             });
         });
-        $("#select").change(function(){
+        $("#select").change(function () {
             $("#formChange").submit();
         });
     });
-
 
 </script>
 @endpush

@@ -29,6 +29,7 @@ class ActivityController extends Controller
             ->select([
                 'sub_activity.name as sub_activity_name',
                 'activity.name as activity_name',
+                'users.name as users_name',
                 'users.id as users_id',
                 'sub_activity.*',
                 'activity.tahun_awal',
@@ -154,13 +155,32 @@ class ActivityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($activity)
+    public function show($id)
     {
-        $sub_activity = Activity::find($activity);
+        $sub_activity = DB::table('sub_activity')
+            ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
+            ->join('users', 'activity.created_by_user_id', '=', 'users.id')
+            ->select([
+                'sub_activity.name as sub_activity_name',
+                'activity.name as activity_name',
+                'users.id as users_id',
+                'sub_activity.*',
+                'sub_activity.id as sub_activity_id',
+                'activity.*',
+                'users.name as user_name'
+            ])
+            ->where('sub_activity.id','=',$id)
+            ->first();
+
+            $users = DB::table('users')
+            ->select([
+                'users.*'
+            ])
+            ->get();
         if ($sub_activity != null){
-            return view('activity.show', ['data' => $sub_activity]);
+            return view('activity.show', ['sub_activity' => $sub_activity],  ['users' => $users]);
         }else{
-            return abort(404, "Kegiatan atau Sub-Kegiatan dengan id $activity tidak ditemukan");
+            return abort(404, "Kegiatan atau Sub-Kegiatan dengan id $id tidak ditemukan");
         }
     }
 
@@ -216,24 +236,24 @@ class ActivityController extends Controller
                 $sub_activity['qualifikasi'][$qualifikasi[1]] = (int)$value;
             }
         }
-        DB::transaction(function () 
+        DB::transaction(function ()
         use(
             $SubActivityOriginal,
-            $activity_name, 
-            $activity_kategori, 
+            $activity_name,
+            $activity_kategori,
             $sub_activity,
             $request)
             {
             $data = [
-                'name' => $activity_name, 
+                'name' => $activity_name,
                 'kategori' => $activity_kategori,
                 'bulan_awal' => $request['activity_start_month'],
                 'tahun_awal' => $request['activity_end_year'],
                 'bulan_akhir' => null,
                 'tahun_akhir' => null,
             ];
-            if($request['issatubulan'] == false || 
-                ( $request['activity_start_month'] != $request['activity_end_month'] && 
+            if($request['issatubulan'] == false ||
+                ( $request['activity_start_month'] != $request['activity_end_month'] &&
                     $request['activity_start_year'] != $request['activity_end_year']) ){
                 $data['bulan_akhir'] = $request['activity_end_month'];
                 $data['tahun_akhir'] = $request['activity_end_year'];
@@ -243,7 +263,7 @@ class ActivityController extends Controller
             $SubActivityOriginal->update([
                 'activity_id' => $SubActivityOriginal->activity_id,
                 'name' => $sub_activity['name'],
-                'satuan' => $sub_activity['satuan'], 
+                'satuan' => $sub_activity['satuan'],
                 'volume' => $sub_activity['volume'],
 
                 'pendidikan' => config('scale.pendidikan')[((int)$sub_activity['qualifikasi']['pendidikan']-1)],
@@ -323,4 +343,16 @@ class ActivityController extends Controller
             ])
         )->make(true);
     }
+
+
+    public function showDetail($id)
+    {
+        $sub_activity = SubActivity::with('activity')->where('id','=',$id)->first();
+        if ($sub_activity != null){
+            return view('activity.detail', ['sub_activity' => $sub_activity]);
+        }else{
+            return abort(404, "Kegiatan atau Sub-Kegiatan tidak ditemukan");
+        }
+    }
+
 }
