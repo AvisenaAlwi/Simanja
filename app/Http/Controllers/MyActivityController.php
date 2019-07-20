@@ -18,7 +18,9 @@ class MyActivityController extends Controller
      */
     public function index()
     {
+        $currentYear = Carbon::now()->format('Y');
         $month = Input::get('month', 'now');
+        $year = Input::get('year', $currentYear);
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
             ->join('users', 'activity.created_by_user_id', '=', 'users.id')
@@ -28,22 +30,26 @@ class MyActivityController extends Controller
                 'users.name as users_name',
                 'users.id as users_id',
                 'sub_activity.*',
-                'activity.tahun_awal',
-                'activity.tahun_akhir',
+                'activity.awal',
+                'activity.akhir',
             ])
+            ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->whereJsonContains('petugas', Auth::id())
             ->orderBy('created_at', 'DESC');
-        if ($month == 'now'){
-            $currentMonth = config('scale.bulan')[(int)Carbon::now()->format('m') - 1];
+        if ($month == 'now' && $year == $currentYear){
             $sub_activity = $sub_activity
-                                ->whereRaw('Is_In_Month_Range(?, activity.bulan_awal, activity.tahun_awal, activity.bulan_akhir, activity.tahun_akhir)', [$currentMonth])
+                                ->whereDate('awal', '<=', now() )
+                                ->whereDate('akhir', '>=', now() )
                                 ->paginate(10);
-        }else if (in_array($month, config('scale.bulan'))){
+        }else if (in_array($month, config('scale.bulan')) && $year >= 2019 && $year <= $currentYear){
+            $idMonth = (int)config('scale.bulan_reverse')[$month];
+            $date = Carbon::parse("$year-$idMonth-2");
             $sub_activity = $sub_activity
-                                ->whereRaw('Is_In_Month_Range(?, activity.bulan_awal, activity.tahun_awal, activity.bulan_akhir, activity.tahun_akhir)', [$month])
+                                ->whereDate('awal', '<=', $date )
+                                ->whereDate('akhir', '>=', $date )
                                 ->paginate(10);
         }else{
-            return abort(404, 'bulan yang akan dicari tidak ditemukan');
+            return abort(404, 'bulan atau tahun yang akan dicari tidak valid');
         }
         return view('myactivity.index', ['sub_activity' => $sub_activity]);
     }

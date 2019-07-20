@@ -2,15 +2,14 @@
 @inject('Carbon', '\Carbon\Carbon')
 @inject('Activity', '\App\Activity')
 
-@extends('layouts.app', ['showSearch' => true])
+@extends('layouts.app', ['title' => 'Kegiatan'])
 @push('style')
 
 @endpush
 @section('content')
 @include('users.partials.header', [
 'title' => 'Kegiatan',
-'description' => __('Tabel berikut menunjukkan tabel kegiatan yang sudah ditambah ke sistem.'),
-'class' => 'col-lg-7'
+'description' => 'Tabel berikut menunjukkan tabel kegiatan yang sudah ditambah ke sistem.'
 ])
 
 <div class="container-fluid mt--7">
@@ -19,28 +18,27 @@
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
-                        <div class="col-3">
+                        <div class="col-12 col-lg-3 my-1 my-lg-0">
                             <h3 class="mb-0">
                                 @if ($showing == 'showAll')
                                 Semua Kegiatan
                                 @elseif ($showing == 'showOnlyMe')
                                 Kegiatan Yang Saya Buat
                                 @else
-                                Kegiatan Periode
-                                {{ $Carbon::parse('first day of this month')->format('d') }} -
-                                {{ $Carbon::parse('last day of this month')->formatLocalized('%d %B %Y') }}
+                                Kegiatan Bulan
+                                {{ $Carbon::parse('this month')->formatLocalized('%B %Y') }}
                                 @endif
                             </h3>
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-lg-4 my-1 my-lg-0">
                             <form id="formChange" action="{{ route('activity.index') }}" method="get">
                                 <select name="showing" id="select" class="browser-default custom-select">
-                                    <option value="showCurrentMonth" {{ $showing == 'showCurrentMonth' ? 'selected' :'' }}>Tampilkan kegiatan bulan saat ini</option>
-                                    <option value="showAll"  {{ $showing == 'showAll' ? 'selected' :'' }}>Tampilkan semua kegiatan</option>
-                                    <option value="showOnlyMe" {{ $showing == 'showOnlyMe' ? 'selected' :'' }}>Tampilkan hanya yang saya buat</option>
+                                    <option value="showCurrentMonth" {{ $showing == 'showCurrentMonth' ? 'selected' :'' }}>Kegiatan bulan tahun sekarang</option>
+                                    <option value="showAll"  {{ $showing == 'showAll' ? 'selected' :'' }}>Semua kegiatan</option>
+                                    <option value="showOnlyMe" {{ $showing == 'showOnlyMe' ? 'selected' :'' }}>Hanya yang saya buat</option>
                                 </select>
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-lg-4 my-1 my-lg-0">
                                 <div class="form-group mb-0">
                                     <div class="input-group text-dark">
                                         <div class="input-group-prepend">
@@ -54,46 +52,47 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-1 text-right">
-                            <a href="{{ route('activity.create') }}"><button type="button"
-                                    class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button></a>
+                        <div class="col-12 col-lg-1 text-center my-1 my-lg-0">
+                            <a href="{{ route('activity.create') }}"
+                                title="Tambah kegiatan" data-toggle="tooltip" data-placement="top">
+                                <button type="button"
+                                    class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                                </button>
+                            </a>
                         </div>
                         </form>
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table tablesorter table align-items-center table-flush table-hover" id="tabel">
+                    <table class="table tablesorter table align-items-center table-flush table-hover align-item-start" id="tabel" style="min-height: 150px">
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Kegiatan</th>
-                                <th>Tahun</th>
+                                <th>Waktu</th>
                                 <th>Pembuat</th>
                                 <th>Completion</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody class="list">
-                            @foreach ($sub_activity as $sub)
-                            @php
-                            $full_name = $sub->sub_activity_name . " " . $sub->activity_name;
-                            @endphp
+                            @forelse ($sub_activity as $sub)
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
                                         <a href="{{ route('activity.show', $sub->id) }}">
                                             <div class="media-body">
                                                 <span class="name mb-0 text-sm">
-                                                    {{ $full_name }}
+                                                    {{ $sub->full_name }}
                                                 </span>
                                             </div>
                                     </div>
                                     </a>
                                 </th>
                                 <td>
-                                    @if ($sub->tahun_awal == $sub->tahun_akhir || $sub->tahun_akhir == null)
-                                    {{ $sub->tahun_awal }}
+                                    @if ($Carbon::parse($sub->awal)->format('Y-m') == $Carbon::parse($sub->akhir)->format('Y-m') || $sub->akhir == null)
+                                    {{ $Carbon::parse($sub->awal)->formatLocalized('%b %Y') }}
                                     @else
-                                    {{ $sub->tahun_awal . ' - ' . $sub->tahun_akhir }}
+                                    {{ $Carbon::parse($sub->awal)->formatLocalized('%b %Y') . ' - ' . $Carbon::parse($sub->akhir)->formatLocalized('%b %Y') }}
                                     @endif
                                 </td>
                                 <td>
@@ -120,40 +119,37 @@
                                     </div>
                                 </td>
                                 <td class="text-right">
-                                    <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
+                                    <li aria-haspopup="true" class="dropdown dropdown dropdown">
+                                        <a role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                            class="btn btn-sm btn-icon-only text-light"><i
-                                                class="fas fa-ellipsis-v"></i></a>
+                                            class="btn btn-sm btn-icon-only text-primary">
+                                            <i class="fas fa-ellipsis-v" title="Aksi" data-toggle="tooltip" data-placement="left"></i>
+                                        </a>
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <a href="{{ route('activity.show', $sub->id) }}" 
-                                                class="dropdown-item">Detil kegiatan</a>
+                                                class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
                                             @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
                                             <a href="{{ route('activity.edit', $sub->id) }}"
-                                                class="dropdown-item">Edit</a>
-                                            <a href="" class="dropdown-item btn-delete-item" title="{{ $full_name }}"
-                                                id-item="{{ $sub->id }}" style="color: red;"><b>Hapus</b></a>
+                                                class="dropdown-item"><i class="fa fa-edit text-success"></i>Edit</a>
+                                            <a href="" class="dropdown-item btn-delete-item" title="{{ $sub->full_name }}"
+                                                id-item="{{ $sub->id }}"><i class="fa fa-trash text-danger"></i> Hapus</a>
                                             @endif
                                         </ul>
                                     </li>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <h3>Tidak ada kegiatan</h3>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
                     {{ $sub_activity->links() }}
-                    {{-- <ul class="pagination">
-                        <li class="page-item prev-page disabled"><a aria-label="Previous" class="page-link"><span
-                                    aria-hidden="true"><i aria-hidden="true" class="fa fa-angle-left"></i></span></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link">1</a></li>
-                        <li class="page-item"><a class="page-link">2</a></li>
-                        <li class="page-item"><a class="page-link">3</a></li>
-                        <li class="page-item next-page"><a aria-label="Next" class="page-link"><span
-                                    aria-hidden="true"><i aria-hidden="true" class="fa fa-angle-right"></i></span></a>
-                        </li>
-                    </ul> --}}
                 </div>
             </div>
         </div>
@@ -174,7 +170,7 @@
             let id = me.attr('id-item');
             Swal.fire({
                 title: '',
-                text: 'Yakin Ingin Menghapus ' + title + '?',
+                html: 'Yakin Ingin Menghapus <h3>' + title + ' ?</h3>',
                 type: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -184,7 +180,7 @@
                 if (result.value) {
                     axios({
                         method: 'delete',
-                        url: '{{ url(' / ') }}/activity/' + id
+                        url: '{{ url('/') }}/activity/' + id
                     }).then(function (res) {
                         Swal.fire('Berhasil', title + " berhasil dihapus", 'success')
                             .then((result) => {

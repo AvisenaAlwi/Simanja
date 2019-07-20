@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['title' => 'Edit Kegiatan'])
 
 @push('style')
 <!-- Latest compiled and minified CSS -->
@@ -30,8 +30,8 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
 
 @section('content')
 @include('users.partials.header', [
-'title' => 'Kegiatan',
-'class' => 'col-lg-7'
+'title' => 'Kegiatan'
+
 ])
 <div class="container-fluid mt--7">
     <div class="row">
@@ -95,12 +95,12 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-activity-start-month">Awal</label>
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6">
                                                 <select name="activity_start_month" id="activity-start-month"
                                                     class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
                                                     value="{{ old('activity_value') }}" required>
                                                     @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++) 
-                                                        @if(config('scale.bulan')[$i-1] == $sub_activity->activity->bulan_awal) 
+                                                        @if($i == date_create($sub_activity->activity->awal)->format('m'))
                                                             <option value="{{ config('scale.bulan')[$i-1] }}" selected>{{ config('scale.bulan')[$i-1] }}</option>
                                                         @else
                                                             <option value="{{ config('scale.bulan')[$i-1] }}">{{ config('scale.bulan')[$i-1] }}</option>
@@ -108,12 +108,12 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                                     @endfor
                                                 </select>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6">
                                                 <select name="activity_start_year" id="activity-start-year"
                                                     class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
                                                     value="{{ old('activity_value') }}" required>
                                                     @foreach ($tahun as $t)
-                                                        @if($t == $sub_activity->activity->tahun_awal) 
+                                                        @if($t == date_create($sub_activity->activity->awal)->format('Y'))
                                                             <option value="{{ $t }}" selected>{{ $t }}</option>
                                                         @else
                                                             <option value="{{ $t }}">{{ $t }}</option>
@@ -128,12 +128,12 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-activity-end-month">Akhir</label>
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6">
                                                 <select name="activity_end_month" id="activity-end-month"
                                                     class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
                                                     value="{{ old('activity_value') }}" required>
                                                     @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++) 
-                                                        @if(config('scale.bulan')[$i-1] == $sub_activity->activity->bulan_akhir) 
+                                                        @if($i == date_create($sub_activity->activity->akhir)->format('m'))
                                                             <option value="{{ config('scale.bulan')[$i-1] }}" selected>{{ config('scale.bulan')[$i-1] }}</option>
                                                         @else
                                                             <option value="{{ config('scale.bulan')[$i-1] }}">{{ config('scale.bulan')[$i-1] }}</option>
@@ -141,12 +141,12 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                                     @endfor
                                                 </select>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6">
                                                 <select name="activity_end_year" id="activity-end-year"
                                                     class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
                                                     value="{{ old('activity_value') }}" required>
                                                     @foreach ($tahun as $t)
-                                                        @if($t == $sub_activity->activity->tahun_akhir) 
+                                                        @if($t == date_create($sub_activity->activity->akhir)->format('Y'))
                                                             <option value="{{ $t }}" selected>{{ $t }}</option>
                                                         @else
                                                             <option value="{{ $t }}">{{ $t }}</option>
@@ -166,13 +166,14 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                             </div>
                             <div>
                                 <input type="checkbox" id="checkbox-periode-1-bulan" name="issatubulan"
-                                {{ $sub_activity->activity->bulan_akhir == null ? 'checked' : ''}}> Periode Tugas 1 Bulan
+                                {{ date_create($sub_activity->activity->awal)->format("Y-m") == 
+                                    date_create($sub_activity->activity->akhir)->format("Y-m") ? 'checked' : ''}}> Periode Tugas 1 Bulan
                             </div>
                         </div>
                         <div id="container-sub-activity">
                             <div class="sub-kegiatan" number="1">
                                 <hr class="my-4" />
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan</b></h6>
                                 </div>
 
@@ -365,8 +366,8 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                 <div class="sub-kegiatan" number="1">
                                 <hr class="my-4" />
                                 <div class="row">
-                                    <div class="col-6"><h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan 1</b></h6></div>
-                                    <div class="col-6 d-flex justify-content-end" >
+                                    <div class="col-md-6"><h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan 1</b></h6></div>
+                                    <div class="col-md-6 d-flex justify-content-end" >
                                         <h1 class="delete-sub-activity" style="cursor: pointer;">
                                             <i aria-hidden="true" class="fa fa-times text-danger"></i>
                                         </h1>

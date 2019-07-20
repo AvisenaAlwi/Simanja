@@ -13,3 +13,13 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
+// mix.browserSync('simanja.test');
+mix.browserSync({
+    proxy: 'https://simanja.test',
+    https: {
+        key: "C:/Users/Sena/.config/valet/Certificates/Simanja.test.key",
+        cert: "C:/Users/Sena/.config/valet/Certificates/Simanja.test.crt"
+    }
+    // host: 'simanja.test',
+    // open: 'external'
+});

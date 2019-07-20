@@ -4,8 +4,7 @@
 @endpush
 @section('content')
 @include('users.partials.header', [
-'title' => 'Penugasan',
-'class' => 'col-lg-7'
+'title' => 'Penugasan'
 ])
 
 <div class="container-fluid mt--7">
@@ -14,20 +13,20 @@
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
-                        <div class="col">
+                        <div class="col-12 col-lg-4 my-1 my-lg-0">
                             <h3 class="mb-0">
                                 Tabel kegiatan untuk penugasan
                             </h3>
                         </div>
-                        <form action="{{ route('assignment.index') }}" method="get" class="row">
-                            <div class="col-6">
+                        <form action="{{ route('assignment.index') }}" method="get" class="row col-12 col-lg-8 my-1 my-lg-0">
+                            <div class="col-12 col-lg-6 my-1 my-lg-0">
                                 <select name="showMonth" class="browser-default custom-select">
                                     <option value="showCurrentMonth"  {{ $showMonth == 'showCurrentMonth' ? 'selected' :'' }}>Tampilkan Untuk Bulan Saat Ini</option>
                                     <option value="showAllMonth" {{ $showMonth == 'showAllMonth' ? 'selected' :'' }}>Tampilkan Untuk Semua Bulan</option>
                                 </select>
 
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-lg-6 my-1 my-lg-0">
                                 <select name="show" class="browser-default custom-select">
                                     <option value="showAll"  {{ $show == 'showAll' ? 'selected' :'' }}>Tampilkan semua kegiatan</option>
                                     <option value="showAssignment" {{ $show == 'showAssignment' ? 'selected' :'' }}>Tampilkan kegiatan yang ditugaskan</option>
@@ -40,7 +39,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table tablesorter table align-items-center table-flush table-hover" id="tabel">
+                    <table class="table tablesorter align-items-center table-flush table-hover" id="tabel">
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Kegiatan</th>
@@ -51,15 +50,12 @@
                         </thead>
                         <tbody class="list">
                             @foreach ($sub_activity as $sub)
-                            @php
-                            $full_name = $sub->sub_activity_name . " " . $sub->activity_name;
-                            @endphp
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
                                         <div class="media-body">
                                             <span class="name mb-0 text-sm">
-                                                {{ $full_name }}
+                                                {{ $sub->full_name }}
                                             </span>
                                         </div>
                                     </div>
@@ -79,20 +75,18 @@
                                 </td>
                                 <td>
                                     <div class="avatar-group">
-                                        @if (sizeof(json_decode($sub->petugas)) != 0)
-                                            @foreach (json_decode($sub->petugas) as $person)
-                                            @php
-                                                $person = App\User::find($person);
-                                            @endphp
-                                            <a href="#" data-toggle="tooltip"
-                                                data-original-title="{{ $person->name }}"
-                                                class="avatar avatar-sm rounded-circle">
-                                                <img alt="Image placeholder" src="{{ asset('img/theme/team-1-800x800.jpg') }}">
-                                            </a>
-                                            @endforeach
-                                        @else
+                                        @forelse (json_decode($sub->petugas) as $person)
+                                        @php
+                                            $person = App\User::find($person);
+                                        @endphp
+                                        <a href="#" data-toggle="tooltip"
+                                            data-original-title="{{ $person->name }}"
+                                            class="avatar avatar-sm rounded-circle">
+                                            <img alt="Image placeholder" src="{{ asset('img/theme/team-1-800x800.jpg') }}">
+                                        </a>
+                                        @empty
                                             Tidak Ada Petugas
-                                        @endif
+                                        @endforelse
                                     </div>
                                 </td>
                                 <td>
@@ -160,7 +154,7 @@
                 if (result.value) {
                     axios({
                         method: 'delete',
-                        url: '{{ url(' / ') }}/activity/' + id
+                        url: '{{ url('/') }}/activity/' + id
                     }).then(function (res) {
                         Swal.fire('Berhasil', title + " berhasil dihapus", 'success')
                             .then((result) => {

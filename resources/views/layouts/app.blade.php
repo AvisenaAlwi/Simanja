@@ -1,6 +1,8 @@
 @php
     if (!isset($showSearch))
         $showSearch = false;
+    $routeName = Route::getCurrentRoute()->getName();
+    $activeSideBar = $routeName == null || strpos($routeName, '.') === false ? $routeName : explode('.', $routeName)[0] ;
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -11,7 +13,7 @@
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Simanja') }}</title>
+        <title>{{ isset($title) ? $title .' | ' : '' }}{{ config('app.name', 'Simanja') }}</title>
         <!-- Favicon -->
         <link href="{{ asset('argon') }}/img/brand/favicon.png" rel="icon" type="image/png">
         <!-- Fonts -->
@@ -29,11 +31,11 @@
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
-            @include('layouts.navbars.sidebar', ['selectedMenu' => $selectedMenu ?? 'dashboard'])
+            @include('layouts.navbars.sidebar', ['selectedMenu' => $selectedMenu ?? 'dashboard', 'activeSidebar' => $activeSideBar])
         @endauth
         
         <div class="main-content">
-            @include('layouts.navbars.navbar', ['showSearch' => $showSearch ?? false])
+            @include('layouts.navbars.navbar', ['showSearch' => false])
             @yield('content')
         </div>
 
@@ -46,5 +48,12 @@
         @stack('js')
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
+
+        {{-- @if (getenv('APP_ENV') === 'local')
+        <script id="__bs_script__">//<![CDATA[
+            document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.6'><\/script>".replace("HOST", location.hostname));
+            //]]>
+        </script>
+        @endif --}}
     </body>
 </html>

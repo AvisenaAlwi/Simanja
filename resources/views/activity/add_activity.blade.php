@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['title' => 'Tambah kegiatan'])
 @push('style')
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/easy-autocomplete.min.css">
@@ -23,8 +23,7 @@ for($i = 0; $i < 5; $i++){
 
 @section('content')
 @include('users.partials.header', [
-'title' => 'Kegiatan',
-'class' => 'col-lg-7'
+'title' => 'Kegiatan'
 ])
 <div class="container-fluid mt--7">
         <div class="row">
@@ -85,7 +84,7 @@ for($i = 0; $i < 5; $i++){
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-activity-start-month">Awal</label>
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6">
                                                 <select name="activity_start_month" id="activity-start-month"
                                                 class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
                                                     @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++)
@@ -97,7 +96,7 @@ for($i = 0; $i < 5; $i++){
                                                     @endfor
                                                 </select>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6">
                                                 <select name="activity_start_year" id="activity-start-year"
                                                 class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
                                                     @foreach ($tahun as $t)
@@ -112,7 +111,7 @@ for($i = 0; $i < 5; $i++){
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-activity-end-month">Akhir</label>
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-md-6">
                                                 <select name="activity_end_month" id="activity-end-month"
                                                 class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
                                                 @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++)
@@ -124,7 +123,7 @@ for($i = 0; $i < 5; $i++){
                                                 @endfor
                                                 </select>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-6">
                                                 <select name="activity_end_year" id="activity-end-year"
                                                 class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
                                                     @foreach ($tahun as $t)
@@ -149,7 +148,7 @@ for($i = 0; $i < 5; $i++){
                         <div id="container-sub-activity">
                             <div class="sub-kegiatan" number="1">
                                 <hr class="my-4" />
-                                <div class="col-6"><h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan 1</b></h6></div>
+                                <div class="col-md-6"><h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan 1</b></h6></div>
 
                                 {{-- @if (session('sub_activity'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -259,10 +258,10 @@ for($i = 0; $i < 5; $i++){
                         </div>
                         <hr class="my-4" />
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <button type="button" id="add-sub-activity" class="btn btn-warning">Tambah Sub Kegiatan</button>
                             </div>
-                            <div class="col-6 d-flex justify-content-end">
+                            <div class="col-md-6 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-success" id="btn-submit">Simpan</button>
                             </div>
                         </div>
@@ -353,8 +352,8 @@ for($i = 0; $i < 5; $i++){
                 <div class="sub-kegiatan" number="1">
                                 <hr class="my-4" />
                                 <div class="row">
-                                    <div class="col-6"><h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan 1</b></h6></div>
-                                    <div class="col-6 d-flex justify-content-end" >
+                                    <div class="col-md-6"><h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan 1</b></h6></div>
+                                    <div class="col-md-6 d-flex justify-content-end" >
                                         <h1 class="delete-sub-activity" style="cursor: pointer;">
                                             <i aria-hidden="true" class="fa fa-times text-danger"></i>
                                         </h1>

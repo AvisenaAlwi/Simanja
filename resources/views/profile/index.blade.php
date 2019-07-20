@@ -2,9 +2,8 @@
 
 @section('content')
 @include('users.partials.header', [
-'title' => __('Hai') . ' '. auth()->user()->name .'',
-'description' => __('Ini adalah laman data diri dan informasi khusus untuk anda, selamat bekerja :D'),
-'class' => 'col-lg-7'
+'title' => 'Hai' . ' '. auth()->user()->name,
+'description' => 'Ini adalah laman data diri dan informasi khusus untuk anda, selamat bekerja :D'
 ])
 
 <div class="container-fluid mt--7">

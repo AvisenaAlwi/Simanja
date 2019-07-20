@@ -25,8 +25,7 @@ for($i = 0; $i < 5; $i++){
 @section('content')
 @include('users.partials.header', [
 'title' => 'Penugasan',
-'description' => __('Halaman ini bertujuan menambahkan kegiatan sekaligus sub-kegiatan. Minimal terdapat satu sub kegiatan dalam 1 kegiatan.'),
-'class' => 'col-lg-7'
+'description' => 'Halaman ini bertujuan menambahkan kegiatan sekaligus sub-kegiatan. Minimal terdapat satu sub kegiatan dalam 1 kegiatan.'
 ])
 <div class="container-fluid mt--7">
         <div class="row">

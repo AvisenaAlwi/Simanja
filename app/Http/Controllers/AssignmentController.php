@@ -29,7 +29,8 @@ class AssignmentController extends Controller
                 'activity.name as activity_name',
                 'users.id as users_id',
                 'sub_activity.*'
-            ]);
+            ])
+            ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name");
         if ($showMonth == 'showCurrentMonth'){
             $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
             $sub_activity = $sub_activity->where('bulan_awal','=', $month);

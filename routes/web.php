@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', ['as'=>"landingpage", function () {
     return view('welcome');
-});
+}]);
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('user', 'UserController', ['except' => ['show']]);
@@ -31,7 +31,6 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group([
 	'middleware' => ['auth', 'supervisor']
 ], function () {
-    Route::get('activity/any-data', 'ActivityController@anyData');
     Route::get('activity/request-autocomplete-activity', 'ActivityController@autocomplete_activity')->name('activity.autocomplete.activity');
     Route::get('activity/request-autocomplete-sub-activity', 'ActivityController@autocomplete_sub_activity')->name('activity.autocomplete.subactivity');
     Route::get('activity/request-autocomplete-satuan', 'ActivityController@autocomplete_satuan')->name('activity.autocomplete.satuan');
@@ -48,7 +47,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['auth', 'user'],
+    'middleware' => ['auth', 'pegawai'],
 ], function () {
     Route::resource('myactivity', 'MyActivityController');
 });

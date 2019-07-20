@@ -2,9 +2,8 @@
 
 @section('content')
     @include('users.partials.header', [
-        'title' => __('Ganti password'),
-        'description' => __('Jaga kerahasiaan akun anda dari pihak lain demi menjaga kerahasiaan data BPS kota Malang'),
-        'class' => 'col-lg-7'
+        'title' => 'Ganti password',
+        'description' => 'Jaga kerahasiaan akun anda dari pihak lain demi menjaga kerahasiaan data BPS kota Malang'
     ])
 
     <div class="container-fluid mt--7">

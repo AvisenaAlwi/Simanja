@@ -32,9 +32,10 @@ class ActivityController extends Controller
                 'users.name as users_name',
                 'users.id as users_id',
                 'sub_activity.*',
-                'activity.tahun_awal',
-                'activity.tahun_akhir',
+                'activity.awal',
+                'activity.akhir',
             ])
+            ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->orderBy('created_at', 'DESC');
         if (!empty($searchQuery)){
             // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
@@ -46,22 +47,28 @@ class ActivityController extends Controller
         if ($showing == 'showAll'){
             // Menampilkan semua sub dan kegiatan yang ada pada tabel sub_activity
             $sub_activity = $sub_activity->paginate(10);
-            return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
         }
         else if ($showing == 'showOnlyMe'){
             // Menampilkan sub dan kegiatan yang dibuat oleh user yang login saat ini
             $sub_activity = $sub_activity->where('users.id','=', $userId)
                                 ->paginate(10);
-            return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
         }
         else{
             // Menampilkan sub dan kegiatan yang aktif bulan dan tahub saat ini
             $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
+            // dd(now()->format('Y-m-d'));
+            // dd($sub_activity->get());
             $sub_activity = $sub_activity
-                                ->whereRaw('Is_In_Month_Range(?, activity.bulan_awal, activity.tahun_awal, activity.bulan_akhir, activity.tahun_akhir)', [$month])
+                                // ->whereRaw('Is_In_Month_Range(?, activity.bulan_awal, activity.tahun_awal, activity.bulan_akhir, activity.tahun_akhir)', [$month])
+                                ->whereDate('awal', '<=', now() )
+                                ->whereDate('akhir', '>=', now() )
+                                // ->whereRaw("IF (`akhir` != NULL, `akhir`, `awal`) = '".now()."'")
+                                // ->where(function($query) {
+                                //     $query->whereDate('akhir', '>=', now() );
+                                // })
                                 ->paginate(10);
-            return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
         }
+        return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
     }
 
     /**
@@ -112,17 +119,20 @@ class ActivityController extends Controller
             $data = [
                 'name' => $activity_name,
                 'kategori' => $activity_kategori,
-                'created_by_user_id' => auth()->user()->id,
-                'bulan_awal' => $request['activity_start_month'],
-                'tahun_awal' => $request['activity_start_year']
+                'created_by_user_id' => auth()->user()->id
             ];
-            if($request['issatubulan'] == false && 
-                $request['activity_start_month'] != $request['activity_end_month'] &&
-                ($request['activity_start_month'] == $request['activity_end_month'] && $request['activity_start_year'] != $request['activity_end_year'])){
-                $data['bulan_akhir'] = $request['activity_end_month'];
-                $data['tahun_akhir'] = $request['activity_end_year'];
-            }
-
+            $startMonth = config('scale.bulan_reverse')[$request['activity_start_month']];
+            $startYear = (int)$request['activity_start_year'];
+            $awal = Carbon::parse("$startYear-$startMonth-01")->startOfMonth();
+            $endMonth = config('scale.bulan_reverse')[$request['activity_end_month']];
+            $endYear = (int)$request['activity_end_year'];
+            $akhir = Carbon::parse("$startYear-$startMonth-28")->endOfMonth();
+            
+            $data['awal'] = $awal;
+            if($request['issatubulan'] == false)
+                $akhir = Carbon::parse("$endYear-$endMonth-28")->endOfMonth();
+            $data['akhir'] = $akhir;
+            
             $activity = Activity::create($data);
             if (sizeof(DB::table('autocomplete_activity')->where('name', $activity_name)->get()) == 0)
                 DB::table('autocomplete_activity')->insert(['name' => $activity_name]);
@@ -169,6 +179,7 @@ class ActivityController extends Controller
                 'activity.*',
                 'users.name as user_name'
             ])
+            ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->where('sub_activity.id','=',$id)
             ->first();
 
@@ -194,7 +205,7 @@ class ActivityController extends Controller
     {
         $sub_activity = SubActivity::with('activity')->where('id','=',$id)->first();
         if ($sub_activity != null){
-            if ($sub_activity->activity->created_by_user_id == auth()->user()->id){
+            if (auth()->user()->role_id == 1 || $sub_activity->activity->created_by_user_id == auth()->user()->id){
                 return view('activity.edit', ['sub_activity' => $sub_activity]);
             }else{
                 return abort(403, "Anda tidak diizinkan untuk mengedit kegiatan ini.");
@@ -247,19 +258,21 @@ class ActivityController extends Controller
             $data = [
                 'name' => $activity_name,
                 'kategori' => $activity_kategori,
-                'bulan_awal' => $request['activity_start_month'],
-                'tahun_awal' => $request['activity_end_year'],
-                'bulan_akhir' => null,
-                'tahun_akhir' => null,
+                'created_by_user_id' => auth()->user()->id
             ];
-            if($request['issatubulan'] == false ||
-                ( $request['activity_start_month'] != $request['activity_end_month'] &&
-                    $request['activity_start_year'] != $request['activity_end_year']) ){
-                $data['bulan_akhir'] = $request['activity_end_month'];
-                $data['tahun_akhir'] = $request['activity_end_year'];
+            $startMonth = config('scale.bulan_reverse')[$request['activity_start_month']];
+            $startYear = (int)$request['activity_start_year'];
+            $awal = Carbon::parse("$startYear-$startMonth-01")->startOfMonth();
+            $endMonth = config('scale.bulan_reverse')[$request['activity_end_month']];
+            $endYear = (int)$request['activity_end_year'];
+            $akhir = Carbon::parse("$startYear-$startMonth-28")->endOfMonth();
+            
+            $data['awal'] = $awal;
+            if($request['issatubulan'] == false){
+                $akhir = Carbon::parse("$endYear-$endMonth-28")->endOfMonth();
             }
-
-            $activity = Activity::where('id','=', $SubActivityOriginal->activity_id)->update($data);
+            $data['akhir'] = $akhir;
+            Activity::where('id','=', $SubActivityOriginal->activity_id)->update($data);
             $SubActivityOriginal->update([
                 'activity_id' => $SubActivityOriginal->activity_id,
                 'name' => $sub_activity['name'],
