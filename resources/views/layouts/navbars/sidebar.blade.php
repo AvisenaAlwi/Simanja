@@ -1,11 +1,12 @@
-<nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
+<nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main" 
+style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
     <div class="container-fluid">
         <!-- Toggler -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="{{ route('dashboard') }}">
+        <a class="navbar-brand pt-0" href="{{ route('landingpage') }}">
             {{-- <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."> --}}
             {{-- <span class="avatar avatar-sm rounded-circle"> --}}
             <h1>{{ config('app.name') }}</h1>
@@ -60,7 +61,7 @@
             <div class="navbar-collapse-header d-md-none">
                 <div class="row">
                     <div class="col-6 collapse-brand">
-                        <a href="{{ route('dashboard') }}">
+                        <a href="{{ route('landingpage') }}">
                             {{-- <img src="{{ asset('argon') }}/img/brand/blue.png"> --}}
                             <h1>{{ config('app.name') }}</h1>
                         </a>
@@ -76,7 +77,7 @@
             <!-- Form -->
             <form class="mt-4 mb-3 d-md-none">
                 <div class="input-group input-group-rounded input-group-merge">
-                    <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="{{ __('Search') }}" aria-label="Search">
+                    <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="Cari" aria-label="Search">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             <span class="fa fa-search"></span>
@@ -104,19 +105,19 @@
                 </li>
                 <li class="nav-item {{ $activeSideBar == 'assignment' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('assignment.index') }}">
-                        <i class="ni ni-books text-success"></i> <b id="text">Penugasan</b>
+                        <i class="fa fa-tasks text-warning"></i> <b id="text">Penugasan</b>
                     </a>
                 </li>
                 @endif
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('activity.index') }}">
-                        <i class="ni ni-collection text-warning"></i> <b id="text">Pelaporan</b>
+                        <i class="ni ni-collection text-success"></i> <b id="text">Pelaporan</b>
                     </a>
                 </li>
                 @if (auth()->user()->role_id == 1)
                 <li class="nav-item {{ $activeSideBar == 'user' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('user.index') }}">
-                        <i class="ni ni-key-25 text-success"></i> <b id="text">Manajemen Akun</b>
+                        <i class="ni ni-key-25 text-primary"></i> <b id="text">Manajemen Akun</b>
                     </a>
                 </li>
                 @endif

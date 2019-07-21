@@ -56,16 +56,9 @@ class ActivityController extends Controller
         else{
             // Menampilkan sub dan kegiatan yang aktif bulan dan tahub saat ini
             $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
-            // dd(now()->format('Y-m-d'));
-            // dd($sub_activity->get());
             $sub_activity = $sub_activity
-                                // ->whereRaw('Is_In_Month_Range(?, activity.bulan_awal, activity.tahun_awal, activity.bulan_akhir, activity.tahun_akhir)', [$month])
                                 ->whereDate('awal', '<=', now() )
                                 ->whereDate('akhir', '>=', now() )
-                                // ->whereRaw("IF (`akhir` != NULL, `akhir`, `awal`) = '".now()."'")
-                                // ->where(function($query) {
-                                //     $query->whereDate('akhir', '>=', now() );
-                                // })
                                 ->paginate(10);
         }
         return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);

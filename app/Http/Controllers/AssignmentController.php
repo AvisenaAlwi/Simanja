@@ -33,7 +33,8 @@ class AssignmentController extends Controller
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name");
         if ($showMonth == 'showCurrentMonth'){
             $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
-            $sub_activity = $sub_activity->where('bulan_awal','=', $month);
+            $sub_activity = $sub_activity->whereDate('awal','<=', Carbon::now()->day('2'))
+                                        ->whereDate('akhir','>=', Carbon::now()->day('2'));
         }
 
         if ($show == 'showAssignment'){
