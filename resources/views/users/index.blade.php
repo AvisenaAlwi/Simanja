@@ -78,6 +78,7 @@
                         </table>
                     </div>
                     <div class="card-footer py-4">
+                        <h4>Total : {{ $users->total() }} Pengguna</h4>
                         <nav class="d-flex justify-content-end" aria-label="...">
                             {{ $users->links() }}
                         </nav>

@@ -99,11 +99,11 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                                 <select name="activity_start_month" id="activity-start-month"
                                                     class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
                                                     value="{{ old('activity_value') }}" required>
-                                                    @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++) 
+                                                    @for ($i = 1; $i <= sizeof(config('scale.month')); $i++) 
                                                         @if($i == date_create($sub_activity->activity->awal)->format('m'))
-                                                            <option value="{{ config('scale.bulan')[$i-1] }}" selected>{{ config('scale.bulan')[$i-1] }}</option>
+                                                            <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
                                                         @else
-                                                            <option value="{{ config('scale.bulan')[$i-1] }}">{{ config('scale.bulan')[$i-1] }}</option>
+                                                            <option value="{{ config('scale.month')[$i-1] }}">{{ config('scale.month')[$i-1] }}</option>
                                                         @endif
                                                     @endfor
                                                 </select>
@@ -132,11 +132,11 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                                 <select name="activity_end_month" id="activity-end-month"
                                                     class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
                                                     value="{{ old('activity_value') }}" required>
-                                                    @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++) 
+                                                    @for ($i = 1; $i <= sizeof(config('scale.month')); $i++) 
                                                         @if($i == date_create($sub_activity->activity->akhir)->format('m'))
-                                                            <option value="{{ config('scale.bulan')[$i-1] }}" selected>{{ config('scale.bulan')[$i-1] }}</option>
+                                                            <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
                                                         @else
-                                                            <option value="{{ config('scale.bulan')[$i-1] }}">{{ config('scale.bulan')[$i-1] }}</option>
+                                                            <option value="{{ config('scale.month')[$i-1] }}">{{ config('scale.month')[$i-1] }}</option>
                                                         @endif
                                                     @endfor
                                                 </select>
@@ -190,22 +190,36 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-current-password">Nama Sub Kegiatan</label>
-                                            <input type="text" name="sub_activity_name"
-                                                class="form-control form-control-alternative nama-sub-kegiatan" value="{{ $sub_activity->name }}"
-                                                required>
+                                            <label class="form-control-label" for="input-current-password">Nama Sub Kegiatan 1</label>
+                                            <input type="text" name="sub_activity_1_name" class="form-control form-control-alternative nama-sub-kegiatan" value="{{ $sub_activity->name }}" required>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-password">Satuan Sub Kegiatan 1</label>
+                                                    <input type="text" name="sub_activity_1_satuan" class="form-control form-control-alternative satuan-sub-kegiatan" value="{{ $sub_activity->satuan }}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-password">Volume Sub Kegiatan 1</label>
+                                                    <input type="number" name="sub_activity_1_volume" class="form-control form-control-alternative volume-sub-kegiatan" value="{{ $sub_activity->volume }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
+                                                <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="{{ $sub_activity->kode_butir }}">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
+                                                <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="{{ $sub_activity->angka_kredit }}">
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-password">Satuan Sub Kegiatan</label>
-                                            <input type="text" name="sub_activity_satuan"
-                                                class="form-control form-control-alternative satuan-sub-kegiatan"
-                                                value="{{ $sub_activity->satuan }}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="input-password">Volume Sub Kegiatan</label>
-                                            <input type="number" name="sub_activity_volume"
-                                                class="form-control form-control-alternative volume-sub-kegiatan"
-                                                value="{{ $sub_activity->volume }}" required>
+                                            <label class="form-control-label">Keterangan Sub Kegiatan 1</label>
+                                            <textarea name="sub_activity_1_keterangan" id="" rows="2" class="form-control form-control-alternative">{{ $sub_activity->keterangan }}</textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6" style="border-left:1px solid #ccc;">
@@ -356,142 +370,6 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
     $(document).ready(function () {
         let sub_activity_count = 1;
         var contoh_sub_activity = $('.sub-kegiatan');
-        $('#add-sub-activity').click(function () {
-            $('#container-sub-activity .slider.slider-horizontal').remove();
-            let before = $('#container-sub-activity').html();
-            saveValue();
-            $('#container-sub-activity').html('');
-            sub_activity_count += 1;
-            let html = `
-                <div class="sub-kegiatan" number="1">
-                                <hr class="my-4" />
-                                <div class="row">
-                                    <div class="col-md-6"><h6 class="heading-small text-muted mb-4"><b>Sub Kegiatan 1</b></h6></div>
-                                    <div class="col-md-6 d-flex justify-content-end" >
-                                        <h1 class="delete-sub-activity" style="cursor: pointer;">
-                                            <i aria-hidden="true" class="fa fa-times text-danger"></i>
-                                        </h1>
-                                    </div>
-                                </div>
-
-                                <div class="pl-lg-4">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label class="form-control-label" for="input-current-password">Nama Sub Kegiatan 1</label>
-                                                <input type="text" name="sub_activity_1_name" class="form-control form-control-alternative nama-sub-kegiatan" value="" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-control-label" for="input-password">Satuan Sub Kegiatan 1</label>
-                                                <input type="text" name="sub_activity_1_satuan" class="form-control form-control-alternative satuan-sub-kegiatan" value="" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-control-label" for="input-password">Volume Sub Kegiatan 1</label>
-                                                <input type="number" name="sub_activity_1_volume" class="form-control form-control-alternative volume-sub-kegiatan" value="" required>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6" style="border-left:1px solid #ccc;">
-                                            <h3>Kualifikasi Yang Dibutuhkan</h3>
-                                            <div class="form-group" style="margin-left:10px">
-                                                <div class="form-control-label" for="input-current-password">Minimal Pendidikan</div>
-                                                <input type="text" name="q_sub_activity_1_pendidikan" class="qualifikasi-pendidikan"
-                                                    data-provide="slider"
-                                                    data-slider-ticks="[5,4,3,2,1]"
-                                                    data-slider-ticks-labels='["S2", "S1", "D-IV", "D-III","SMA"]'
-                                                    data-slider-min="1"
-                                                    data-slider-max="5"
-                                                    data-slider-step="1"
-                                                    data-slider-value="2"
-                                                    data-slider-tooltip="hide"
-                                                    style="width: 86%;" />
-                                            </div>
-
-                                            <div class="form-group" style="margin-left:10px">
-                                                <div class="form-control-label" for="input-current-password">Kemampuan TI</div>
-                                                <input type="text" name="q_sub_activity_1_ti" class="qualifikasi-ti"
-                                                    data-provide="slider"
-                                                    data-slider-ticks="[5,4,3,2,1]"
-                                                    data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                                    data-slider-min="1"
-                                                    data-slider-max="5"
-                                                    data-slider-step="1"
-                                                    data-slider-value="2"
-                                                    data-slider-tooltip="hide"
-                                                    style="width: 86%;" />
-                                            </div>
-                                            <div class="form-group" style="margin-left:10px">
-                                                <div class="form-control-label" for="input-current-password">Kemampuan Menulis</div>
-                                                <input type="text" name="q_sub_activity_1_menulis" class="qualifikasi-menulis"
-                                                    data-provide="slider"
-                                                    data-slider-ticks="[5,4,3,2,1]"
-                                                    data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                                    data-slider-min="1"
-                                                    data-slider-max="5"
-                                                    data-slider-step="1"
-                                                    data-slider-value="2"
-                                                    data-slider-tooltip="hide"
-                                                    style="width: 86%;" />
-                                            </div>
-                                            <div class="form-group" style="margin-left:10px">
-                                                <div class="form-control-label" for="input-current-password">Kemampuan Administrasi</div>
-                                                <input type="text" name="q_sub_activity_1_administrasi" class="qualifikasi-administrasi"
-                                                    data-provide="slider"
-                                                    data-slider-ticks="[5,4,3,2,1]"
-                                                    data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                                    data-slider-min="1"
-                                                    data-slider-max="5"
-                                                    data-slider-step="1"
-                                                    data-slider-value="2"
-                                                    data-slider-tooltip="hide"
-                                                    style="width: 86%;" />
-                                            </div>
-                                            <div class="form-group" style="margin-left:10px">
-                                                <div class="form-control-label" for="input-current-password">Pengalaman Survei</div>
-                                                <input type="text" name="q_sub_activity_1_pengalaman" class="qualifikasi-pengalaman"
-                                                    data-provide="slider"
-                                                    data-slider-ticks="[5,4,3,2,1]"
-                                                    data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                                    data-slider-min="1"
-                                                    data-slider-max="5"
-                                                    data-slider-step="1"
-                                                    data-slider-value="2"
-                                                    data-slider-tooltip="hide"
-                                                    style="width: 86%;" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                `
-            html = html.replace(/number="\d+"/g, `number="` + sub_activity_count + `"`);
-            html = html.replace(/Sub Kegiatan\s*\d+/g, "Sub Kegiatan " + sub_activity_count);
-            html = html.replace(/sub_activity_\d+/g, "sub_activity_" + sub_activity_count);
-            before += html;
-            $('#container-sub-activity').append(before);
-            $('.delete-sub-activity').hide();
-            $('.delete-sub-activity').last().show();
-
-            setTimeout(function () {
-                $('html, body').animate({
-                    scrollTop: $('.sub-kegiatan').last().offset().top
-                }, 1000);
-            }, 10);
-            restoreValue();
-        });
-
-        $('#form-activity').submit(function (e) {
-            // e.preventDefault();
-            // let me = $(this);
-            // console.log(me.serialize());
-        });
         $("#input-activity-name").easyAutocomplete({
             url: "{{ route('activity.autocomplete.activity') }}",
             getValue: "name",

@@ -1,4 +1,5 @@
 @inject('Carbon', '\Carbon\Carbon')
+@inject('User', 'App\User')
 @extends('layouts.app', ['title' => $sub_activity->full_name])
 
 @push('style')
@@ -34,7 +35,7 @@
                                 </div>
                                 <div class="col-md-6 d-flex justify-content-end">
                                     {{-- <h5>Dibuat : {{ $Carbon::parse($sub_activity->created_at)->timezone('Asia/Jakarta')->format('H:i, d-m-Y')}}</h5> --}}
-                                    <h5>Dibuat : {{ $Carbon::createFromTimeStamp(strtotime($sub_activity->created_at))->diffForHumans() }}</h5>
+                                    <h5>Dibuat : {{ $Carbon::parse($sub_activity->created_at)->timezone('Asia/Jakarta')->diffForHumans() }}</h5>
                                 </div>
                             </div>
                             <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
@@ -110,10 +111,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($users as $users_data)
                                         @foreach ($result as $petugas)
-                                        @if ($petugas==$users_data->id)
                                         @php $counter = $counter + 1;
+                                        $users_data = $User::find($petugas);
                                         @endphp
                                         <tr>
                                             <th scope="row">{{$counter}}</th>
@@ -122,8 +122,6 @@
                                             <td>{{$users_data->jabatan}}</td>
                                             <td>{{$users_data->email}}</td>
                                         </tr>
-                                        @endif
-                                        @endforeach
                                         @endforeach
                                     </tbody>
                                 </table>

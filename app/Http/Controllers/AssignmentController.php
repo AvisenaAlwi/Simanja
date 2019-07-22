@@ -18,9 +18,9 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        $showMonth = Input::get('showMonth', 'showAllMonth');
-        $show = Input::get('show', 'showAll');
-        $userId = Auth::id();
+        $monthQuery = Input::get('month', 'allMonth');
+        $yearQuery = Input::get('year', now()->year);
+        $showQuery = Input::get('show', 'showAll');
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
             ->join('users', 'activity.created_by_user_id', '=', 'users.id')
@@ -30,26 +30,43 @@ class AssignmentController extends Controller
                 'users.id as users_id',
                 'sub_activity.*'
             ])
-            ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name");
-        if ($showMonth == 'showCurrentMonth'){
-            $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
+            ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
+            ->orderByDesc('created_at');
+        if (!in_array($monthQuery, config('scale.month')) && $monthQuery != 'now' && $monthQuery != 'allMonth')
+            return abort(404, 'Bulan yang akan dicari tidak valid, halaman tidak ditemukan');
+        if ($yearQuery < 2019 || $yearQuery > now()->year)
+            return abort(404, 'Tahun tidak valid, halaman tidak ditemukan');
+        if (!in_array($showQuery, ['showAll', 'showAssignment', 'showUnassignment']))
+            return abort(404, 'Filter tidak valid, halaman tidak ditemukan.');
+
+        if ($monthQuery == 'now'){
             $sub_activity = $sub_activity->whereDate('awal','<=', Carbon::now()->day('2'))
                                         ->whereDate('akhir','>=', Carbon::now()->day('2'));
+        }else if ($monthQuery == 'allMonth'){
+            $sub_activity = $sub_activity->where(function($query) use($yearQuery){
+                                $query->whereYear('awal', '=', $yearQuery)
+                                    ->orWhereYear('akhir', '=', $yearQuery);
+                            }, $boolean = 'and');
+        }else{
+            $monthNumber = config('scale.month_reverse')[$monthQuery];
+            $x = Carbon::parse("$yearQuery-$monthNumber-2");
+            $sub_activity = $sub_activity->whereDate('awal','<=', $x)
+                                        ->whereDate('akhir','>=', $x);
         }
 
-        if ($show == 'showAssignment'){
+        if ($showQuery == 'showAssignment'){
             $sub_activity = $sub_activity
-                                ->where('petugas','!=', '[]')
+                                ->whereJsonLength('petugas', '!=', 0)
                                 ->paginate(10);
-            return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $show, 'showMonth' => $showMonth]);
-        }else if ($show == 'showUnassignment'){
+            return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $showQuery]);
+        }else if ($showQuery == 'showUnassignment'){
             $sub_activity = $sub_activity
-                                ->where('petugas','=', '[]')
+                                ->whereJsonLength('petugas', '=', 0)
                                 ->paginate(10);
-            return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $show, 'showMonth' => $showMonth]);
+            return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $showQuery]);
         }else{
             $sub_activity = $sub_activity->paginate(10);
-            return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $show, 'showMonth' => $showMonth]);
+            return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $showQuery]);
         }
     }
 

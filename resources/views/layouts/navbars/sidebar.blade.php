@@ -22,13 +22,15 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                 border-radius: 50px;
                 box-shadow: 0 2px 10px 1px rgba(0, 0, 0, .1)
             }
-            .navbar-nav .active{
+            .navbar-nav > .active{
                 border-radius: 50px;
                 border: 2px solid #ffd32a;
-                background: #fff;
+                /* background: #fff; */
+                color: white !important;
                 box-shadow: 0 2px 20px 1px rgba(0, 0, 0, .1)
             }
         </style>
+        <link href="{{ asset('vendor/bootstraptoggle') }}/bootstrap-toggle.min.css" rel="stylesheet">
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
             <li class="nav-item dropdown">
@@ -74,8 +76,7 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                     </div>
                 </div>
             </div>
-            <!-- Form -->
-            <form class="mt-4 mb-3 d-md-none">
+            {{-- <form class="mt-4 mb-3 d-md-none">
                 <div class="input-group input-group-rounded input-group-merge">
                     <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="Cari" aria-label="Search">
                     <div class="input-group-prepend">
@@ -84,7 +85,7 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                         </div>
                     </div>
                 </div>
-            </form>
+            </form> --}}
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item {{ $activeSideBar == 'dashboard' ? 'active' : '' }}">
@@ -121,7 +122,9 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                     </a>
                 </li>
                 @endif
-
+                <div class="d-flex justify-content-center p-4">
+                    <input type="checkbox" data-toggle="toggle" data-width="300" {{ $Cookie::get('dark') == 'true' ? 'checked' : '' }}>
+                </div>
                 {{-- <li class="nav-item">
                     <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
                         <i class="fab fa-laravel" style="color: #f4645f;"></i>

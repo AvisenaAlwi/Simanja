@@ -28,9 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-Route::group([
-	'middleware' => ['auth', 'supervisor']
-], function () {
+Route::group([], function () {
     Route::get('activity/request-autocomplete-activity', 'ActivityController@autocomplete_activity')->name('activity.autocomplete.activity');
     Route::get('activity/request-autocomplete-sub-activity', 'ActivityController@autocomplete_sub_activity')->name('activity.autocomplete.subactivity');
     Route::get('activity/request-autocomplete-satuan', 'ActivityController@autocomplete_satuan')->name('activity.autocomplete.satuan');

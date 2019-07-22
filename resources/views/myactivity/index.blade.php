@@ -7,7 +7,7 @@
 
 @endpush
 @php
-$months = config('scale.bulan');
+$months = config('scale.month');
 $currentYear = $Carbon::now()->format('Y');
 $monthQuery = $Input::get('month','now');
 $yearQuery = $Input::get('year',$currentYear);
@@ -54,9 +54,6 @@ $yearQuery = $Input::get('year',$currentYear);
                                         $x += 1; 
                                         @endphp
                                     @endwhile
-                                    @for ($i = $currentYear-5; $i <= $currentYear; $i++)
-                                        
-                                    @endfor
                                 </select>
                             </div>
                             <div class="col-12 col-lg-4 text-center my-1 my-lg-0">
@@ -72,7 +69,7 @@ $yearQuery = $Input::get('year',$currentYear);
                                         Cetak CKP-R
                                     </button>
                                 </a>
-                                <a href="{{ route('activity.create') }}" 
+                                <a href="{{ route('myactivity.create') }}" 
                                     class="ml-3"
                                     title="Tambah kegiatan sendiri diluar yang ditetapkan supervisor" data-toggle="tooltip" data-placement="left">
                                     <button type="button" class="btn btn-primary btn-sm">
@@ -142,7 +139,7 @@ $yearQuery = $Input::get('year',$currentYear);
                                     <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                             class="btn btn-sm btn-icon-only text-primary"><i
-                                                class="fas fa-ellipsis-v"></i></a>
+                                                class="fas fa-ellipsis-v" title="Aksi" data-toggle="tooltip" data-placement="left"></i></a>
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <a href="{{ route('activity.show', $sub->id) }}" 
                                                 class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
@@ -166,19 +163,15 @@ $yearQuery = $Input::get('year',$currentYear);
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer d-flex justify-content-end">
-                    {{ $sub_activity->links() }}
-                    {{-- <ul class="pagination">
-                        <li class="page-item prev-page disabled"><a aria-label="Previous" class="page-link"><span
-                                    aria-hidden="true"><i aria-hidden="true" class="fa fa-angle-left"></i></span></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link">1</a></li>
-                        <li class="page-item"><a class="page-link">2</a></li>
-                        <li class="page-item"><a class="page-link">3</a></li>
-                        <li class="page-item next-page"><a aria-label="Next" class="page-link"><span
-                                    aria-hidden="true"><i aria-hidden="true" class="fa fa-angle-right"></i></span></a>
-                        </li>
-                    </ul> --}}
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-start align-items-center">
+                            <h4>Total : {{ $sub_activity->total() }} kegiatan</h4>
+                        </div>
+                        <div class="col-12 col-lg-8 d-flex justify-content-center justify-content-lg-end align-items-center">
+                            {{ $sub_activity->links() }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

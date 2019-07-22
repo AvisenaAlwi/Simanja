@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware(['auth']);
+        $this->middleware(['supervisor'])->except('show');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -39,9 +44,10 @@ class ActivityController extends Controller
             ->orderBy('created_at', 'DESC');
         if (!empty($searchQuery)){
             // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
-            $sub_activity = $sub_activity
-                                ->where('sub_activity.name','LIKE',"%$searchQuery%")
-                                ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
+            $sub_activity = $sub_activity->where(function($query) use($searchQuery){
+                                $query->where('sub_activity.name','LIKE',"%$searchQuery%")
+                                    ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
+                            }, $boolean = 'and');
         }
 
         if ($showing == 'showAll'){
@@ -91,7 +97,7 @@ class ActivityController extends Controller
         $activity_kategori = $field['activity_kategori'];
         $sub_activity = [];
         foreach($field as $key=>$value){
-            preg_match("/sub_activity_(\d+)_(name|satuan|volume)/", $key, $re);
+            preg_match("/sub_activity_(\d+)_(name|satuan|volume|kode_butir|angka_kredit|keterangan)/", $key, $re);
             if(sizeof($re) != 0) {
                 $sub_activity[$re[1]][$re[2]] = $value;
             }
@@ -114,10 +120,10 @@ class ActivityController extends Controller
                 'kategori' => $activity_kategori,
                 'created_by_user_id' => auth()->user()->id
             ];
-            $startMonth = config('scale.bulan_reverse')[$request['activity_start_month']];
+            $startMonth = config('scale.month_reverse')[$request['activity_start_month']];
             $startYear = (int)$request['activity_start_year'];
             $awal = Carbon::parse("$startYear-$startMonth-01")->startOfMonth();
-            $endMonth = config('scale.bulan_reverse')[$request['activity_end_month']];
+            $endMonth = config('scale.month_reverse')[$request['activity_end_month']];
             $endYear = (int)$request['activity_end_year'];
             $akhir = Carbon::parse("$startYear-$startMonth-28")->endOfMonth();
             
@@ -136,6 +142,9 @@ class ActivityController extends Controller
                     'name' => $value['name'],
                     'satuan' => $value['satuan'],
                     'volume' => $value['volume'],
+                    'kode_butir' => !empty($value['kode_butir']) ? $value['kode_butir'] : null,
+                    'angka_kredit' => !empty($value['angka_kredit']) ? $value['angka_kredit'] : null,
+                    'keterangan' => !empty($value['keterangan']) ? $value['keterangan'] : null,
 
                     'pendidikan' => config('scale.pendidikan')[((int)$value['qualifikasi']['pendidikan']-1)],
                     'ti' => config('scale.likert')[((int)$value['qualifikasi']['ti']-1)],
@@ -229,7 +238,7 @@ class ActivityController extends Controller
         $activity_kategori = $field['activity_kategori'];
         $sub_activity = [];
         foreach($field as $key=>$value){
-            preg_match("/sub_activity_(name|satuan|volume)/", $key, $re);
+            preg_match("/sub_activity_(name|satuan|volume|kode_butir|angka_kredit|keterangan)/", $key, $re);
             if(sizeof($re) != 0) {
                 $sub_activity[$re[1]] = $value;
             }
@@ -253,10 +262,10 @@ class ActivityController extends Controller
                 'kategori' => $activity_kategori,
                 'created_by_user_id' => auth()->user()->id
             ];
-            $startMonth = config('scale.bulan_reverse')[$request['activity_start_month']];
+            $startMonth = config('scale.month_reverse')[$request['activity_start_month']];
             $startYear = (int)$request['activity_start_year'];
             $awal = Carbon::parse("$startYear-$startMonth-01")->startOfMonth();
-            $endMonth = config('scale.bulan_reverse')[$request['activity_end_month']];
+            $endMonth = config('scale.month_reverse')[$request['activity_end_month']];
             $endYear = (int)$request['activity_end_year'];
             $akhir = Carbon::parse("$startYear-$startMonth-28")->endOfMonth();
             
@@ -271,6 +280,9 @@ class ActivityController extends Controller
                 'name' => $sub_activity['name'],
                 'satuan' => $sub_activity['satuan'],
                 'volume' => $sub_activity['volume'],
+                'kode_butir' => !empty($sub_activity['kode_butir']) ? $sub_activity['kode_butir'] : null,
+                'angka_kredit' => !empty($sub_activity['angka_kredit']) ? $sub_activity['angka_kredit'] : null,
+                'keterangan' => !empty($sub_activity['keterangan']) ? $sub_activity['keterangan'] : null,
 
                 'pendidikan' => config('scale.pendidikan')[((int)$sub_activity['qualifikasi']['pendidikan']-1)],
                 'ti' => config('scale.likert')[((int)$sub_activity['qualifikasi']['ti']-1)],

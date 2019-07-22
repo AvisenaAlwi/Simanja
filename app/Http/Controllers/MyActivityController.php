@@ -41,8 +41,8 @@ class MyActivityController extends Controller
                                 ->whereDate('awal', '<=', now() )
                                 ->whereDate('akhir', '>=', now() )
                                 ->paginate(10);
-        }else if (in_array($month, config('scale.bulan')) && $year >= 2019 && $year <= $currentYear){
-            $idMonth = (int)config('scale.bulan_reverse')[$month];
+        }else if (in_array($month, config('scale.month')) && $year >= 2019 && $year <= $currentYear){
+            $idMonth = (int)config('scale.month_reverse')[$month];
             $date = Carbon::parse("$year-$idMonth-2");
             $sub_activity = $sub_activity
                                 ->whereDate('awal', '<=', $date )

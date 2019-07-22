@@ -28,7 +28,7 @@ return [
         'Kurang' => 4,
         'Sangat Kurang' => 5
     ],
-    'bulan' => [
+    'month' => [
         'Januari',
         'Februari',
         'Maret',
@@ -42,7 +42,7 @@ return [
         'November',
         'Desember',
     ],
-    'bulan_reverse' => [
+    'month_reverse' => [
         'Januari' => 1,
         'Februari' => 2,
         'Maret' => 3,

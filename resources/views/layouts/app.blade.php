@@ -1,9 +1,11 @@
+@inject('Cookie', 'Illuminate\Support\Facades\Cookie')
 @php
     if (!isset($showSearch))
         $showSearch = false;
     $routeName = Route::getCurrentRoute()->getName();
     $activeSideBar = $routeName == null || strpos($routeName, '.') === false ? $routeName : explode('.', $routeName)[0] ;
 @endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -23,7 +25,11 @@
         <link href="{{ asset('argon') }}/vendor/nucleo/css/nucleo.css" rel="stylesheet">
         <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
         <!-- Argon CSS -->
-        <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
+        @if ($Cookie::get('dark') == 'true')
+        <link type="text/css" href="{{ asset('argon') }}/css/argon-dark.min.css?v=1.0.0" rel="stylesheet">
+        @else
+        <link type="text/css" href="{{ asset('argon') }}/css/argon.min.css?v=1.0.0" rel="stylesheet">
+        @endif
         @stack('style')
     </head>
     <body class="{{ $class ?? '' }}">
@@ -45,15 +51,27 @@
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('vendor/jquerycookie') }}/jquery.cookie.js"></script>
+        <script src="{{ asset('vendor/bootstraptoggle') }}/bootstrap-toggle.min.js"></script>
+        <script>
+            $('input[data-toggle=toggle]').bootstrapToggle({
+                on: 'Tema Gelap',
+                off: 'Tema Terang'
+            });
+            $('input[data-toggle=toggle]').change((e)=>{
+                x = $(e.target).prop('checked');
+                t = $(document.getElementsByTagName('head')[0].children[9]);
+                if (x){
+                    t.attr('href', '{{ asset('argon') }}/css/argon-dark.css?v=1.0.0');
+                    $.cookie('dark', true, { path: '/' });
+                }else{
+                    t.attr('href', '{{ asset('argon') }}/css/argon.css?v=1.0.0')
+                    $.cookie('dark', false, { path: '/' });
+                }
+            });
+        </script>
         @stack('js')
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
-
-        {{-- @if (getenv('APP_ENV') === 'local')
-        <script id="__bs_script__">//<![CDATA[
-            document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.6'><\/script>".replace("HOST", location.hostname));
-            //]]>
-        </script>
-        @endif --}}
     </body>
 </html>
