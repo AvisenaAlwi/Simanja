@@ -21,13 +21,8 @@ $yearQuery = $Input::get('year', $currentYear);
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col-12 col-lg-4 my-1 my-lg-0">
-                            <h3 class="mb-0">
-                                Tabel kegiatan untuk penugasan
-                            </h3>
-                        </div>
-                        <form action="{{ route('assignment.index') }}" method="get" class="row col-12 col-lg-8 my-1 my-lg-0">
+                    <div class="align-items-center">
+                        <form action="{{ route('assignment.index') }}" method="get" class="row my-1 my-lg-0">
                             <div class="col-12 col-lg-3 my-1 my-lg-0">
                                 <select name="month" class="browser-default custom-select">
                                     <option value="allMonth" {{ $monthQuery == 'allMonth' ? 'selected' :'' }}>Tampilkan Untuk Semua Bulan</option>
@@ -40,7 +35,7 @@ $yearQuery = $Input::get('year', $currentYear);
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-12 col-lg-3 my-1 my-lg-0">
+                            <div class="col-12 col-lg-2 my-1 my-lg-0">
                                 <select name="year" class="browser-default custom-select">
                                     @php $x = 2019; @endphp
                                     @while ($x <= $currentYear)
@@ -51,13 +46,25 @@ $yearQuery = $Input::get('year', $currentYear);
                                     @endwhile
                                 </select>
                             </div>
-                            <div class="col-12 col-lg-6 my-1 my-lg-0">
+                            <div class="col-12 col-lg-3 my-1 my-lg-0">
                                 <select name="show" class="browser-default custom-select">
                                     <option value="showAll"  {{ $show == 'showAll' ? 'selected' :'' }}>Tampilkan semua kegiatan</option>
                                     <option value="showAssignment" {{ $show == 'showAssignment' ? 'selected' :'' }}>Tampilkan kegiatan yang ditugaskan</option>
                                     <option value="showUnassignment" {{ $show == 'showUnassignment' ? 'selected' :'' }}>Tampilkan kegiatan yang belum ditugaskan</option>
                                 </select>
-                                
+                            </div>
+                            <div class="col-12 col-lg-4 my-1 my-lg-0">
+                                <div class="form-group mb-0">
+                                    <div class="input-group text-dark">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text text-dark"
+                                            onclick="$($(this).parents()[4]).submit()"
+                                            ><i class="fas fa-search"></i></span>
+                                        </div>
+                                    <input class="form-control text-dark pl-2" placeholder="Cari berdasarkan nama" type="text" name="query"
+                                    value="{{ $Input::get('query','') }}">
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </form>

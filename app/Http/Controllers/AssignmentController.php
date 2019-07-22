@@ -21,6 +21,7 @@ class AssignmentController extends Controller
         $monthQuery = Input::get('month', 'allMonth');
         $yearQuery = Input::get('year', now()->year);
         $showQuery = Input::get('show', 'showAll');
+        $searchQuery = Input::get('query', '');
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
             ->join('users', 'activity.created_by_user_id', '=', 'users.id')
@@ -54,6 +55,14 @@ class AssignmentController extends Controller
                                         ->whereDate('akhir','>=', $x);
         }
 
+        if (!empty($searchQuery)){
+            // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
+            $sub_activity = $sub_activity->where(function($query) use($searchQuery){
+                                $query->where('sub_activity.name','LIKE',"%$searchQuery%")
+                                    ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
+                            }, $boolean = 'and');
+        }
+        
         if ($showQuery == 'showAssignment'){
             $sub_activity = $sub_activity
                                 ->whereJsonLength('petugas', '!=', 0)
