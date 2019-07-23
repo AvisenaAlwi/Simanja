@@ -127,8 +127,7 @@
                 <td>7</td>
             </tr>
             <tr>
-                <td id="kategori" colspan="9"><b>Utama</b></td>
-                <td rowspan="{{ sizeof($keg_utama) + sizeof($keg_tambahan) + 2 }}"></td>
+                <td id="kategori" colspan="10"><b>Utama</b></td>
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_utama as $utama)
@@ -141,18 +140,19 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td>{{$utama->kode_butir}}</td>
+                <td>{{$utama->angka_kredit}}</td>
+                <td>{{$utama->keterangan}}</td>
             </tr>
             @endforeach
 
             <tr>
-                <td id="kategori" colspan="9"><b>Tambahan</b></td>
+                <td id="kategori" colspan="10"><b>Tambahan</b></td>
             </tr>
+            @php $counter = 0; @endphp
+            @foreach ($keg_tambahan as $tambahan)
+            @php $counter++; @endphp
             <tr>
-                @php $counter = 0; @endphp
-                @foreach ($keg_tambahan as $tambahan)
-                @php $counter++; @endphp
                 <td>{{$counter}}</td>
                 <td id="uraian_keg">{{$tambahan->sub_activity_name}}</td>
                 <td>{{$tambahan->satuan}}</td>
@@ -160,8 +160,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td>{{$tambahan->kode_butir}}</td>
+                <td>{{$tambahan->angka_kredit}}</td>
+                <td>{{$tambahan->keterangan}}</td>
             </tr>
             @endforeach
         </table>

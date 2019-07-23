@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\SubActivity;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use App\MyActivity;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class MyActivityController extends Controller
 {
@@ -18,6 +18,7 @@ class MyActivityController extends Controller
      */
     public function index()
     {
+        $my_activity = [];
         $currentYear = Carbon::now()->format('Y');
         $month = Input::get('month', 'now');
         $year = Input::get('year', $currentYear);
@@ -40,18 +41,24 @@ class MyActivityController extends Controller
             $sub_activity = $sub_activity
                                 ->whereDate('awal', '<=', now() )
                                 ->whereDate('akhir', '>=', now() )
-                                ->paginate(10);
+                                ->get();
+            $my_activity = MyActivity::where('created_by_user_id','=',auth()->user()->id)
+                                        ->whereDate('awal', '<=', now() )
+                                        ->whereDate('akhir', '>=', now() )->get();
         }else if (in_array($month, config('scale.month')) && $year >= 2019 && $year <= $currentYear){
             $idMonth = (int)config('scale.month_reverse')[$month];
             $date = Carbon::parse("$year-$idMonth-2");
             $sub_activity = $sub_activity
                                 ->whereDate('awal', '<=', $date )
                                 ->whereDate('akhir', '>=', $date )
-                                ->paginate(10);
+                                ->get();
+            $my_activity = MyActivity::where('created_by_user_id','=',auth()->user()->id)
+                                        ->whereDate('awal', '<=', $date )
+                                        ->whereDate('akhir', '>=', $date )->get();
         }else{
             return abort(404, 'bulan atau tahun yang akan dicari tidak valid');
         }
-        return view('myactivity.index', ['sub_activity' => $sub_activity]);
+        return view('myactivity.index', ['sub_activity' => $sub_activity, 'my_activity' => $my_activity]);
     }
 
     /**
@@ -61,7 +68,7 @@ class MyActivityController extends Controller
      */
     public function create()
     {
-        //
+        return view('myactivity.add_myactivity');
     }
 
     /**
@@ -72,16 +79,41 @@ class MyActivityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $startMonth = config('scale.month_reverse')[$request['start_month']];
+        $startYear = $request['start_year'];
+        $endMonth = config('scale.month_reverse')[$request['end_month']];
+        $endYear = $request['end_year'];
+        $start = Carbon::parse("$startYear-$startMonth-1");
+        $end = Carbon::parse("$endYear-$endMonth-28")->endOfMonth();
+        MyActivity::create([
+            "created_by_user_id" => auth()->user()->id,
+            "name" => $request['name'],
+            "kategori" => $request['kategori'],
+            "awal" => $start,
+            "akhir" => $end,
+            "satuan" => $request['satuan'],
+            "volume" => $request['volume'],
+            "kode_butir" => $request['kode_butir'],
+            "angka_kredit" => $request['angka_kredit'],
+            "keterangan" => strip_tags($request['keterangan']),
+        ]);
+        DB::table('autocomplete_activity')->insert([
+            'name' => $request['name']
+        ]);
+        DB::table('autocomplete_satuan')->insert([
+            'name' => $request['satuan']
+        ]);
+        return redirect()->route('myactivity.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\SubActivity  $subActivity
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(SubActivity $subActivity)
+    public function show($id)
     {
         //
     }
@@ -89,34 +121,66 @@ class MyActivityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\SubActivity  $subActivity
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(SubActivity $subActivity)
+    public function edit($id)
     {
-        //
+        return view('myactivity.edit', ['my_activity' => MyActivity::find($id)]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\SubActivity  $subActivity
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SubActivity $subActivity)
+    public function update(Request $request, $id)
     {
-        //
+        $startMonth = config('scale.month_reverse')[$request['start_month']];
+        $startYear = $request['start_year'];
+        $endMonth = config('scale.month_reverse')[$request['end_month']];
+        $endYear = $request['end_year'];
+        $start = Carbon::parse("$startYear-$startMonth-1");
+        $end = Carbon::parse("$endYear-$endMonth-28")->endOfMonth();
+        MyActivity::where('id', '=', $id)->update([
+            "name" => $request['name'],
+            "kategori" => $request['kategori'],
+            "awal" => $start,
+            "akhir" => $end,
+            "satuan" => $request['satuan'],
+            "volume" => $request['volume'],
+            "kode_butir" => $request['kode_butir'],
+            "angka_kredit" => $request['angka_kredit'],
+            "keterangan" => strip_tags($request['keterangan']),
+        ]);
+        return redirect()->route('myactivity.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\SubActivity  $subActivity
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SubActivity $subActivity)
+    public function destroy($id)
     {
-        //
+        $myActivity = MyActivity::find($id);
+        $name = $myActivity->name;
+        if ($myActivity != null){
+            if (auth()->user()->id == $myActivity->created_by_user_id){
+                $result = $myActivity->delete();
+                if ($result){
+                    DB::table('autocomplete_activity')->where('name', '=', $name)->delete();
+                    return response()->json(['status'=>'sukses', 'message'=>'Berhasil menghapus kegiatan'], 202);
+                }else
+                    return response()->json(['status'=>'gagal', 'message'=>'Gagal meghapus kegiatan']);
+            }else{
+                return response()->json(['status'=>'gagal', 'message'=>'Anda tidak diizinkan untuk menghapus kegiatan ini'], 203);
+            }
+        }else{
+            return response()->json(['status'=>'gagal', 'message'=>'ID tidak ditemukan'], 404);
+        }
     }
 }
