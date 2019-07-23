@@ -52,4 +52,7 @@ class User extends Authenticatable
         else
             return [3];
     }
+    function my_own_activity(){
+        return $this->hasMany(MyActivity::class, 'created_by_user_id', 'id');
+    }
 }

@@ -140,7 +140,7 @@
                             </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="5" class="text-center">
                                         <h3>Tidak ada kegiatan</h3>
                                     </td>
                                 </tr>
