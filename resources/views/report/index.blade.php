@@ -2,20 +2,14 @@
 @inject('Carbon', '\Carbon\Carbon')
 @inject('Activity', '\App\Activity')
 
-@extends('layouts.app', ['showSearch' => true, 'title' => 'KegiatanKu'])
+@extends('layouts.app', ['title' => 'Kegiatan'])
 @push('style')
 
 @endpush
-@php
-$months = config('scale.bulan');
-$currentYear = $Carbon::now()->format('Y');
-$monthQuery = $Input::get('month','now');
-$yearQuery = $Input::get('year',$currentYear);
-@endphp
 @section('content')
 @include('users.partials.header', [
-'title' => 'KegiatanKu',
-'description' => 'Kegiatan yang Anda emban'
+'title' => 'Pelaporan',
+'description' => 'Laman penilaian terhadap pelaporan kegiatan yang sudah dilaksanakan.'
 ])
 
 <div class="container-fluid mt--7">
@@ -23,73 +17,47 @@ $yearQuery = $Input::get('year',$currentYear);
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
-                    <form id="formChange" action="{{ route('myactivity.index') }}" method="get">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-lg-4 my-1 my-lg-0">
-                                <h3 class="mb-0">
-                                    @if ($monthQuery == 'now')
-                                    Kegiatan bulan ini
-                                    @else
-                                    Kegiatan bulan {{ $monthQuery }} {{ $yearQuery }}
-                                    @endif
-                                </h3>
-                            </div>
-                            <div class="col-6 col-lg-2 my-1 my-lg-0">
-                                <select name="month" id="select" class="browser-default custom-select">
-                                    @foreach($months as $m)
-                                        @if (($currentMonth = $Carbon::now()->formatLocalized("%B")) == $m)
-                                        <option value="now" {{ $monthQuery==$currentMonth || $monthQuery=='now' ? 'selected' : '' }}>Bulan sekarang</option>
-                                        @else
-                                        <option value="{{ $m }}" {{ $monthQuery==$m ? 'selected' : '' }}>{{ $m }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-6 col-lg-2 my-1 my-lg-0">
-                                <select name="year" id="select" class="browser-default custom-select">
-                                    @php $x = 2019; @endphp
-                                    @while ($x <= $currentYear)
-                                        <option value="{{ $x }}" {{ $x == $yearQuery ? 'selected' : '' }}>{{ $x }}</option>
-                                        @php
-                                        $x += 1;
-                                        @endphp
-                                    @endwhile
-                                    @for ($i = $currentYear-5; $i <= $currentYear; $i++)
-
-                                    @endfor
-                                </select>
-                            </div>
-                            <div class="col-12 col-lg-4 text-center my-1 my-lg-0">
-                                <a href="{{ route('report.print_ckpt', ['month' => $monthQuery, 'year' => $yearQuery, 'ckp' => 't']) }}" target="_blank" title="Cetak CKP-T Bulan {{ $monthQuery }} {{ $yearQuery }}" data-toggle="tooltip" data-placement="top" class="mr-3">
-                                    <button type="button" class="btn btn-warning btn-sm">
-                                        <i class="fa fa-print"></i>
-                                        Cetak CKP-T
-                                    </button>
-                                </a>
-                                <a href="{{ route('report.print_ckpr', ['month' => $monthQuery, 'year' => $yearQuery, 'ckp' => 'r']) }}" target="_blank" title="Cetak CKP-R Bulan {{ $monthQuery }} {{ $yearQuery }}" title="Cetak CKP-R Bulan {{ $monthQuery }} {{ $yearQuery }}" data-toggle="tooltip" data-placement="top">
-                                    <button type="button" class="btn btn-success btn-sm">
-                                        <i class="fa fa-print"></i>
-                                        Cetak CKP-R
-                                    </button>
-                                </a>
-                                <a href="{{ route('activity.create') }}"
-                                    class="ml-3"
-                                    title="Tambah kegiatan sendiri diluar yang ditetapkan supervisor" data-toggle="tooltip" data-placement="left">
-                                    <button type="button" class="btn btn-primary btn-sm">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </a>
-                            </div>
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-3 my-1 my-lg-0">
+                            <h3 class="mb-0">
+                                Kegiatan Yang Saya Buat
+                            </h3>
                         </div>
-                    </form>
+                        <div class="col-12 col-lg-4 my-1 my-lg-0">
+                            <form id="formChange" action="{{ route('activity.index') }}" method="get">
+                        </div>
+                        <div class="col-12 col-lg-4 my-1 my-lg-0">
+                                <div class="form-group mb-0">
+                                    <div class="input-group text-dark">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text text-dark"
+                                            onclick="$(this).parent().parent().parent().parent().submit()"
+                                            ><i class="fas fa-search"></i></span>
+                                        </div>
+                                    <input class="form-control text-dark pl-2" placeholder="Cari berdasarkan nama" type="text" name="query"
+                                    value="{{ $Input::get('query','') }}">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-12 col-lg-1 text-center my-1 my-lg-0">
+                            <a href="{{ route('activity.create') }}"
+                                title="Tambah kegiatan" data-toggle="tooltip" data-placement="top">
+                                <button type="button"
+                                    class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                                </button>
+                            </a>
+                        </div>
+                        </form>
+                    </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table tablesorter align-items-center table-flush table-hover" id="tabel" style="min-height: 150px">
+                    <table class="table tablesorter table align-items-center table-flush table-hover align-item-start" id="tabel" style="min-height: 150px">
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Kegiatan</th>
                                 <th>Waktu</th>
-                                <th>Diberikan Oleh</th>
+                                <th>Pembuat</th>
                                 <th>Completion</th>
                                 <th></th>
                             </tr>
@@ -99,7 +67,7 @@ $yearQuery = $Input::get('year',$currentYear);
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
-                                        <a href="{{ route('activity.show', $sub->id) }}">
+                                        <a href="{{ route('report.show_pelaporan', $sub->id) }}">
                                             <div class="media-body">
                                                 <span class="name mb-0 text-sm">
                                                     {{ $sub->full_name }}
@@ -139,19 +107,21 @@ $yearQuery = $Input::get('year',$currentYear);
                                     </div>
                                 </td>
                                 <td class="text-right">
-                                    <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
+                                    <li aria-haspopup="true" class="dropdown dropdown dropdown">
+                                        <a role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                            class="btn btn-sm btn-icon-only text-primary"><i
-                                                class="fas fa-ellipsis-v"></i></a>
+                                            class="btn btn-sm btn-icon-only text-primary">
+                                            <i class="fas fa-ellipsis-v" title="Aksi" data-toggle="tooltip" data-placement="left"></i>
+                                        </a>
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ route('activity.show', $sub->id) }}"
+                                            <a href="{{ route('report.show_pelaporan', $sub->id) }}"
                                                 class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
-                                                @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
+                                            {{-- @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
                                             <a href="{{ route('activity.edit', $sub->id) }}"
                                                 class="dropdown-item"><i class="fa fa-edit text-success"></i>Edit</a>
                                             <a href="" class="dropdown-item btn-delete-item" title="{{ $sub->full_name }}"
                                                 id-item="{{ $sub->id }}"><i class="fa fa-trash text-danger"></i> Hapus</a>
-                                            @endif
+                                            @endif --}}
                                         </ul>
                                     </li>
                                 </td>
@@ -168,17 +138,6 @@ $yearQuery = $Input::get('year',$currentYear);
                 </div>
                 <div class="card-footer d-flex justify-content-end">
                     {{ $sub_activity->links() }}
-                    {{-- <ul class="pagination">
-                        <li class="page-item prev-page disabled"><a aria-label="Previous" class="page-link"><span
-                                    aria-hidden="true"><i aria-hidden="true" class="fa fa-angle-left"></i></span></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link">1</a></li>
-                        <li class="page-item"><a class="page-link">2</a></li>
-                        <li class="page-item"><a class="page-link">3</a></li>
-                        <li class="page-item next-page"><a aria-label="Next" class="page-link"><span
-                                    aria-hidden="true"><i aria-hidden="true" class="fa fa-angle-right"></i></span></a>
-                        </li>
-                    </ul> --}}
                 </div>
             </div>
         </div>

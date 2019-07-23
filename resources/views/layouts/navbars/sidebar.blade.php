@@ -109,7 +109,7 @@
                 </li>
                 @endif
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('activity.index') }}">
+                    <a class="nav-link" href="{{ route('report.index') }}">
                         <i class="ni ni-collection text-warning"></i> <b id="text">Pelaporan</b>
                     </a>
                 </li>
