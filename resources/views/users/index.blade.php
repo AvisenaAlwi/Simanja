@@ -13,7 +13,7 @@
                                 <h3 class="mb-0">Pengguna</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">Tambah Pengguna</a>
+                                <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Tambah Pengguna</a>
                             </div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                                         <td>
                                             <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
                                         </td>
-                                        <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
+                                        <td>{{ $user->created_at->timezone('Asia/Jakarta')->formatLocalized('%A, %d %B %Y %H:%M') }}</td>
                                         <td class="text-right">
                                             <div class="dropdown">
                                                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -58,9 +58,12 @@
                                                             @csrf
                                                             @method('delete')
 
-                                                            <a class="dropdown-item" href="{{ route('user.edit', $user) }}">{{ __('Edit') }}</a>
-                                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                                                {{ __('Delete') }}
+                                                            <a class="dropdown-item" href="{{ route('user.edit', $user) }}"><i class="fa fa-edit text-success"></i> Edit</a>
+                                                            <button type="button" 
+                                                            class="dropdown-item btn-delete-user" 
+                                                            {{-- onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''" --}}
+                                                            user="{{ $user->name }}">
+                                                                <i class="fa fa-trash text-danger"></i> Hapus
                                                             </button>
                                                         </form>
                                                     @else
@@ -75,6 +78,7 @@
                         </table>
                     </div>
                     <div class="card-footer py-4">
+                        <h4>Total : {{ $users->total() }} Pengguna</h4>
                         <nav class="d-flex justify-content-end" aria-label="...">
                             {{ $users->links() }}
                         </nav>
@@ -86,3 +90,29 @@
         @include('layouts.footers.auth')
     </div>
 @endsection
+@push('js')
+<script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('.btn-delete-user').click(function (e) {
+            e.preventDefault();
+            let me = $(this);
+            let name = me.attr('name');
+            Swal.fire({
+                title: '',
+                html: 'Yakin Ingin Menghapus <h3>' + name + ' ?</h3>',
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus'
+            }).then((result) => {
+                $(this).parent().submit();
+            }).catch((error) => {
+                console.error(error);
+            });
+        });
+    });
+
+</script>
+@endpush

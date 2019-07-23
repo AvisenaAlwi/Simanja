@@ -1,7 +1,16 @@
+@inject('Input', 'Illuminate\Support\Facades\Input')
+@inject('Carbon', '\Carbon\Carbon')
 @extends('layouts.app', ['showSearch' => true])
 @push('style')
 
 @endpush
+@php
+$months = config('scale.month');
+$currentYear = now()->year;
+$currentMonth = $Carbon::now()->formatLocalized('%B');
+$monthQuery = $Input::get('month', 'now');
+$yearQuery = $Input::get('year', $currentYear);
+@endphp
 @section('content')
 @include('users.partials.header', [
 'title' => 'Penugasan'
@@ -19,12 +28,28 @@
                             </h3>
                         </div>
                         <form action="{{ route('assignment.index') }}" method="get" class="row col-12 col-lg-8 my-1 my-lg-0">
-                            <div class="col-12 col-lg-6 my-1 my-lg-0">
-                                <select name="showMonth" class="browser-default custom-select">
-                                    <option value="showCurrentMonth"  {{ $showMonth == 'showCurrentMonth' ? 'selected' :'' }}>Tampilkan Untuk Bulan Saat Ini</option>
-                                    <option value="showAllMonth" {{ $showMonth == 'showAllMonth' ? 'selected' :'' }}>Tampilkan Untuk Semua Bulan</option>
+                            <div class="col-12 col-lg-3 my-1 my-lg-0">
+                                <select name="month" class="browser-default custom-select">
+                                    <option value="allMonth" {{ $monthQuery == 'allMonth' ? 'selected' :'' }}>Tampilkan Untuk Semua Bulan</option>
+                                    @foreach ($months as $month)
+                                        @if ($month == $currentMonth)
+                                        <option value="now"  {{ $monthQuery == 'now' ? 'selected' :'' }}>Bulan sekarang</option>
+                                        @else
+                                        <option value="{{ $month }}" {{ $monthQuery == $month ? 'selected' :'' }}>{{ $month }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
-
+                            </div>
+                            <div class="col-12 col-lg-3 my-1 my-lg-0">
+                                <select name="year" class="browser-default custom-select">
+                                    @php $x = 2019; @endphp
+                                    @while ($x <= $currentYear)
+                                        <option value="{{ $x }}" {{ $x == $yearQuery ? 'selected' : '' }}>{{ $x }}</option>
+                                        @php 
+                                        $x += 1; 
+                                        @endphp
+                                    @endwhile
+                                </select>
                             </div>
                             <div class="col-12 col-lg-6 my-1 my-lg-0">
                                 <select name="show" class="browser-default custom-select">
@@ -39,7 +64,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table tablesorter align-items-center table-flush table-hover" id="tabel">
+                    <table class="table tablesorter align-items-center table-flush table-hover" id="tabel" style="min-height: 150px">
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Kegiatan</th>
@@ -49,7 +74,7 @@
                             </tr>
                         </thead>
                         <tbody class="list">
-                            @foreach ($sub_activity as $sub)
+                            @forelse ($sub_activity as $sub)
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
@@ -90,7 +115,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if (sizeof(json_decode($sub->petugas)) == 0)
+                                    @empty(json_decode($sub->petugas))
                                         <a href="{{ route('assignment.edit', $sub->id) }}">
                                             <button class="btn btn-warning btn-block text-left">
                                                 <i class="ni ni-single-copy-04"></i>
@@ -104,26 +129,28 @@
                                                 <span>Edit Penugasan</span>
                                             </div>
                                         </a>
-                                    @endif
+                                    @endempty
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <h3>Tidak ada penugasan</h3>
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer d-flex justify-content-end">
-                    {{ $sub_activity->links() }}
-                    {{-- <ul class="pagination">
-                        <li class="page-item prev-page disabled"><a aria-label="Previous" class="page-link"><span
-                                    aria-hidden="true"><i aria-hidden="true" class="fa fa-angle-left"></i></span></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link">1</a></li>
-                        <li class="page-item"><a class="page-link">2</a></li>
-                        <li class="page-item"><a class="page-link">3</a></li>
-                        <li class="page-item next-page"><a aria-label="Next" class="page-link"><span
-                                    aria-hidden="true"><i aria-hidden="true" class="fa fa-angle-right"></i></span></a>
-                        </li>
-                    </ul> --}}
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-start align-items-center">
+                            <h4>Total : {{ $sub_activity->total() }} penugasan</h4>
+                        </div>
+                        <div class="col-12 col-lg-8 d-flex justify-content-center justify-content-lg-end align-items-center">
+                            {{ $sub_activity->links() }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -133,48 +160,11 @@
 </div>
 @endsection
 @push('js')
-<script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
-<script src="{{ asset('vendor/axios/axios.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('.btn-delete-item').click(function (e) {
-            e.preventDefault();
-            let me = $(this);
-            let title = me.attr('title');
-            let id = me.attr('id-item');
-            Swal.fire({
-                title: '',
-                text: 'Yakin Ingin Menghapus ' + title + '?',
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus'
-            }).then((result) => {
-                if (result.value) {
-                    axios({
-                        method: 'delete',
-                        url: '{{ url('/') }}/activity/' + id
-                    }).then(function (res) {
-                        Swal.fire('Berhasil', title + " berhasil dihapus", 'success')
-                            .then((result) => {
-                                if (result.value) {
-                                    window.location.reload();
-                                }
-                            });
-
-                    }).catch(function (err) {
-                        Swal.fire('Gagal Menghapus', "Terjadi kesalahan saat menghapus",
-                            'error');
-                    });
-                }
-            });
-        });
         $(".custom-select").change(function(){
             $(this).parent().parent().submit();
         });
     });
-
-
 </script>
 @endpush

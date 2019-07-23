@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['title' => 'Dashboard'])
 
 @section('content')
     @include('layouts.headers.cards')

@@ -148,8 +148,15 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer d-flex justify-content-end">
-                    {{ $sub_activity->links() }}
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-start align-items-center">
+                            <h4>Total : {{ $sub_activity->total() }} kegiatan</h4>
+                        </div>
+                        <div class="col-12 col-lg-8 d-flex justify-content-center justify-content-lg-end align-items-center">
+                            {{ $sub_activity->links() }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

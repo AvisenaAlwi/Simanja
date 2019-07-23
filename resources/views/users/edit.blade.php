@@ -187,7 +187,7 @@
                                             data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
                                             data-slider-ticks-labels='["S2", "S1", "D-IV", "D-III","SMA"]'
                                             data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                            data-slider-value="{{ old('pendidikan', $pendidikan) }}"
+                                            data-slider-value="{{ $pendidikan }}"
                                             data-slider-tooltip="hide" style="width: 86%;" />
                                     </div>
 
@@ -213,7 +213,7 @@
                                             data-slider-ticks="[5,4,3,2,1]"
                                             data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
                                             data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                            data-slider-value="{{ old('ti', $ti) }}" data-slider-tooltip="hide"
+                                            data-slider-value="{{ $ti }}" data-slider-tooltip="hide"
                                             style="width: 86%;" />
                                     </div>
                                     <div class="form-group" style="margin-left:10px">
@@ -238,7 +238,7 @@
                                             data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
                                             data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
                                             data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                            data-slider-value="{{ old('menulis', $menulis) }}"
+                                            data-slider-value="{{ $menulis }}"
                                             data-slider-tooltip="hide" style="width: 86%;" />
                                     </div>
                                     <div class="form-group" style="margin-left:10px">
@@ -247,7 +247,7 @@
                                         if ($user->administrasi=="Sangat Tinggi") {
                                         $administrasi = "1";
                                         }elseif ($user->administrasi=="Tinggi") {
-                                        $administrasi = "1";
+                                        $administrasi = "2";
                                         }elseif ($user->administrasi=="Cukup") {
                                         $administrasi = "3";
                                         }elseif ($user->administrasi=="Kurang") {
@@ -263,7 +263,7 @@
                                             data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
                                             data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
                                             data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                            data-slider-value="{{ old('administrasi', $administrasi) }}"
+                                            data-slider-value="{{ $administrasi }}"
                                             data-slider-tooltip="hide" style="width: 86%;" />
                                     </div>
                                     <div class="form-group" style="margin-left:10px">
@@ -272,7 +272,7 @@
                                         if ($user->pengalaman_survei=="Sangat Tinggi") {
                                         $pengalaman_survei = "1";
                                         }elseif ($user->pengalaman_survei=="Tinggi") {
-                                        $pengalaman_survei = "1";
+                                        $pengalaman_survei = "2";
                                         }elseif ($user->pengalaman_survei=="Cukup") {
                                         $pengalaman_survei = "3";
                                         }elseif ($user->pengalaman_survei=="Kurang") {
@@ -288,13 +288,13 @@
                                             data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
                                             data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
                                             data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                            data-slider-value="{{ old('pengalaman_survei', $pengalaman_survei) }}"
+                                            data-slider-value="{{ $pengalaman_survei }}"
                                             data-slider-tooltip="hide" style="width: 86%;" />
                                     </div>
 
                                 </div>
                             </div>
-                            <p>* = Biarkan jika tidak ingin mengubah.</p>
+                            <p>* Biarkan jika tidak ingin mengubah.</p>
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex justify-content-center">

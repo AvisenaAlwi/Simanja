@@ -87,11 +87,11 @@ for($i = 0; $i < 5; $i++){
                                             <div class="col-md-6">
                                                 <select name="activity_start_month" id="activity-start-month"
                                                 class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                    @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++)
+                                                    @for ($i = 1; $i <= sizeof(config('scale.month')); $i++)
                                                         @if ($i == $bulan_now)
-                                                            <option value="{{ config('scale.bulan')[$i-1] }}" selected>{{ config('scale.bulan')[$i-1] }}</option>
+                                                            <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
                                                         @else
-                                                            <option value="{{ config('scale.bulan')[$i-1] }}">{{ config('scale.bulan')[$i-1] }}</option>
+                                                            <option value="{{ config('scale.month')[$i-1] }}">{{ config('scale.month')[$i-1] }}</option>
                                                         @endif
                                                     @endfor
                                                 </select>
@@ -114,11 +114,11 @@ for($i = 0; $i < 5; $i++){
                                             <div class="col-md-6">
                                                 <select name="activity_end_month" id="activity-end-month"
                                                 class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                @for ($i = 1; $i <= sizeof(config('scale.bulan')); $i++)
+                                                @for ($i = 1; $i <= sizeof(config('scale.month')); $i++)
                                                     @if ($i == $bulan_now)
-                                                        <option value="{{ config('scale.bulan')[$i-1] }}" selected>{{ config('scale.bulan')[$i-1] }}</option>
+                                                        <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
                                                     @else
-                                                        <option value="{{ config('scale.bulan')[$i-1] }}">{{ config('scale.bulan')[$i-1] }}</option>
+                                                        <option value="{{ config('scale.month')[$i-1] }}">{{ config('scale.month')[$i-1] }}</option>
                                                     @endif
                                                 @endfor
                                                 </select>
@@ -166,21 +166,33 @@ for($i = 0; $i < 5; $i++){
                                                 <label class="form-control-label" for="input-current-password">Nama Sub Kegiatan 1</label>
                                                 <input type="text" name="sub_activity_1_name" class="form-control form-control-alternative nama-sub-kegiatan" value="" required>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="form-control-label" for="input-password">Satuan Sub Kegiatan 1</label>
-                                                <input type="text" name="sub_activity_1_satuan" class="form-control form-control-alternative satuan-sub-kegiatan" value="" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-control-label" for="input-password">Volume Sub Kegiatan 1</label>
-                                                <input type="number" name="sub_activity_1_volume" class="form-control form-control-alternative volume-sub-kegiatan" value="" required>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="input-password">Satuan Sub Kegiatan 1</label>
+                                                        <input type="text" name="sub_activity_1_satuan" class="form-control form-control-alternative satuan-sub-kegiatan" value="" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="input-password">Volume Sub Kegiatan 1</label>
+                                                        <input type="number" name="sub_activity_1_volume" class="form-control form-control-alternative volume-sub-kegiatan" value="" required>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    
+                                                    <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
+                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="">
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    
+                                                    <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
+                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="">
                                                 </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label">Keterangan Sub Kegiatan 1</label>
+                                                <textarea name="sub_activity_1_keterangan" id="" rows="2" class="form-control form-control-alternative"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-lg-6" style="border-left:1px solid #ccc;">
@@ -367,21 +379,33 @@ for($i = 0; $i < 5; $i++){
                                                 <label class="form-control-label" for="input-current-password">Nama Sub Kegiatan 1</label>
                                                 <input type="text" name="sub_activity_1_name" class="form-control form-control-alternative nama-sub-kegiatan" value="" required>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="form-control-label" for="input-password">Satuan Sub Kegiatan 1</label>
-                                                <input type="text" name="sub_activity_1_satuan" class="form-control form-control-alternative satuan-sub-kegiatan" value="" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-control-label" for="input-password">Volume Sub Kegiatan 1</label>
-                                                <input type="number" name="sub_activity_1_volume" class="form-control form-control-alternative volume-sub-kegiatan" value="" required>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="input-password">Satuan Sub Kegiatan 1</label>
+                                                        <input type="text" name="sub_activity_1_satuan" class="form-control form-control-alternative satuan-sub-kegiatan" value="" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="input-password">Volume Sub Kegiatan 1</label>
+                                                        <input type="number" name="sub_activity_1_volume" class="form-control form-control-alternative volume-sub-kegiatan" value="" required>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    
+                                                    <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
+                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="">
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    
+                                                    <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
+                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="">
                                                 </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-password">Keterangan Sub Kegiatan 1</label>
+                                                <textarea name="sub_activity_1_keterangan" id="" rows="2" class="form-control form-control-alternative"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-lg-6" style="border-left:1px solid #ccc;">

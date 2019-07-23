@@ -43,7 +43,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
-        // dd($model->toArray(), $request->all(), config('scale.pendidikan')[$request['q_sub_account_1_pendidikan']-1]);
         $model->create($request->merge([
             'email_verified_at' => now(),
             'password' => Hash::make($request->get('password')),

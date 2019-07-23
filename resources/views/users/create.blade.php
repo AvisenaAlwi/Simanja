@@ -18,7 +18,7 @@
 @endpush
 
 @section('content')
-@include('users.partials.header', ['title' => __('Add User')])
+@include('users.partials.header', ['title' => 'Manajemen Akun'])
 
 <div class="container-fluid mt--7">
     <div class="row">
@@ -27,20 +27,20 @@
                 <div class="card-header bg-white border-0">
                     <div class="row align-items-center">
                         <div class="col-8">
-                            <h3 class="mb-0">{{ __('User Management') }}</h3>
+                            <h3 class="mb-0">Tambah Pengguna</h3>
                         </div>
                         <div class="col-4 text-right">
                             <a href="{{ route('user.index') }}"
-                                class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                                class="btn btn-sm btn-primary">Kembali</a>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <form method="post" action="{{ route('user.store') }}" autocomplete="off">
+                <form method="post" action="{{ route('user.store') }}" autocomplete="off">
+                    <div class="card-body">
                         @csrf
 
-                        <h6 class="heading-small text-muted mb-4">{{ __('User information') }}</h6>
-                        <div class="pl-lg-4">
+                        <h6 class="heading-small text-muted mb-4">Infomrasi Pengguna</h6>
+                        <div>
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
                                 <input type="text" name="name" id="input-name"
@@ -69,7 +69,8 @@
                                 <label class="form-control-label" for="input-password">{{ __('Password') }}</label>
                                 <input type="password" name="password" id="input-password"
                                     class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                    placeholder="{{ __('Password') }}" value="" required>
+                                    placeholder="{{ __('Password') }}" value="" required
+                                    autocomplete="false">
 
                                 @if ($errors->has('password'))
                                 <span class="invalid-feedback" role="alert">
@@ -79,13 +80,13 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label"
-                                    for="input-password-confirmation">{{ __('Confirm Password') }}</label>
+                                    for="input-password-confirmation">Konfirmasi Password</label>
                                 <input type="password" name="password_confirmation" id="input-password-confirmation"
-                                    class="form-control form-control-alternative"
+                                    class="form-control form-control-alternative" autocomplete="false"
                                     placeholder="{{ __('Confirm Password') }}" value="" required>
                             </div>
 
-                            <div class="pl-lg-4">
+                            <div>
                                 <div class="row">
                                     <div class="col-lg-6">
 
@@ -156,7 +157,7 @@
                                     <div class="col-lg-6" style="border-left:1px solid #ccc;">
                                         <h3>Tingkat keahlian</h3>
                                         <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label" for="input-current-password">Pendidikan</div>
+                                            <div class="form-control-label">Pendidikan</div>
                                             <input type="text" name="pendidikan" class="qualifikasi-pendidikan"
                                                 data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
                                                 data-slider-ticks-labels='["S2", "S1", "D-IV", "D-III","SMA"]'
@@ -165,7 +166,7 @@
                                         </div>
 
                                         <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label" for="input-current-password">Kemampuan TI
+                                            <div class="form-control-label">Kemampuan TI
                                             </div>
                                             <input type="text" name="ti" class="qualifikasi-ti" data-provide="slider"
                                                 data-slider-ticks="[5,4,3,2,1]"
@@ -174,7 +175,7 @@
                                                 data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
                                         </div>
                                         <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label" for="input-current-password">Kemampuan
+                                            <div class="form-control-label">Kemampuan
                                                 Menulis</div>
                                             <input type="text" name="menulis" class="qualifikasi-menulis"
                                                 data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
@@ -183,7 +184,7 @@
                                                 data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
                                         </div>
                                         <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label" for="input-current-password">Kemampuan
+                                            <div class="form-control-label">Kemampuan
                                                 Administrasi</div>
                                             <input type="text" name="administrasi" class="qualifikasi-administrasi"
                                                 data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
@@ -192,7 +193,7 @@
                                                 data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
                                         </div>
                                         <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label" for="input-current-password">Pengalaman
+                                            <div class="form-control-label">Pengalaman
                                                 Survei</div>
                                             <input type="text" name="pengalaman_survei" class="qualifikasi-pengalaman"
                                                 data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
@@ -205,26 +206,20 @@
                                 </div>
                             </div>
                         </div>
-                </div>
-                <hr class="my-4" />
-                <div class="row">
-                    <div class="col-7 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                        <hr class="my-4" />
+                        <div class="row">
+                            <div class="col-7 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-success mt-4">Simpan</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                {{-- <div class="text-center">
-
-                        </div> --}}
                 </form>
             </div>
         </div>
     </div>
-</div>
-</div>
+    @include('layouts.footers.auth')
 </div>
 
-
-@include('layouts.footers.auth')
 @push('js')
 <!-- Latest compiled and minified JavaScript -->
 <script src="{{ asset('vendor/arrive') }}/arrive.min.js"></script>
