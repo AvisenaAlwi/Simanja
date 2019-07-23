@@ -175,6 +175,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // DomPDF providers
+        Barryvdh\DomPDF\ServiceProvider::class,
+
         // Argon preset
         LaravelFrontendPresets\ArgonPreset\ArgonPresetServiceProvider::class,
         // Datatables
@@ -230,6 +233,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+
+        // DomPDF aliases
+        'PDF' => Barryvdh\DomPDF\Facade::class
     ],
 
 ];

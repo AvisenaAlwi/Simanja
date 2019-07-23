@@ -50,26 +50,26 @@ $yearQuery = $Input::get('year',$currentYear);
                                     @php $x = 2019; @endphp
                                     @while ($x <= $currentYear)
                                         <option value="{{ $x }}" {{ $x == $yearQuery ? 'selected' : '' }}>{{ $x }}</option>
-                                        @php 
-                                        $x += 1; 
+                                        @php
+                                        $x += 1;
                                         @endphp
                                     @endwhile
                                 </select>
                             </div>
                             <div class="col-12 col-lg-4 text-center my-1 my-lg-0">
-                                <a href="#" title="Cetak CKP-T Bulan {{ $monthQuery }} {{ $yearQuery }}" data-toggle="tooltip" data-placement="top" class="mr-3">
+                                <a href="{{ route('report.print_ckpt', ['month' => $monthQuery, 'year' => $yearQuery, 'ckp' => 't']) }}" target="_blank" title="Cetak CKP-T Bulan {{ $monthQuery }} {{ $yearQuery }}" data-toggle="tooltip" data-placement="top" class="mr-3">
                                     <button type="button" class="btn btn-warning btn-sm">
                                         <i class="fa fa-print"></i>
                                         Cetak CKP-T
                                     </button>
                                 </a>
-                                <a href="#" title="Cetak CKP-R Bulan {{ $monthQuery }} {{ $yearQuery }}" data-toggle="tooltip" data-placement="top">
+                                <a href="{{ route('report.print_ckpr', ['month' => $monthQuery, 'year' => $yearQuery, 'ckp' => 'r']) }}" target="_blank" title="Cetak CKP-R Bulan {{ $monthQuery }} {{ $yearQuery }}" title="Cetak CKP-R Bulan {{ $monthQuery }} {{ $yearQuery }}" data-toggle="tooltip" data-placement="top">
                                     <button type="button" class="btn btn-success btn-sm">
                                         <i class="fa fa-print"></i>
                                         Cetak CKP-R
                                     </button>
                                 </a>
-                                <a href="{{ route('myactivity.create') }}" 
+                                <a href="{{ route('myactivity.create') }}"
                                     class="ml-3"
                                     title="Tambah kegiatan sendiri diluar yang ditetapkan supervisor" data-toggle="tooltip" data-placement="left">
                                     <button type="button" class="btn btn-primary btn-sm">
@@ -141,7 +141,7 @@ $yearQuery = $Input::get('year',$currentYear);
                                             class="btn btn-sm btn-icon-only text-primary"><i
                                                 class="fas fa-ellipsis-v" title="Aksi" data-toggle="tooltip" data-placement="left"></i></a>
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ route('activity.show', $sub->id) }}" 
+                                            <a href="{{ route('activity.show', $sub->id) }}"
                                                 class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
                                                 @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
                                             <a href="{{ route('activity.edit', $sub->id) }}"

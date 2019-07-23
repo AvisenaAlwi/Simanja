@@ -1,4 +1,4 @@
-<nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main" 
+<nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main"
 style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
     <div class="container-fluid">
         <!-- Toggler -->
@@ -111,8 +111,8 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                 </li>
                 @endif
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('activity.index') }}">
-                        <i class="ni ni-collection text-success"></i> <b id="text">Pelaporan</b>
+                    <a class="nav-link" href="{{ route('report.index') }}">
+                        <i class="ni ni-collection text-warning"></i> <b id="text">Pelaporan</b>
                     </a>
                 </li>
                 @if (auth()->user()->role_id == 1)
