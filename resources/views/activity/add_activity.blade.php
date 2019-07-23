@@ -183,11 +183,11 @@ for($i = 0; $i < 5; $i++){
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative kode-butir-sub-kegiatan" value="" required>
+                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative kode-butir-sub-kegiatan" value="" >
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="" required>
+                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="" >
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -408,11 +408,11 @@ for($i = 0; $i < 5; $i++){
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative kode-butir-sub-kegiatan" value="required">
+                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative kode-butir-sub-kegiatan" value="">
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="required">
+                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
