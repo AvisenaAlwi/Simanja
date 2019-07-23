@@ -78,7 +78,7 @@ for($i = 0; $i < 5; $i++){
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
@@ -183,16 +183,16 @@ for($i = 0; $i < 5; $i++){
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="">
+                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative kode-butir-sub-kegiatan" value="" required>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="">
+                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label">Keterangan Sub Kegiatan 1</label>
-                                                <textarea name="sub_activity_1_keterangan" id="" rows="2" class="form-control form-control-alternative"></textarea>
+                                                <textarea name="sub_activity_1_keterangan" id="" rows="2" class="form-control form-control-alternative keterangan-sub-kegiatan"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-lg-6" style="border-left:1px solid #ccc;">
@@ -278,7 +278,7 @@ for($i = 0; $i < 5; $i++){
                             </div>
                         </div>
                         {{-- <div class="text-center">
-                            
+
                         </div> --}}
                     </form>
                 </div>
@@ -301,6 +301,9 @@ for($i = 0; $i < 5; $i++){
             let arr_nama_kegiatan = $('.nama-sub-kegiatan');
             let arr_satuan_kegiatan = $('.satuan-sub-kegiatan');
             let arr_volume_kegiatan = $('.volume-sub-kegiatan');
+            let arr_kode_butir_kegiatan = $('.kode-butir-sub-kegiatan');
+            let arr_angka_kredit_kegiatan = $('.angka-kredit-sub-kegiatan');
+            let arr_keterangan_kegiatan = $('.keterangan-sub-kegiatan');
             let arr_qualifikasi_pendidikan = $('.qualifikasi-pendidikan');
             let arr_qualifikasi_ti = $('.qualifikasi-ti');
             let arr_qualifikasi_menulis = $('.qualifikasi-menulis');
@@ -312,6 +315,9 @@ for($i = 0; $i < 5; $i++){
                 zzz.nama_sub_kegiatan = $(arr_nama_kegiatan[i]).val();
                 zzz.satuan_sub_kegiatan = $(arr_satuan_kegiatan[i]).val();
                 zzz.volume_sub_kegiatan = $(arr_volume_kegiatan[i]).val();
+                zzz.kode_butir_sub_kegiatan = $(arr_kode_butir_kegiatan[i]).val();
+                zzz.angka_kredit_sub_kegiatan = $(arr_angka_kredit_kegiatan[i]).val();
+                zzz.keterangan_sub_kegiatan = $(arr_keterangan_kegiatan[i]).val();
                 zzz.qualifikasi = {
                     pendidikan: $(arr_qualifikasi_pendidikan[i]).val(),
                     ti: $(arr_qualifikasi_ti[i]).val(),
@@ -327,6 +333,9 @@ for($i = 0; $i < 5; $i++){
             let arr_nama_kegiatan = $('.nama-sub-kegiatan');
             let arr_satuan_kegiatan = $('.satuan-sub-kegiatan');
             let arr_volume_kegiatan = $('.volume-sub-kegiatan');
+            let arr_kode_butir_kegiatan = $('.kode-butir-sub-kegiatan');
+            let arr_angka_kredit_kegiatan = $('.angka-kredit-sub-kegiatan');
+            let arr_keterangan_kegiatan = $('.keterangan-sub-kegiatan');
             let arr_qualifikasi_pendidikan = $('.qualifikasi-pendidikan');
             let arr_qualifikasi_ti = $('.qualifikasi-ti');
             let arr_qualifikasi_menulis = $('.qualifikasi-menulis');
@@ -336,6 +345,9 @@ for($i = 0; $i < 5; $i++){
                 $(arr_nama_kegiatan[i]).val(value[i].nama_sub_kegiatan);
                 $(arr_satuan_kegiatan[i]).val(value[i].satuan_sub_kegiatan);
                 $(arr_volume_kegiatan[i]).val(value[i].volume_sub_kegiatan);
+                $(arr_kode_butir_kegiatan[i]).val(value[i].kode_butir_sub_kegiatan);
+                $(arr_angka_kredit_kegiatan[i]).val(value[i].angka_kredit_sub_kegiatan);
+                $(arr_keterangan_kegiatan[i]).val(value[i].keterangan_sub_kegiatan);
 
                 $(arr_qualifikasi_pendidikan[i]).val(value[i].qualifikasi.pendidikan);
                 $(arr_qualifikasi_ti[i]).val(value[i].qualifikasi.ti);
@@ -396,16 +408,16 @@ for($i = 0; $i < 5; $i++){
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="">
+                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative kode-butir-sub-kegiatan" value="required">
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="">
+                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="required">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label" for="input-password">Keterangan Sub Kegiatan 1</label>
-                                                <textarea name="sub_activity_1_keterangan" id="" rows="2" class="form-control form-control-alternative"></textarea>
+                                                <textarea name="sub_activity_1_keterangan" id="" rows="2" class="form-control form-control-alternative keterangan-sub-kegiatan"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-lg-6" style="border-left:1px solid #ccc;">

@@ -43,7 +43,7 @@
                             @if (date_create($sub_activity->awal)->format("Y-m") == date_create($sub_activity->akhir)->format("Y-m"))
                             <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}
                             @else
-                            <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' . 
+                            <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' .
                                 $Carbon::parse($sub_activity->akhir)->formatLocalized('%B %Y')}}</h4>
                             @endif
                             <h4>Kategori: {{$sub_activity->kategori}}
@@ -128,10 +128,10 @@
                             </div>
                             @else
                                 <h4 class="text-center">Belum ada pegawai yang menerima tugas kegiatan ini</h4>
-                                <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}">
-                                        <button class="mx-auto w-auto p-3 btn btn-warning btn-block text-center">
-                                            <i class="ni ni-single-copy-04"></i>
-                                            <span>Tugaskan</span>
+                                <div class="col-7 text-right">
+                                    <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}" class="btn btn-warning">
+                                        <i class="ni ni-single-copy-04"></i> Tugaskan</a>
+                                </div>
                             @endif
                         </div>
                     </div>

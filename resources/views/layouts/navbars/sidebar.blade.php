@@ -110,7 +110,7 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                     </a>
                 </li>
                 @endif
-                <li class="nav-item">
+                <li class="nav-item {{ $activeSideBar == 'report' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('report.index') }}">
                         <i class="ni ni-collection text-warning"></i> <b id="text">Pelaporan</b>
                     </a>
