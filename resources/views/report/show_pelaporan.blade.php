@@ -78,7 +78,9 @@
                                             <th scope="col">E-mail</th>
                                             <th scope="col">Realisasi</th>
                                             <th scope="col">Keterangan</th>
+                                            @if ($sub_activity->id == Auth()->user()->id)
                                             <th scope="col">Tingkat kualitas (%)</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -95,7 +97,9 @@
                                             <td>{{$users_data->email}}</td>
                                             <td><input type="number" name="realisasi_{{$users_data->id}}" id="" style="width: 50px"></td>
                                             <td><textarea name="keterangan_{{$users_data->id}}" id="" cols="30" rows="1"></textarea></td>
+                                            @if ($sub_activity->id == Auth()->user()->id)
                                             <td><input type="number" name="kualitas_{{$users_data->id}}" id="" style="width: 50px"></td>
+                                            @endif
                                         </tr>
                                         @endif
                                         @endforeach

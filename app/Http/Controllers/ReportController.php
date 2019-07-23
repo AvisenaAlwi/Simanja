@@ -17,6 +17,7 @@ class ReportController extends Controller
 
     public function index()
     {
+        $showing = Input::get('showing', 'showCreate');
         $searchQuery = Input::get('query', '');
         $userId = Auth::id();
         $sub_activity = DB::table('sub_activity')
@@ -32,17 +33,27 @@ class ReportController extends Controller
                 'activity.akhir',
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
-            ->orderBy('created_at', 'DESC');
+            ->orderBy('created_at', 'DESC')
+            ->whereDate('awal', '<=', now() )
+            ->whereDate('akhir', '>=', now() );
         if (!empty($searchQuery)){
             // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
             $sub_activity = $sub_activity
                                 ->where('sub_activity.name','LIKE',"%$searchQuery%")
                                 ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
         }
-        $sub_activity = $sub_activity->where('users.id','=', $userId)
-                                ->paginate(10);
-
-        return view('report.index', ['sub_activity' => $sub_activity]);
+        if ($showing=='showCreate') {
+            $sub_activity = $sub_activity->where('users.id','=', $userId);
+        }
+        else if ($showing=='showMe') {
+            $sub_activity = $sub_activity->whereJsonContains('petugas',Auth()->user()->id);
+        }
+        else
+        {
+            return abort(404, 'Autentikasi error');
+        }
+        $sub_activity = $sub_activity->paginate(10);
+        return view('report.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
     }
 
     public function print_ckp()
@@ -78,8 +89,8 @@ class ReportController extends Controller
                                 ->whereDate('awal', '<=', now() )
                                 ->whereDate('akhir', '>=', now() )
                                 ->get();
-        }else if (in_array($month, config('scale.bulan')) && $year >= 2019 && $year <= $currentYear){
-            $idMonth = (int)config('scale.bulan_reverse')[$month];
+        }else if (in_array($month, config('scale.month')) && $year >= 2019 && $year <= $currentYear){
+            $idMonth = (int)config('scale.month_reverse')[$month];
             $date = Carbon::parse("$year-$idMonth-2");
             $sub_activity = $sub_activity
                                 ->whereDate('awal', '<=', $date )
@@ -102,11 +113,11 @@ class ReportController extends Controller
             $month = $currentMonth;
         }
         if($ckp == 't'){
-            // $pdf = PDF::loadview('report.ckpt',
-            // ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan]);
-    	    // return $pdf->stream($month.'_'.$year.'_CKP-T_'.auth()->user()->name.'_'.auth()->user()->nip.'.pdf');
-            return view('report.ckpt',
+            $pdf = PDF::loadview('report.ckpt',
             ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan]);
+    	    return $pdf->stream($month.'_'.$year.'_CKP-T_'.auth()->user()->name.'_'.auth()->user()->nip.'.pdf');
+            // return view('report.ckpt',
+            // ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan]);
 
         }else if($ckp == 'r'){
             $pdf = PDF::loadview('report.ckpr',
