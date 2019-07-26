@@ -20,8 +20,14 @@ class ProfileController extends Controller
             ->select([
                 'petugas'
             ])
-            ->get(10);
-            return view('profile.index', ['sub_activity' => $sub_activity]);
+            ->get();
+
+            $activity = DB::table('activity')
+            ->select([
+                'id'
+            ])
+            ->count();
+            return view('profile.index', ['sub_activity' => $sub_activity, 'activity' => $activity]);
         }
 
     public function edit()

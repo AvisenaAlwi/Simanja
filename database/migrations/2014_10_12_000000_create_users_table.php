@@ -22,7 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('jabatan')->default('Staf');
-            
+            $table->string('photo')->nullable();
+
             $table->string('pendidikan')->default('SMA');
             $table->string('ti')->default('Tinggi');
             $table->string('menulis')->default('Tinggi');

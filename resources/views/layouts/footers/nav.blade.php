@@ -1,7 +1,8 @@
 <div class="row align-items-center justify-content-xl-between">
     <div class="col-xl-6">
         <div class="copyright text-center text-xl-left text-muted">
-            &copy; {{ now()->year == 2019 ? '2019' : '2019 - '.now()->year }} <span class="font-weight-bold ml-1">Sena, Rian, &amp; Doni</span>
+            &copy; {{ now()->year == 2019 ? '2019' : '2019 - '.now()->year }}
+            <a href="{{ route('about.index') }}"><span class="font-weight-bold ml-1">Sena, Rian, &amp; Doni</span></a>
         </div>
     </div>
     <div class="col-xl-6">

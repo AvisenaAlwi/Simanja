@@ -30,16 +30,16 @@
                             <h3 class="mb-0">Tambah Pengguna</h3>
                         </div>
                         <div class="col-4 text-right">
-                        <a href="{{ route('user.index') }}"
-                                title="Kembali" data-toggle="tooltip" data-placement="top">
-                                <button type="button"
-                                    class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                            <a href="{{ route('user.index') }}" title="Kembali" data-toggle="tooltip"
+                                data-placement="top">
+                                <button type="button" class="btn btn-primary btn-sm"><span
+                                        class="ni ni-bold-left"></span>
                                 </button>
                             </a>
                         </div>
                     </div>
                 </div>
-                <form method="post" action="{{ route('user.store') }}" autocomplete="off">
+                <form method="post" action="{{ route('user.store') }}" autocomplete="off" enctype="multipart/form-data">
                     <div class="card-body">
                         @csrf
 
@@ -69,31 +69,30 @@
                                 </span>
                                 @endif
                             </div>
-                            <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-password">{{ __('Password') }}</label>
-                                <input type="password" name="password" id="input-password"
-                                    class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                    placeholder="{{ __('Password') }}" value="" required
-                                    autocomplete="false">
+                            <div class="row">
+                                <div class="col-lg-6 form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-password">{{ __('Password') }}</label>
+                                    <input type="password" name="password" id="input-password"
+                                        class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                        placeholder="{{ __('Password') }}" value="" required autocomplete="false">
 
-                                @if ($errors->has('password'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                                @endif
+                                    @if ($errors->has('password'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <label class="form-control-label" for="input-password-confirmation">Konfirmasi
+                                        Password</label>
+                                    <input type="password" name="password_confirmation" id="input-password-confirmation"
+                                        class="form-control form-control-alternative" autocomplete="false"
+                                        placeholder="{{ __('Confirm Password') }}" value="" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-control-label"
-                                    for="input-password-confirmation">Konfirmasi Password</label>
-                                <input type="password" name="password_confirmation" id="input-password-confirmation"
-                                    class="form-control form-control-alternative" autocomplete="false"
-                                    placeholder="{{ __('Confirm Password') }}" value="" required>
-                            </div>
-
                             <div>
                                 <div class="row">
                                     <div class="col-lg-6">
-
                                         <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-account-email">E-mail</label>
                                             <input type="email" name="email" id="input-account-email"
@@ -136,25 +135,31 @@
                                             </span>
                                             @endif
                                         </div>
-
-                                        <div class="form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-jabatan">Jabatan</label>
-                                            <input type="text"
-                                                class="form-control form-control-alternative{{ $errors->has('account_jabatan') ? ' is-invalid' : '' }}"
-                                                id="input-jabatan" name="jabatan" required autofocus>
-                                            @if ($errors->has('account_jabatan'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('account_jabatan') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-6">
-
+                                        <div class='row'>
+                                            <div
+                                                class="col-lg-6 form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
+                                                <label class="form-control-label" for="input-jabatan">Jabatan</label>
+                                                <input type="text"
+                                                    class="form-control form-control-alternative{{ $errors->has('account_jabatan') ? ' is-invalid' : '' }}"
+                                                    id="input-jabatan" name="jabatan" required autofocus>
+                                                @if ($errors->has('account_jabatan'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('account_jabatan') }}</strong>
+                                                </span>
+                                                @endif
                                             </div>
-                                            <div class="col-lg-6">
 
+                                            <div
+                                                class="col-lg-6 form-group{{ $errors->has('photo') ? ' has-danger' : '' }}">
+                                                <label class="form-control-label" for="input-photo">Foto</label>
+                                                <input type="file"
+                                                    class="form-control form-control-alternative{{ $errors->has('account_photo') ? ' is-invalid' : '' }}"
+                                                    id="input-photo" name="photo" required autofocus>
+                                                @if ($errors->has('account_photo'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('account_photo') }}</strong>
+                                                </span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -205,7 +210,6 @@
                                                 data-slider-min="1" data-slider-max="5" data-slider-step="1"
                                                 data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -223,16 +227,15 @@
     </div>
     @include('layouts.footers.auth')
 </div>
-
 @push('js')
 <!-- Latest compiled and minified JavaScript -->
 <script src="{{ asset('vendor/arrive') }}/arrive.min.js"></script>
 <script src="{{ asset('vendor/easyautocomplete') }}/jquery.easy-autocomplete.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
 <script>
-
     // $(document).arrive('.slider-input', function (newElement) {
     //     $('.slider-input[identifier=pendidikan]').jRange({
     //         from: 1,

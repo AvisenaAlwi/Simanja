@@ -100,7 +100,7 @@
                                             <a href="#" data-toggle="tooltip"
                                                 data-original-title="{{ $sub->users_name }}"
                                                 class="avatar avatar-sm rounded-circle">
-                                                <img alt="Image placeholder" src="{{ asset('img/theme/team-1-800x800.jpg') }}">
+                                                <img alt="Image placeholder" src="{{ asset('storage') }}/{{auth()->user()->photo}}">
                                             </a>
                                     </div>
                                 </td>

@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -43,8 +44,12 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
+        $photo = $request->file('photo');
+        $photo_name = $request->nip.'_'.$request->name.'.'.$photo->getClientOriginalExtension();
+        $photo->storeAs('public/foto',$photo_name);
         $model->create($request->merge([
             'email_verified_at' => now(),
+            'photo' => "foto/$photo_name",
             'password' => Hash::make($request->get('password')),
             'pendidikan' => config('scale.pendidikan')[$request['pendidikan']-1],
             'ti' => config('scale.likert')[$request['ti']-1],
@@ -52,6 +57,8 @@ class UserController extends Controller
             'administrasi' => config('scale.likert')[$request['administrasi']-1],
             'pengalaman_survei' => config('scale.likert')[$request['pengalaman_survei']-1]
             ])->all());
+
+        $photo = $request->file('photo');
 
         return redirect()->route('user.index')->withStatus(__('User successfully created.'));
     }
@@ -76,9 +83,14 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User  $user)
     {
+
+        $photo = $request->file('photo');
+        $photo_name = $request->nip.'_'.$request->name.'.'.$photo->getClientOriginalExtension();
+        $photo->storeAs('public/foto',$photo_name);
         $user->update(
             $request->merge([
                 'password' => Hash::make($request->get('password')),
+                'photo' => "foto/$photo_name",
                 'pendidikan' => config('scale.pendidikan')[$request['pendidikan']-1],
                 'ti' => config('scale.likert')[$request['ti']-1],
                 'menulis' => config('scale.likert')[$request['menulis']-1],

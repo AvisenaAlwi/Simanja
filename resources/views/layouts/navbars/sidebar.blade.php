@@ -1,8 +1,9 @@
 <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main"
-style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
+    style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
     <div class="container-fluid">
         <!-- Toggler -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main"
+            aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
@@ -13,38 +14,44 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
             {{-- </span> --}}
         </a>
         <style>
-            .navbar-nav .nav-item{
+            .navbar-nav .nav-item {
                 margin: .5rem .5rem;
                 border-radius: 0px;
                 transition: all .2s;
             }
-            .navbar-nav .nav-item:not(.active).nav-item:hover{
+
+            .navbar-nav .nav-item:not(.active).nav-item:hover {
                 border-radius: 50px;
                 box-shadow: 0 2px 10px 1px rgba(0, 0, 0, .1)
             }
-            .navbar-nav > .active{
+
+            .navbar-nav>.active {
                 border-radius: 50px;
                 border: 2px solid #ffd32a;
                 /* background: #fff; */
                 color: white !important;
                 box-shadow: 0 2px 20px 1px rgba(0, 0, 0, .1)
             }
+
         </style>
         <link href="{{ asset('vendor/bootstraptoggle') }}/bootstrap-toggle.min.css" rel="stylesheet">
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
             <li class="nav-item dropdown">
-                <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
                     <div class="media align-items-center">
                         {{-- <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/team-1-800x800.jpg"> --}}
-                        {{ auth()->user()->name }}
+                        <span class="avatar avatar-sm rounded-circle">
+                            <img alt="Image placeholder" src="{{ asset('storage') }}/{{auth()->user()->photo}}">
+                        </span>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
                     <div class=" dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">Selamat Datang!</h6>
+                        <h6 class="text-overflow m-0">Selamat Datang, {{auth()->user()->name}}!</h6>
                     </div>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                    <a href="{{ route('profile.index') }}" class="dropdown-item">
                         <i class="ni ni-single-02"></i>
                         <span>Profil Saya</span>
                     </a>
@@ -69,7 +76,9 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
-                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
+                        <button type="button" class="navbar-toggler" data-toggle="collapse"
+                            data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false"
+                            aria-label="Toggle sidenav">
                             <span></span>
                             <span></span>
                         </button>
@@ -117,39 +126,40 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                 </li>
                 @if (auth()->user()->role_id == 1)
                 <li class="nav-item {{ $activeSideBar == 'user' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('user.index') }}">
+                    <a class="nav-link" href="{{ route('user.index') }}">
                         <i class="ni ni-key-25 text-primary"></i> <b id="text">Manajemen Akun</b>
                     </a>
                 </li>
                 @endif
                 <div class="d-flex justify-content-center p-4">
-                    <input type="checkbox" data-toggle="toggle" data-width="300" {{ $Cookie::get('dark') == 'true' ? 'checked' : '' }}>
+                    <input type="checkbox" data-toggle="toggle" data-width="300"
+                        {{ $Cookie::get('dark') == 'true' ? 'checked' : '' }}>
                 </div>
                 {{-- <li class="nav-item">
                     <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
                         <i class="fab fa-laravel" style="color: #f4645f;"></i>
                         <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>
-                    </a>
-                    <div class="collapse show" id="navbar-examples">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
-                                    {{ __('User profile') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
-                                    {{ __('User Management') }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                </a>
+                <div class="collapse show" id="navbar-examples">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile.edit') }}">
+                                {{ __('User profile') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('user.index') }}">
+                                {{ __('User Management') }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 </li> --}}
 
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
-                    </a>
+                </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
