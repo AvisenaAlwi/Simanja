@@ -191,35 +191,35 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-current-password">Nama Sub Kegiatan 1</label>
-                                            <input type="text" name="sub_activity_1_name" class="form-control form-control-alternative nama-sub-kegiatan" value="{{ $sub_activity->name }}" required>
+                                            <input type="text" name="sub_activity_name" class="form-control form-control-alternative nama-sub-kegiatan" value="{{ $sub_activity->name }}" required>
                                         </div>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="input-password">Satuan Sub Kegiatan 1</label>
-                                                    <input type="text" name="sub_activity_1_satuan" class="form-control form-control-alternative satuan-sub-kegiatan" value="{{ $sub_activity->satuan }}" required>
+                                                    <input type="text" name="sub_activity_satuan" class="form-control form-control-alternative satuan-sub-kegiatan" value="{{ $sub_activity->satuan }}" required>
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="input-password">Volume Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_volume" class="form-control form-control-alternative volume-sub-kegiatan" value="{{ $sub_activity->volume }}" required>
+                                                    <input type="number" name="sub_activity_volume" class="form-control form-control-alternative volume-sub-kegiatan" value="{{ $sub_activity->volume }}" required>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                                <input type="text" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="{{ $sub_activity->kode_butir }}">
+                                                <input type="text" name="sub_activity_kode_butir" class="form-control form-control-alternative" value="{{ $sub_activity->kode_butir }}">
                                             </div>
                                             <div class="col-lg-6">
                                                 <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                <input type="text" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="{{ $sub_activity->angka_kredit }}">
+                                                <input type="text" name="sub_activity_angka_kredit" class="form-control form-control-alternative" value="{{ $sub_activity->angka_kredit }}">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-control-label">Keterangan Sub Kegiatan 1</label>
-                                            <textarea name="sub_activity_1_keterangan" id="" rows="2" class="form-control form-control-alternative">{{ $sub_activity->keterangan }}</textarea>
+                                            <textarea name="sub_activity_keterangan" id="" rows="2" class="form-control form-control-alternative">{{ $sub_activity->keterangan }}</textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6" style="border-left:1px solid #ccc;">

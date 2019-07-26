@@ -20,8 +20,8 @@ class CreateSubActivityTable extends Migration
             $table->string('name');
             $table->string('satuan');
             $table->integer('volume')->default(0);
-            $table->smallInteger('kode_butir')->nullable();
-            $table->smallInteger('angka_kredit')->nullable();
+            $table->string('kode_butir')->nullable();
+            $table->string('angka_kredit')->nullable();
             $table->text('keterangan')->nullable();
 
             $table->string('pendidikan')->default('SMA');

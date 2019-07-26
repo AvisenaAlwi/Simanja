@@ -30,12 +30,16 @@
                             <h3 class="mb-0">Tambah Pengguna</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('user.index') }}"
-                                class="btn btn-sm btn-primary">Kembali</a>
+                            <a href="{{ route('user.index') }}" title="Kembali" data-toggle="tooltip"
+                                data-placement="top">
+                                <button type="button" class="btn btn-primary btn-sm"><span
+                                        class="ni ni-bold-left"></span>
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <form method="post" action="{{ route('user.store') }}" autocomplete="off">
+                <form method="post" action="{{ route('user.store') }}" autocomplete="off" enctype="multipart/form-data">
                     <div class="card-body">
                         @csrf
 
@@ -227,16 +231,15 @@
     </div>
     @include('layouts.footers.auth')
 </div>
-
 @push('js')
 <!-- Latest compiled and minified JavaScript -->
 <script src="{{ asset('vendor/arrive') }}/arrive.min.js"></script>
 <script src="{{ asset('vendor/easyautocomplete') }}/jquery.easy-autocomplete.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
 <script>
-
     // $(document).arrive('.slider-input', function (newElement) {
     //     $('.slider-input[identifier=pendidikan]').jRange({
     //         from: 1,

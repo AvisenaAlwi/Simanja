@@ -1,4 +1,3 @@
 *
 !.gitignore
-!foto/
-!/foto
+!default.jpg

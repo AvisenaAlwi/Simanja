@@ -17,39 +17,41 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col-12 col-lg-3 my-1 my-lg-0">
-                            <h3 class="mb-0">
-                                Kegiatan Yang Saya Buat
-                            </h3>
-                        </div>
-                        <div class="col-12 col-lg-4 my-1 my-lg-0">
-                            <form id="formChange" action="{{ route('activity.index') }}" method="get">
-                        </div>
-                        <div class="col-12 col-lg-4 my-1 my-lg-0">
-                                <div class="form-group mb-0">
-                                    <div class="input-group text-dark">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text text-dark"
-                                            onclick="$(this).parent().parent().parent().parent().submit()"
-                                            ><i class="fas fa-search"></i></span>
-                                        </div>
-                                    <input class="form-control text-dark pl-2" placeholder="Cari berdasarkan nama" type="text" name="query"
-                                    value="{{ $Input::get('query','') }}">
-                                    </div>
+                        <div class="row align-items-center">
+                                <div class="col-12 col-lg-3 my-1 my-lg-0">
+                                    <h3 class="mb-0">
+                                        @if ($showing == 'showCreate')
+                                        Kegiatan Yang Saya Buat
+                                        @elseif ($showing == 'showMe')
+                                        Kegiatan Yang Saya Emban
+                                        @else
+                                        Kegiatan Bulan
+                                        {{ $Carbon::parse('this month')->formatLocalized('%B %Y') }}
+                                        @endif
+                                    </h3>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="col-12 col-lg-1 text-center my-1 my-lg-0">
-                            <a href="{{ route('activity.create') }}"
-                                title="Tambah kegiatan" data-toggle="tooltip" data-placement="top">
-                                <button type="button"
-                                    class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
-                                </button>
-                            </a>
-                        </div>
-                        </form>
-                    </div>
+                                <div class="col-12 col-lg-4 my-1 my-lg-0">
+                                    <form id="formChange" action="{{ route('report.index') }}" method="get">
+                                        <select name="showing" id="select" class="browser-default custom-select">
+                                            <option value="showCreate"  {{ $showing == 'showCreate' ? 'selected' :'' }}>Kegiatan Yang Saya Buat</option>
+                                            <option value="showMe" {{ $showing == 'showMe' ? 'selected' :'' }}>Kegiatan Yang Saya Emban</option>
+                                        </select>
+                                </div>
+                                <div class="col-12 col-lg-4 my-1 my-lg-0">
+                                        <div class="form-group mb-0">
+                                            <div class="input-group text-dark">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text text-dark"
+                                                    onclick="$(this).parent().parent().parent().parent().submit()"
+                                                    ><i class="fas fa-search"></i></span>
+                                                </div>
+                                            <input class="form-control text-dark pl-2" placeholder="Cari berdasarkan nama" type="text" name="query"
+                                            value="{{ $Input::get('query','') }}">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table tablesorter table align-items-center table-flush table-hover align-item-start" id="tabel" style="min-height: 150px">
@@ -88,7 +90,7 @@
                                             <a href="#" data-toggle="tooltip"
                                                 data-original-title="{{ $sub->users_name }}"
                                                 class="avatar avatar-sm rounded-circle">
-                                                <img alt="Image placeholder" src="{{ asset('img/theme/team-1-800x800.jpg') }}">
+                                                <img alt="Image placeholder" src="{{ asset('storage') }}/{{auth()->user()->photo}}">
                                             </a>
                                     </div>
                                 </td>
@@ -161,38 +163,6 @@
 <script src="{{ asset('vendor/axios/axios.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('.btn-delete-item').click(function (e) {
-            e.preventDefault();
-            let me = $(this);
-            let title = me.attr('title');
-            let id = me.attr('id-item');
-            Swal.fire({
-                title: '',
-                html: 'Yakin Ingin Menghapus <h3>' + title + ' ?</h3>',
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus'
-            }).then((result) => {
-                if (result.value) {
-                    axios({
-                        method: 'delete',
-                        url: '{{ url('/') }}/activity/' + id
-                    }).then(function (res) {
-                        Swal.fire('Berhasil', title + " berhasil dihapus", 'success')
-                            .then((result) => {
-                                if (result.value) {
-                                    window.location.reload();
-                                }
-                            });
-                    }).catch(function (err) {
-                        Swal.fire('Gagal Menghapus', "Terjadi kesalahan saat menghapus",
-                            'error');
-                    });
-                }
-            });
-        });
         $("#select").change(function () {
             $("#formChange").submit();
         });

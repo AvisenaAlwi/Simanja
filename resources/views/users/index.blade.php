@@ -1,7 +1,16 @@
-@extends('layouts.app', ['title' => 'Manajemen Akun'])
+@inject('Input', 'Illuminate\Support\Facades\Input')
+@inject('Carbon', '\Carbon\Carbon')
+@inject('Activity', '\App\Activity')
 
+@extends('layouts.app', ['title' => 'Manajemen Akun'])
+@push('style')
+
+@endpush
 @section('content')
-    @include('layouts.headers.cards')
+@include('users.partials.header', [
+'title' => 'Manajemen Akun',
+'description' => 'Tabel berikut menunjukkan tabel akun yang sudah ditambah ke sistem..'
+])
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -10,10 +19,15 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">Pengguna</h3>
+                                <h3 class="mb-0">Akun Pengguna</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Tambah Pengguna</a>
+                            <a href="{{ route('user.create') }}"
+                                title="Tambah Pengguna" data-toggle="tooltip" data-placement="top">
+                                <button type="button"
+                                    class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                                </button>
+                            </a>
                             </div>
                         </div>
                     </div>
@@ -59,8 +73,8 @@
                                                             @method('delete')
 
                                                             <a class="dropdown-item" href="{{ route('user.edit', $user) }}"><i class="fa fa-edit text-success"></i> Edit</a>
-                                                            <button type="button" 
-                                                            class="dropdown-item btn-delete-user" 
+                                                            <button type="button"
+                                                            class="dropdown-item btn-delete-user"
                                                             {{-- onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''" --}}
                                                             user="{{ $user->name }}">
                                                                 <i class="fa fa-trash text-danger"></i> Hapus

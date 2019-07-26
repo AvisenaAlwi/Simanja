@@ -14,14 +14,13 @@
                     <div class="col-lg-3 order-lg-2">
                         <div class="card-profile-image">
                             <a href="#">
-                                <img src="{{ asset('argon') }}/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                                <img src="{{ asset('storage') }}/{{auth()->user()->photo}}"class="rounded-circle">
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                     <div class="d-flex justify-content-between">
-                        
                     </div>
                 </div>
                 <div class="card-body pt-0 pt-md-4">
@@ -39,9 +38,8 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{{ route('myactivity.index') }}">
-                            <button type="button" class="btn btn-primary ">Kegiatanku</button>
-                        </a>
+                        <a href="myactivity" title="Melihat tabel kegiatanku" data-toggle="tooltip" data-placement="top"><button
+                                type="button" class="btn btn-primary ">Kegiatanku</button></a>
                     </div>
                 </div>
             </div>
@@ -67,10 +65,10 @@
                     <h3>NIP : {{auth()->user()->nip}}</h3>
                     <h3>E-mail : {{auth()->user()->email}}</h3>
                     <h3>Menjabat sebagai {{auth()->user()->jabatan}}</h3>
-                    <h5 class="text-muted mb-4">
+                    <h5  class="text-muted mb-4">
                         {{ __('Ada kesalahan pada data diri atau lupa password? segera hubungi admin') }}</h5>
                     <div class="col text-right">
-                        <a href="{{ route('profile.edit') }}"><button type="button" class="btn btn-primary btn-sm">Ganti
+                        <a title="Mengganti password lama dengan password yang baru" data-toggle="tooltip" data-placement="top" href="{{ route('profile.edit') }}"><button type="button" class="btn btn-primary btn-sm">Ganti
                                 password</button></a>
                     </div>
                 </div>

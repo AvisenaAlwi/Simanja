@@ -306,10 +306,9 @@ $petugas = json_decode($assignment->petugas, true);
                 }else{
                     $("tr.user-row[data-user-id='"+userId+"']").remove();
                 }
+                calculateTotalAllocation();
             });
-            $(document).arrive('input[type="number"]', function() {
-                let newElem = $(this);
-                newElem.bind('keyup mouseup', function(){
+            $('input[type="number"]').bind('keyup mouseup change', function(){
                     let totalValueNow = calculateTotalAllocation();
                     if (totalValueNow > maxVolume){
                         $(this).addClass('is-invalid')
@@ -317,9 +316,22 @@ $petugas = json_decode($assignment->petugas, true);
                         .then((result) => {
                         })
                     }else
-                        $(this).removeClass('is-invalid')
+                        $(this).removeClass('is-invalid');
+                    calculateTotalAllocation();
                 });
-                calculateTotalAllocation();
+            $(document).arrive('input[type="number"]', function() {
+                let newElem = $(this);
+                newElem.bind('keyup mouseup change', function(){
+                    let totalValueNow = calculateTotalAllocation();
+                    if (totalValueNow > maxVolume){
+                        $(this).addClass('is-invalid')
+                        swal.fire("Berlebihan", 'Total alokasi melebihi volume kegiatan', 'error')
+                        .then((result) => {
+                        })
+                    }else
+                        $(this).removeClass('is-invalid');
+                    calculateTotalAllocation();
+                });
             });
             calculateTotalAllocation()
             $('.md-chip.md-chip-hover.md-chip-clickable').click(function(){
@@ -336,6 +348,13 @@ $petugas = json_decode($assignment->petugas, true);
                     me.addClass('active')
                     removeButton.show()
                     checkboxBefore.checked = false
+                }
+                calculateTotalAllocation()
+            });
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
                 }
             });
         });

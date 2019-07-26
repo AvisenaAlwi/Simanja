@@ -16,16 +16,16 @@ class CreateAssignmentTable extends Migration
         Schema::create('assignment', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('activity_id');
-            $table->foreign('activity_id')->references('id')->on('activity');
+            $table->foreign('activity_id')->references('id')->on('activity')->onDelete('cascade');
             $table->unsignedInteger('sub_activity_id');
-            $table->foreign('sub_activity_id')->references('id')->on('sub_activity');
+            $table->foreign('sub_activity_id')->references('id')->on('sub_activity')->onDelete('cascade');
             $table->unsignedSmallInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->json('petugas')->default('[]');
             $table->smallInteger('realisasi')->nullable();
             $table->tinyInteger('tingkat_kualitas')->nullable();
-            $table->smallInteger('kode_butir')->nullable();
-            $table->smallInteger('angka_kredit')->nullable();
+            $table->string('kode_butir')->nullable();
+            $table->string('angka_kredit')->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

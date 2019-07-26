@@ -15,6 +15,7 @@ class ReportController extends Controller
 
     public function index()
     {
+        $showing = Input::get('showing', 'showCreate');
         $searchQuery = Input::get('query', '');
         $userId = Auth::id();
         $sub_activity = DB::table('sub_activity')
@@ -32,6 +33,8 @@ class ReportController extends Controller
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
+            ->whereDate('awal', '<=', now() )
+            ->whereDate('akhir', '>=', now() )
             ->orderBy('created_at', 'DESC');
         if (!empty($searchQuery)){
             // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
@@ -39,9 +42,18 @@ class ReportController extends Controller
                                 ->where('sub_activity.name','LIKE',"%$searchQuery%")
                                 ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
         }
+        if ($showing=='showCreate') {
+            $sub_activity = $sub_activity->where('users.id','=', $userId);
+        }
+        else if ($showing=='showMe') {
+            $sub_activity = $sub_activity->whereJsonContains('petugas',Auth()->user()->id);
+        }
+        else
+        {
+            return abort(404, 'Autentikasi error');
+        }
         $sub_activity = $sub_activity->paginate(10);
-        // dd($sub_activity);
-        return view('report.index', ['sub_activity' => $sub_activity]);
+        return view('report.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
     }
 
     public function print_ckp()
@@ -116,11 +128,14 @@ class ReportController extends Controller
         $tambahan = [];
         foreach($sub_activity as $sub){
             try{
-                $sub->month_volume = json_decode($sub->petugas, true)[$userId]["${currentMonth}_${currentYear}"];
+                $sub->month_volume = json_decode($sub->petugas, true)[$userId]["${month}_${currentYear}"];
+                echo $sub->month_volume. "<br>";
             }catch(Exception $e){
-                $sub->month_volume = json_decode($sub->petugas, true)[$userId]["${currentMonth}"];
+                $sub->month_volume = json_decode($sub->petugas, true)[$userId]["${month}"];
+                echo $sub->month_volume. "<br>";
             }
-            if ($sub->month_volume != 0 || $sub->month_volume > 0){
+            echo $sub->month_volume. "<br>";
+            if ($sub->month_volume != 0 && $sub->month_volume > 0){
                 if ($sub->kategori == 'Utama'){
                     array_push($utama, $sub);
                 }else{
@@ -128,13 +143,14 @@ class ReportController extends Controller
                 }
             }
         }
+        // die();
         foreach($my_activity as $my){
             try{
                 $my->month_volume = 1;
             }catch(Exception $e){
                 $my->month_volume = 1;
             }
-            if ($my->month_volume != 0 || $my->month_volume > 0){
+            if ($my->month_volume != 0 && $my->month_volume > 0){
                 if ($my->kategori == 'Utama'){
                     array_push($utama, $my);
                 }else{

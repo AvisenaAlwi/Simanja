@@ -142,9 +142,9 @@
                 <td></td>
                 <td>{{ $utama->month_volume/($utama->realisasi??$utama->month_volume)*100}}%</td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td class="keterangan">{{ $utama->keterangan }}</td>
+                <td>{{$utama->kode_butir}}</td>
+                <td>{{$utama->angka_kredit}}</td>
+                <td class="keterangan">{{$utama->keterangan}}</td>
             </tr>
             @endforeach
             @endif
@@ -152,10 +152,10 @@
             <tr>
                 <td class="kategori" colspan="10" style="background: #f3f3f3"><b>Tambahan</b></td>
             </tr>
+            @php $counter = 0; @endphp
+            @foreach ($keg_tambahan as $tambahan)
+            @php $counter++; @endphp
             <tr>
-                @php $counter = 0; @endphp
-                @foreach ($keg_tambahan as $tambahan)
-                @php $counter++; @endphp
                 <td>{{$counter}}</td>
                 <td class="uraian_keg">{{$tambahan->full_name}}</td>
                 <td>{{$tambahan->satuan}}</td>
@@ -163,9 +163,9 @@
                 <td></td>
                 <td>{{ $tambahan->month_volume/($tambahan->realisasi??$tambahan->month_volume)*100}}%</td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td class="keterangan">{{ $tambahan->keterangan }}</td>
+                <td>{{$tambahan->kode_butir}}</td>
+                <td>{{$tambahan->angka_kredit}}</td>
+                <td class="keterangan">{{$tambahan->keterangan}}</td>
             </tr>
             @endforeach
             @endif
