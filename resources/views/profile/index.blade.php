@@ -21,41 +21,27 @@
                 </div>
                 <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                     <div class="d-flex justify-content-between">
-                        <a href="#" class="btn btn-sm btn-info mr-4">{{ __('Connect') }}</a>
-                        <a href="#" class="btn btn-sm btn-default float-right">{{ __('Message') }}</a>
+                        
                     </div>
                 </div>
                 <div class="card-body pt-0 pt-md-4">
                     <div class="row">
                         <div class="col">
                             <div class="text-center mt-md-5">
-                                <h1>Kegiatan</h1>
+                                <h1>{{ auth()->user()->name }}</h1>
                             </div>
                             <div class="card-profile-stats d-flex justify-content-center mt-md--2">
                                 <div>
-                                    <span class="heading">0</span>
-                                    <span class="description">{{ __('Selesai') }}</span>
-                                </div>
-                                <div>
-                                    @php
-                                    $userId = Auth::id();
-                                    $counter = 0;
-                                    foreach($sub_activity as $sub)
-                                            if((in_array($userId, json_decode($sub->petugas))))
-                                                $counter++;
-                                    @endphp
-                                    <span class="heading">0</span>
-                                    <span class="description">{{ __('Diproses') }}</span>
-                                </div>
-                                <div>
-                                    <span class="heading">{{$counter}}</span>
-                                    <span class="description">{{ __('Total') }}</span>
+                                    <span class="heading">{{ $jumlahTugasYangDiemban }}</span>
+                                    <span class="description">Total Kegiatan Yang Diemban</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="#"><button type="button" class="btn btn-primary ">Kegiatanku</button></a>
+                        <a href="{{ route('myactivity.index') }}">
+                            <button type="button" class="btn btn-primary ">Kegiatanku</button>
+                        </a>
                     </div>
                 </div>
             </div>

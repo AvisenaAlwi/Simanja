@@ -144,11 +144,11 @@ for($i = 0; $i < 5; $i++){
                                 </div>
                                 <div class="col-6 col-lg-3">
                                     <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                    <input type="number" name="kode_butir" class="form-control form-control-alternative" value="">
+                                    <input type="text" name="kode_butir" class="form-control form-control-alternative" value="">
                                 </div>
                                 <div class="col-6 col-lg-3">
                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                    <input type="number" name="angka_kredit" class="form-control form-control-alternative" value="">
+                                    <input type="text" name="angka_kredit" class="form-control form-control-alternative" value="">
                                 </div>
                             </div>
                             <div class="form-group">

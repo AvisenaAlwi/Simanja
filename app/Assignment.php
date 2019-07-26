@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
 {
-    protected $table = 'sub_activity';
+    protected $table = 'assignment';
     public $guarded = [];
     
     public function activity(){
         return $this->belongsTo(Activity::class);
+    }
+    public function subActivity(){
+        return $this->belongsTo(SubActivity::class, 'sub_activity_id', 'id');
     }
 }

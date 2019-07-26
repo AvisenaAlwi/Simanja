@@ -40,170 +40,178 @@
                         @csrf
 
                         <h6 class="heading-small text-muted mb-4">Infomrasi Pengguna</h6>
-                        <div>
-                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
-                                <input type="text" name="name" id="input-name"
-                                    class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                    placeholder="{{ __('Name') }}" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span>
-                                @endif
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
+                                    <input type="text" name="name" id="input-name"
+                                        class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                        placeholder="{{ __('Name') }}" value="{{ old('name') }}" required autofocus>
+    
+                                    @if ($errors->has('name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="form-group{{ $errors->has('nip') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-account-nip">NIP</label>
-                                <input type="text" name="nip" id="input-account-nip"
-                                    class="form-control form-control-alternative{{ $errors->has('account_nip') ? ' is-invalid' : '' }}"
-                                    value="{{ old('account_nip') }}" required autofocus>
-
-                                @if ($errors->has('account_nip'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('account_nip') }}</strong>
-                                </span>
-                                @endif
+                            <div class="col-12 col-md-6">
+                                <div class="form-group{{ $errors->has('nip') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-account-nip">NIP</label>
+                                    <input type="text" name="nip" id="input-account-nip"
+                                        class="form-control form-control-alternative{{ $errors->has('account_nip') ? ' is-invalid' : '' }}"
+                                        value="{{ old('account_nip') }}" required autofocus>
+    
+                                    @if ($errors->has('account_nip'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('account_nip') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-password">{{ __('Password') }}</label>
-                                <input type="password" name="password" id="input-password"
-                                    class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                    placeholder="{{ __('Password') }}" value="" required
-                                    autocomplete="false">
-
-                                @if ($errors->has('password'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                                @endif
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-password">{{ __('Password') }}</label>
+                                    <input type="password" name="password" id="input-password"
+                                        class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                        placeholder="{{ __('Password') }}" value="" required
+                                        autocomplete="false">
+    
+                                    @if ($errors->has('password'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-control-label"
-                                    for="input-password-confirmation">Konfirmasi Password</label>
-                                <input type="password" name="password_confirmation" id="input-password-confirmation"
-                                    class="form-control form-control-alternative" autocomplete="false"
-                                    placeholder="{{ __('Confirm Password') }}" value="" required>
-                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label"
+                                        for="input-password-confirmation">Konfirmasi Password</label>
+                                    <input type="password" name="password_confirmation" id="input-password-confirmation"
+                                        class="form-control form-control-alternative" autocomplete="false"
+                                        placeholder="{{ __('Confirm Password') }}" value="" required>
+                                </div>
 
-                            <div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-account-email">E-mail</label>
+                                    <input type="email" name="email" id="input-account-email"
+                                        class="form-control form-control-alternative{{ $errors->has('account_email') ? ' is-invalid' : '' }}"
+                                        value="{{ old('account_email') }}" required autofocus>
+
+                                    @if ($errors->has('account_nip'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('account_email') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('penilai_nip') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-account-penilai_nip">Pejabat
+                                        penilai NIP</label>
+                                    <input type="text" name="pejabat_penilai_nip" id="input-account-penilai_nip"
+                                        class="form-control form-control-alternative{{ $errors->has('account_penilai_nip') ? ' is-invalid' : '' }}"
+                                        value="{{ old('account_penilai_nip') }}" required autofocus>
+
+                                    @if ($errors->has('account_penilai_nip'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('account_penilai_nip') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-role_id">Level akun</label>
+                                    <select
+                                        class="form-control form-control-alternative{{ $errors->has('account_role_id') ? ' is-invalid' : '' }}"
+                                        id="input-role_id" name="role_id" required autofocus>
+                                        <option value="3">Pegawai</option>
+                                        <option value="2">Supervisor</option>
+                                        <option value="1">Admin</option>
+                                    </select>
+                                    @if ($errors->has('account_role_id'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('account_role_id') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-jabatan">Jabatan</label>
+                                    <input type="text"
+                                        class="form-control form-control-alternative{{ $errors->has('account_jabatan') ? ' is-invalid' : '' }}"
+                                        id="input-jabatan" name="jabatan" required autofocus>
+                                    @if ($errors->has('account_jabatan'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('account_jabatan') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
                                 <div class="row">
                                     <div class="col-lg-6">
 
-                                        <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-account-email">E-mail</label>
-                                            <input type="email" name="email" id="input-account-email"
-                                                class="form-control form-control-alternative{{ $errors->has('account_email') ? ' is-invalid' : '' }}"
-                                                value="{{ old('account_email') }}" required autofocus>
-
-                                            @if ($errors->has('account_nip'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('account_email') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group{{ $errors->has('penilai_nip') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-account-penilai_nip">Pejabat
-                                                penilai NIP</label>
-                                            <input type="text" name="pejabat_penilai_nip" id="input-account-penilai_nip"
-                                                class="form-control form-control-alternative{{ $errors->has('account_penilai_nip') ? ' is-invalid' : '' }}"
-                                                value="{{ old('account_penilai_nip') }}" required autofocus>
-
-                                            @if ($errors->has('account_penilai_nip'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('account_penilai_nip') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-role_id">Level akun</label>
-                                            <select
-                                                class="form-control form-control-alternative{{ $errors->has('account_role_id') ? ' is-invalid' : '' }}"
-                                                id="input-role_id" name="role_id" required autofocus>
-                                                <option value="3">Pegawai</option>
-                                                <option value="2">Supervisor</option>
-                                                <option value="1">Admin</option>
-                                            </select>
-                                            @if ($errors->has('account_role_id'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('account_role_id') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-jabatan">Jabatan</label>
-                                            <input type="text"
-                                                class="form-control form-control-alternative{{ $errors->has('account_jabatan') ? ' is-invalid' : '' }}"
-                                                id="input-jabatan" name="jabatan" required autofocus>
-                                            @if ($errors->has('account_jabatan'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('account_jabatan') }}</strong>
-                                            </span>
-                                            @endif
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-6">
-
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="col-lg-6" style="border-left:1px solid #ccc;">
-                                        <h3>Tingkat keahlian</h3>
-                                        <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label">Pendidikan</div>
-                                            <input type="text" name="pendidikan" class="qualifikasi-pendidikan"
-                                                data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
-                                                data-slider-ticks-labels='["S2", "S1", "D-IV", "D-III","SMA"]'
-                                                data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                                data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
-                                        </div>
-
-                                        <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label">Kemampuan TI
-                                            </div>
-                                            <input type="text" name="ti" class="qualifikasi-ti" data-provide="slider"
-                                                data-slider-ticks="[5,4,3,2,1]"
-                                                data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                                data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                                data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
-                                        </div>
-                                        <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label">Kemampuan
-                                                Menulis</div>
-                                            <input type="text" name="menulis" class="qualifikasi-menulis"
-                                                data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
-                                                data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                                data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                                data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
-                                        </div>
-                                        <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label">Kemampuan
-                                                Administrasi</div>
-                                            <input type="text" name="administrasi" class="qualifikasi-administrasi"
-                                                data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
-                                                data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                                data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                                data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
-                                        </div>
-                                        <div class="form-group" style="margin-left:10px">
-                                            <div class="form-control-label">Pengalaman
-                                                Survei</div>
-                                            <input type="text" name="pengalaman_survei" class="qualifikasi-pengalaman"
-                                                data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
-                                                data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                                data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                                data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
-                                        </div>
+                                    <div class="col-lg-6">
 
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-lg-6" style="border-left:1px solid #ccc;">
+                                <h3>Tingkat keahlian</h3>
+                                <div class="form-group" style="margin-left:10px">
+                                    <div class="form-control-label">Pendidikan</div>
+                                    <input type="text" name="pendidikan" class="qualifikasi-pendidikan"
+                                        data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
+                                        data-slider-ticks-labels='["S2", "S1", "D-IV", "D-III","SMA"]'
+                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                        data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
+                                </div>
+
+                                <div class="form-group" style="margin-left:10px">
+                                    <div class="form-control-label">Kemampuan TI
+                                    </div>
+                                    <input type="text" name="ti" class="qualifikasi-ti" data-provide="slider"
+                                        data-slider-ticks="[5,4,3,2,1]"
+                                        data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
+                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                        data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
+                                </div>
+                                <div class="form-group" style="margin-left:10px">
+                                    <div class="form-control-label">Kemampuan
+                                        Menulis</div>
+                                    <input type="text" name="menulis" class="qualifikasi-menulis"
+                                        data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
+                                        data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
+                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                        data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
+                                </div>
+                                <div class="form-group" style="margin-left:10px">
+                                    <div class="form-control-label">Kemampuan
+                                        Administrasi</div>
+                                    <input type="text" name="administrasi" class="qualifikasi-administrasi"
+                                        data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
+                                        data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
+                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                        data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
+                                </div>
+                                <div class="form-group" style="margin-left:10px">
+                                    <div class="form-control-label">Pengalaman
+                                        Survei</div>
+                                    <input type="text" name="pengalaman_survei" class="qualifikasi-pengalaman"
+                                        data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
+                                        data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
+                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                        data-slider-value="2" data-slider-tooltip="hide" style="width: 86%;" />
+                                </div>
+
                             </div>
                         </div>
                         <hr class="my-4" />

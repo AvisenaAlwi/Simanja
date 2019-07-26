@@ -11,10 +11,10 @@
         font-size: 13px;
     }
 
-    #id{
-    }
+    #id {}
 
-    th,td{
+    th,
+    td {
         text-align: center;
     }
 
@@ -24,7 +24,7 @@
 
 @section('content')
 @include('users.partials.header', [
-'title' => 'Detail kegiatan',
+'title' => 'Detail Pelaporan Kegiatan',
 // 'description' => 'halaman berikut menunjukkan Detail kegiatan yang yang telah dibuat.'
 ])
 
@@ -33,93 +33,93 @@
         <div class="col-xl-12 order-xl-1">
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
-                    <div class="card-body">
-                        <div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="heading-small text-muted mb-4">Kegiatan</h6>
-                                </div>
-                                <div class="col-md-6 d-flex justify-content-end">
-                                    {{-- <h5>Dibuat : {{ $Carbon::parse($sub_activity->created_at)->timezone('Asia/Jakarta')->format('H:i, d-m-Y')}}</h5> --}}
-                                    <h5>Dibuat : {{ $Carbon::createFromTimeStamp(strtotime($sub_activity->created_at))->diffForHumans() }}</h5>
-                                </div>
-                            </div>
-                            <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
-                            <h4>dibuat oleh: {{$sub_activity->user_name}}</h4>
-                            @if (date_create($sub_activity->awal)->format("Y-m") == date_create($sub_activity->akhir)->format("Y-m"))
-                            <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}
-                            @else
-                            <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' .
-                                $Carbon::parse($sub_activity->akhir)->formatLocalized('%B %Y')}}</h4>
-                            @endif
-                            <h4>Kategori: {{$sub_activity->kategori}}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="heading-small text-muted mb-4">Kegiatan</h6>
                         </div>
-                        <hr>
-                        <div>
-                            <h6 class="heading-small text-muted mb-4">{{ __('Sub Kegiatan') }}</h6>
-                            <h1 class="display-4">{{$sub_activity->sub_activity_name}}</h1>
-                                <h4>Petugas pengemban:</h4>
-                                @php
-                                $result = json_decode($sub_activity->petugas,true);
-                                $users_size = sizeof($result);
-                                $counter = 0;
-                                @endphp
-                            </div>
-                            @if ($users_size!=0)
-                            <div class="table-responsive">
-                                <form action="" method="get">
-                                <table class="table table-sm table-dark">
-                                    <thead>
-                                        <tr>
-                                            <th id='no' scope="col">No</th>
-                                            <th scope="col">NIP</th>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">Jabatan</th>
-                                            <th scope="col">E-mail</th>
-                                            <th scope="col">Realisasi</th>
-                                            <th scope="col">Keterangan</th>
-                                            <th scope="col">Tingkat kualitas (%)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($users as $users_data)
-                                        @foreach ($result as $petugas)
-                                        @if ($petugas==$users_data->id)
-                                        @php $counter = $counter + 1;
-                                        @endphp
-                                        <tr>
-                                            <th scope="row">{{$counter}}</th>
-                                            <td>{{$users_data->nip}}</td>
-                                            <td>{{$users_data->name}}</td>
-                                            <td>{{$users_data->jabatan}}</td>
-                                            <td>{{$users_data->email}}</td>
-                                            <td><input type="number" name="realisasi_{{$users_data->id}}" id="" style="width: 50px"></td>
-                                            <td><textarea name="keterangan_{{$users_data->id}}" id="" cols="30" rows="1"></textarea></td>
-                                            <td><input type="number" name="kualitas_{{$users_data->id}}" id="" style="width: 50px"></td>
-                                        </tr>
-                                        @endif
-                                        @endforeach
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <br>
-                            <input class="btn btn-success center" type="submit" value="Simpan">
-                        </form>
-                            @else
-                                <h4 class="text-center">Belum ada pegawai yang menerima tugas kegiatan ini</h4>
-                                <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}">
-                                        <button class="mx-auto w-auto p-3 btn btn-warning btn-block text-center">
-                                            <i class="ni ni-single-copy-04"></i>
-                                            <span>Tugaskan</span>
-                            @endif
+                        <div class="col-md-6 d-flex justify-content-end">
+                            <h5>Dibuat : {{ $Carbon::createFromTimeStamp(strtotime($sub_activity->created_at))->diffForHumans() }}
+                            </h5>
                         </div>
                     </div>
+                    <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
+                    <h4>dibuat oleh: {{ $sub_activity->user_name }}</h4>
+                    @if (date_create($sub_activity->awal)->format("Y-m") == date_create($sub_activity->akhir)->format("Y-m"))
+                    <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}</h4>
+                    @else
+                    <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' .
+                    $Carbon::parse($sub_activity->akhir)->formatLocalized('%B %Y')}}</h4>
+                    @endif
+                    <h4>Kategori: {{$sub_activity->kategori}}</h4>
+                    <hr>
+                    <div>
+                        <h6 class="heading-small text-muted mb-4">Sub Kegiatan</h6>
+                        <h1 class="display-4">{{$sub_activity->sub_activity_name}}</h1>
+                        <h4>Petugas pengemban:</h4>
+                    </div>
+                    @php
+                    $result = json_decode($sub_activity->petugas,true);
+                    $users_size = sizeof($result);
+                    $counter = 0;
+                    @endphp
+                    @if ($users_size!=0)
+                    <form action="" method="get">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-dark">
+                                <thead>
+                                    <tr>
+                                        <th id='no' scope="col">No</th>
+                                        <th scope="col">NIP</th>
+                                        <th scope="col">Nama</th>
+                                        <th scope="col">Jabatan</th>
+                                        <th scope="col">E-mail</th>
+                                        <th scope="col">Realisasi</th>
+                                        <th scope="col">Keterangan</th>
+                                        <th scope="col">Tingkat kualitas (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users as $users_data)
+                                    @foreach ($result as $petugas)
+                                    @if ($petugas==$users_data->id)
+                                    @php $counter = $counter + 1;
+                                    @endphp
+                                    <tr>
+                                        <th scope="row">{{$counter}}</th>
+                                        <td>{{$users_data->nip}}</td>
+                                        <td>{{$users_data->name}}</td>
+                                        <td>{{$users_data->jabatan}}</td>
+                                        <td>{{$users_data->email}}</td>
+                                        <td><input type="number" name="realisasi_{{$users_data->id}}" id=""
+                                                style="width: 50px"></td>
+                                        <td><textarea name="keterangan_{{$users_data->id}}" id="" cols="30"
+                                                rows="1"></textarea></td>
+                                        <td><input type="number" name="kualitas_{{$users_data->id}}" id=""
+                                                style="width: 50px"></td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <input class="btn btn-success center" type="submit" value="Simpan">
+                    </form>
+                    @else
+                    <h4 class="text-center">Belum ada pegawai yang menerima tugas kegiatan ini</h4>
+                    <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}">
+                        <button class="mx-auto w-auto p-3 btn btn-warning btn-block text-center">
+                            <i class="ni ni-single-copy-04"></i>Tugaskan
+                        </button>
+                    </a>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
-
     @include('layouts.footers.auth')
 </div>
 @endsection

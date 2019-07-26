@@ -23,9 +23,12 @@ class CreateMyActivityTable extends Migration
             $table->date('akhir')->nullable();
             $table->string('satuan');
             $table->smallInteger('volume');
-            $table->smallInteger('kode_butir')->nullable();
-            $table->smallInteger('angka_kredit')->nullable();
-            $table->text('keterangan')->nullable();
+            $table->string('kode_butir', 50)->nullable();
+            $table->string('angka_kredit', 50)->nullable();
+            $table->smallInteger('realisasi')->nullable();
+            $table->smallInteger('tingkat_kualitas')->nullable();
+            $table->text('keterangan_t')->nullable();
+            $table->text('keterangan_r')->nullable();
             $table->timestamps();
         });
     }

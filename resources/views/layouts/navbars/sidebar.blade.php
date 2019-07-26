@@ -44,7 +44,7 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                     <div class=" dropdown-header noti-title">
                         <h6 class="text-overflow m-0">Selamat Datang!</h6>
                     </div>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                    <a href="{{ route('profile.index') }}" class="dropdown-item">
                         <i class="ni ni-single-02"></i>
                         <span>Profil Saya</span>
                     </a>
@@ -110,7 +110,7 @@ style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
                     </a>
                 </li>
                 @endif
-                <li class="nav-item">
+                <li class="nav-item {{ $activeSideBar == 'report' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('report.index') }}">
                         <i class="ni ni-collection text-warning"></i> <b id="text">Pelaporan</b>
                     </a>

@@ -17,7 +17,10 @@ class MyActivity extends Model
         'volume',
         'kode_butir',
         'angka_kredit',
-        'keterangan',
+        'realisasi',
+        'tingkat_kualitas',
+        'keterangan_t',
+        'keterangan_r',
     ];
     public $gurared = ['id'];
 

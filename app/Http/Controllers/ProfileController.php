@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
+use App\Assignment;
 
 class ProfileController extends Controller
 {
@@ -16,13 +16,12 @@ class ProfileController extends Controller
      */
     public function index()
     {
-            $sub_activity = DB::table('sub_activity')
-            ->select([
-                'petugas'
-            ])
-            ->get(10);
-            return view('profile.index', ['sub_activity' => $sub_activity]);
-        }
+        $userId = auth()->user()->id;
+        $jumlahTugasYangDiemban = Assignment::selectRaw("COUNT(`id`) as count")
+                        ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
+                        ->first()->count;
+        return view('profile.index', ['jumlahTugasYangDiemban' => $jumlahTugasYangDiemban]);
+    }
 
     public function edit()
     {

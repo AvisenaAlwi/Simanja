@@ -21,8 +21,8 @@ class CreateAssignmentTable extends Migration
             $table->foreign('sub_activity_id')->references('id')->on('sub_activity');
             $table->unsignedSmallInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->json('petugas');
-            $table->smallInteger('realisasi');
+            $table->json('petugas')->default('[]');
+            $table->smallInteger('realisasi')->nullable();
             $table->tinyInteger('tingkat_kualitas')->nullable();
             $table->smallInteger('kode_butir')->nullable();
             $table->smallInteger('angka_kredit')->nullable();

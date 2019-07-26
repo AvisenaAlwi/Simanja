@@ -55,49 +55,44 @@
                             <h4>Satuan: {{$sub_activity->satuan}} | Volume: {{$sub_activity->volume}}</h4>
                             <h4>Pendidikan minimal: {{$sub_activity->pendidikan}}</h4>
                             <h4>Kualifikasi minimal:</h4>
-                            <div>
-                                <table class="table table-sm table-dark">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">No</th>
-                                            <th scope="col">Keahlian</th>
-                                            <th scope="col">Tingkat</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>TI</td>
-                                            <td>{{$sub_activity->ti}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Menulis</td>
-                                            <td>{{$sub_activity->menulis}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Administrasi</td>
-                                            <td>{{$sub_activity->administrasi}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>Pengalaman survei</td>
-                                            <td>{{$sub_activity->pengalaman_survei}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div>
-                                <br>
-                                <h4>Petugas pengemban:</h4>
-                                @php
-                                $result = json_decode($sub_activity->petugas,true);
-                                $users_size = sizeof($result);
-                                $counter = 0;
-                                @endphp
-                            </div>
+                            <table class="table table-sm table-dark">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Keahlian</th>
+                                        <th scope="col">Tingkat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>TI</td>
+                                        <td>{{$sub_activity->ti}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Menulis</td>
+                                        <td>{{$sub_activity->menulis}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Administrasi</td>
+                                        <td>{{$sub_activity->administrasi}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>Pengalaman survei</td>
+                                        <td>{{$sub_activity->pengalaman_survei}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <h4>Petugas pengemban:</h4>
+                            @php
+                            $result = json_decode($sub_activity->petugas,true);
+                            $users_size = sizeof($result);
+                            $counter = 0;
+                            @endphp
                             @if ($users_size!=0)
                             <div class="table-responsive">
                                 <table class="table table-sm table-dark">
@@ -111,7 +106,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($result as $petugas)
+                                        @foreach ($result as $petugas => $value)
                                         @php $counter = $counter + 1;
                                         $users_data = $User::find($petugas);
                                         @endphp
@@ -131,7 +126,7 @@
                                 <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}">
                                         <button class="mx-auto w-auto p-3 btn btn-warning btn-block text-center">
                                             <i class="ni ni-single-copy-04"></i>
-                                            <span>Tugaskan</span>
+                                            <span>Tugaskan</span></button></a>
                             @endif
                         </div>
                     </div>
@@ -139,7 +134,6 @@
             </div>
         </div>
     </div>
-
     @include('layouts.footers.auth')
 </div>
 

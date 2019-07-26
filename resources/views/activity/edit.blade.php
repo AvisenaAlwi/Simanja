@@ -210,11 +210,11 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                                <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="{{ $sub_activity->kode_butir }}">
+                                                <input type="text" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="{{ $sub_activity->kode_butir }}">
                                             </div>
                                             <div class="col-lg-6">
                                                 <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="{{ $sub_activity->angka_kredit }}">
+                                                <input type="text" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="{{ $sub_activity->angka_kredit }}">
                                             </div>
                                         </div>
                                         <div class="form-group">

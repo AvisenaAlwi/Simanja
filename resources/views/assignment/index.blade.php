@@ -85,15 +85,17 @@ $yearQuery = $Input::get('year', $currentYear);
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
-                                        <div class="media-body">
-                                            <span class="name mb-0 text-sm">
-                                                {{ $sub->full_name }}
-                                            </span>
-                                        </div>
+                                        <a href="{{ route('activity.show', $sub->id) }}">
+                                            <div class="media-body">
+                                                <span class="name mb-0 text-sm">
+                                                    {{ $sub->full_name }}
+                                                </span>
+                                            </div>
+                                        </a>
                                     </div>
                                 </th>
                                 <td>
-                                    @if (sizeof(json_decode($sub->petugas)) == 0)
+                                    @if (sizeof(json_decode($sub->petugas, true)) == 0)
                                         <span class="badge badge-dot mr-4 badge-warning">
                                             <i class="bg-warning"></i>
                                             <span class="status">Belum Ditugaskan</span>
@@ -107,9 +109,9 @@ $yearQuery = $Input::get('year', $currentYear);
                                 </td>
                                 <td>
                                     <div class="avatar-group">
-                                        @forelse (json_decode($sub->petugas) as $person)
+                                        @forelse (json_decode($sub->petugas, true) as $idPerson => $monthsArrays)
                                         @php
-                                            $person = App\User::find($person);
+                                            $person = App\User::find($idPerson);
                                         @endphp
                                         <a href="#" data-toggle="tooltip"
                                             data-original-title="{{ $person->name }}"
@@ -122,8 +124,10 @@ $yearQuery = $Input::get('year', $currentYear);
                                     </div>
                                 </td>
                                 <td>
+                                    @if($sub->created_by_user_id == auth()->user()->id || auth()->user()->role_id == 1)
                                     @empty(json_decode($sub->petugas))
-                                        <a href="{{ route('assignment.edit', $sub->id) }}">
+                                        {{-- <a href="{{ route('assignment.edit', App\Assignment::where('sub_activity_id', '=', $sub->id)->select('id')->first()) }}"> --}}
+                                        <a href="{{ route('assignment.edit', $sub->assignment_id) }}">
                                             <button class="btn btn-warning btn-block text-left">
                                                 <i class="ni ni-single-copy-04"></i>
                                                 <span>Tugaskan</span>
@@ -137,6 +141,9 @@ $yearQuery = $Input::get('year', $currentYear);
                                             </div>
                                         </a>
                                     @endempty
+                                    @else
+                                    Harus ditugaskan oleh {{ $sub->user_name }}
+                                    @endif
                                 </td>
                             </tr>
                             @empty
