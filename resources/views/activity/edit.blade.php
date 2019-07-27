@@ -1,8 +1,13 @@
+@inject('Cookie', 'Illuminate\Support\Facades\Cookie')
 @extends('layouts.app', ['title' => 'Edit Kegiatan'])
 
 @push('style')
 <!-- Latest compiled and minified CSS -->
+@if ($Cookie::get('dark') == 'true')
+<link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/dark-easy-autocomplete.min.css">
+@else
 <link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/easy-autocomplete.min.css">
+@endif
 <link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrapslider') }}/bootstrap-slider.min.css" />
 <style>
     .slider.slider-horizontal{

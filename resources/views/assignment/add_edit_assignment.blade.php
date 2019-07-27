@@ -19,6 +19,7 @@
     }
     .form-control[type=number]{
         min-width: 80px;
+        border-radius: 0;
     }
 
     .md-chip {

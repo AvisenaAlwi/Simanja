@@ -1,10 +1,11 @@
+@inject('Cookie', 'Illuminate\Support\Facades\Cookie')
 @extends('layouts.app', ['title' => 'Manajemen Akun'])
-
-
 @push('style')
-<!-- Latest compiled and minified CSS -->
-
+@if ($Cookie::get('dark') == 'true')
+<link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/dark-easy-autocomplete.min.css">
+@else
 <link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/easy-autocomplete.min.css">
+@endif
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css" />

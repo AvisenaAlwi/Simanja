@@ -97,8 +97,8 @@ class UserController extends Controller
                 'administrasi' => config('scale.likert')[$request['administrasi']-1],
                 'pengalaman_survei' => config('scale.likert')[$request['pengalaman_survei']-1]
                 ])
-                ->except([$request->get('password') ? '' : 'password']
-        ));
+                ->except([$request->get('password') ? '' : 'password'])
+            );
 
         return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
     }

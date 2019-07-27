@@ -121,7 +121,7 @@
                 @endif
                 <li class="nav-item {{ $activeSideBar == 'report' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('report.index') }}">
-                        <i class="ni ni-collection text-warning"></i> <b id="text">Pelaporan</b>
+                        <i class="ni ni-collection text-success"></i> <b id="text">Pelaporan</b>
                     </a>
                 </li>
                 @if (auth()->user()->role_id == 1)
