@@ -69,8 +69,10 @@
         $currentMonth = $Carbon::now()->formatLocalized('%B');
         $currentMonthShort = $Carbon::now()->formatLocalized('%b');
         $today = $Carbon::now()->format('d');
-        $firstDay = $Carbon::parse('first day of this month')->format('d');
-        $lastDay = $Carbon::parse('last day of this month')->format('d');
+        $firstDay = $date->startOfMonth()->format('d');
+        $lastDay = $date->lastOfMonth()->format('d');
+        $month = $date->timezone('Asia/Jakarta')->formatLocalized('%B');
+        $year = $date->timezone('Asia/Jakarta')->formatLocalized('%Y');
 
         @endphp
         <div style="display: flex; justify-content: flex-end;">
@@ -92,7 +94,7 @@
             </tr>
             <tr>
                 <td>Periode </td>
-                <td>: {{$firstDay.' - '.$lastDay.' '.$currentMonth.' '.$currentYear}}
+                <td>: {{$firstDay.' - '.$lastDay.' '.$month.' '.$year}}
                 </td>
             </tr>
         </table>
@@ -133,18 +135,23 @@
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_utama as $utama)
-            @php $counter++; @endphp
+            @php 
+            $counter++; 
+            $ket = json_decode($utama->keterangan_r, true)[auth()->user()->id]["${month}_${year}"];
+            $reali = json_decode($utama->realisasi, true)[auth()->user()->id]["${month}_${year}"];
+            $tingkul = json_decode($utama->tingkat_kualitas, true)[auth()->user()->id]["${month}_${year}"];
+            @endphp
             <tr>
                 <td>{{$counter}}</td>
                 <td class="uraian_keg">{{$utama->full_name}}</td>
                 <td>{{$utama->satuan}}</td>
                 <td>{{$utama->month_volume}}</td>
-                <td></td>
-                <td>{{ $utama->month_volume/($utama->realisasi??$utama->month_volume)*100}}%</td>
-                <td></td>
+                <td>{{ $reali }}</td>
+                <td>{{ $reali == 0 ? 0 : ($reali/$utama->month_volume)*100 }}%</td>
+                <td>{{ $tingkul }}%</td>
                 <td>{{$utama->kode_butir}}</td>
                 <td>{{$utama->angka_kredit}}</td>
-                <td class="keterangan">{{$utama->keterangan}}</td>
+                <td class="keterangan">{{ $ket }}</td>
             </tr>
             @endforeach
             @endif
@@ -154,18 +161,23 @@
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_tambahan as $tambahan)
-            @php $counter++; @endphp
+            @php 
+            $counter++; 
+            $ket = json_decode($utama->keterangan_r, true)[auth()->user()->id]["${month}_${year}"];
+            $reali = json_decode($utama->realisasi, true)[auth()->user()->id]["${month}_${year}"];
+            $tingkul = json_decode($utama->tingkat_kualitas, true)[auth()->user()->id]["${month}_${year}"];
+            @endphp
             <tr>
                 <td>{{$counter}}</td>
                 <td class="uraian_keg">{{$tambahan->full_name}}</td>
                 <td>{{$tambahan->satuan}}</td>
                 <td>{{$tambahan->month_volume}}</td>
-                <td></td>
-                <td>{{ $tambahan->month_volume/($tambahan->realisasi??$tambahan->month_volume)*100}}%</td>
-                <td></td>
+                <td>{{ $reali }}</td>
+                <td>{{ $reali == 0 ? 0: ($reali/$utama->month_volume)*100}}%</td>
+                <td>{{ $tingkul }}%</td>
                 <td>{{$tambahan->kode_butir}}</td>
                 <td>{{$tambahan->angka_kredit}}</td>
-                <td class="keterangan">{{$tambahan->keterangan}}</td>
+                <td class="keterangan">{{$ket}}</td>
             </tr>
             @endforeach
             @endif
@@ -174,7 +186,7 @@
     <div id="sign">
         <div id="sign_dinilai">
             <br>
-            <p>Malang,{{$today.' '.$currentMonthShort.' '.$currentYear}} <br>
+            <p>Malang, {{$today.' '.$currentMonthShort.' '.$currentYear}} <br>
                 Pegawai Yang dinilai <br>
                 <br><br><br><br>
                 {{auth()->user()->name}} <br>

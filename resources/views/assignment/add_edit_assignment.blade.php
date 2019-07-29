@@ -12,14 +12,11 @@
         border: none;
         background: transparent;
         border-bottom: 1px solid #888;
-        width: 50px;
+        width: 70px;
+        border-radius: 0;
     }
     input[type="number"]:focus{
         outline: none;
-    }
-    .form-control[type=number]{
-        min-width: 80px;
-        border-radius: 0;
     }
 
     .md-chip {
@@ -134,7 +131,7 @@ $petugas = json_decode($assignment->petugas, true);
 'description' => 'Halaman ini bertujuan menambahkan kegiatan sekaligus sub-kegiatan. Minimal terdapat satu sub kegiatan dalam 1 kegiatan.'
 ])
 <div class="container-fluid mt--7">
-    <form action="{{ route('assignment.update', $assignment->id) }}" method="post">
+    <form action="{{ route('assignment.update', $assignment->id) }}" method="post" id="form-assignment">
         @csrf
         @method('put')
         <div class="row">
@@ -256,7 +253,7 @@ $petugas = json_decode($assignment->petugas, true);
                             </table>
                             Total: <b id="total"></b> dari <b>{{ $subActivity->volume }}</b>
                         </div>
-                        <button class="mx-auto w-auto p-3 btn btn-warning btn-block text-center">
+                        <button class="mx-auto w-auto p-3 btn btn-warning btn-block text-center" type="button" id="btn-submit-edit">
                             <i class="ni ni-single-copy-04"></i>
                             Tugaskan
                         </button>
@@ -358,6 +355,23 @@ $petugas = json_decode($assignment->petugas, true);
                 return false;
                 }
             });
+            $('#btn-submit-edit').click(function(){
+                swal.fire({
+                    title: 'Peringatan',
+                    html: 'Mengupdate penugasan dapat mereset realisasi, tingkat kualitas, dan keterangan pada CKP-R untuk kegiatan ini. Ingin lanjutkan?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, lanjutkan',
+                    cancelButtonText: 'Batal'
+                })
+                .then((result) => {
+                    if(result.value){
+                        $('#form-assignment').submit();
+                    }
+                });
+            })
         });
     </script>
     @endpush
