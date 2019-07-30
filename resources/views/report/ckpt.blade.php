@@ -62,7 +62,7 @@
         $currentMonthShort = $Carbon::now()->formatLocalized('%b');
         $today = $Carbon::now()->format('d');
         $firstDay = $date->startOfMonth()->format('d');
-        $lastDay = $date->startOfMonth()->format('d');
+        $lastDay = $date->lastOfMonth()->format('d');
         $month = $date->timezone('Asia/Jakarta')->formatLocalized('%B');
         $year = $date->timezone('Asia/Jakarta')->formatLocalized('%Y');
 
@@ -152,7 +152,7 @@
     </div>
     <div id="sign_penilai">
         <br>
-        <p> Malang,{{$today.' '.$currentMonthShort.' '.$currentYear}} <br>
+        <p> Malang, {{$today.' '.$currentMonthShort.' '.$currentYear}} <br>
             Pejabat Penilai,<br>
             {{$penilai->jabatan}}
             <br><br><br><br>

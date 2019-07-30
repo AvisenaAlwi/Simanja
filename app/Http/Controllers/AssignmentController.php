@@ -143,19 +143,16 @@ class AssignmentController extends Controller
         $months = [];
         $awalMonthId = (int)$awal->format('m');
         $akhirMonthId = (int)$akhir->format('m');
-        if ($awal->format('Y') == $akhir->format('Y'))
-            for($i = $awalMonthId-1; $i < $akhirMonthId; $i ++)
-                array_push($months, ['monthName' => $monthsConfig[$i], 'monthId' => $i]);
-        else{
-            $interval = DateInterval::createFromDateString('1 month');
-            $period = new DatePeriod($awal, $interval, $akhir);
-            foreach($period as $dt){
-                $mo = new Carbon($dt);
-                $monthName = $mo->timezone('Asia/Jakarta')->formatLocalized('%B %Y');
-                $monthId = $mo->timezone('Asia/Jakarta')->formatLocalized('%m');
-                array_push($months, ['monthName' => $monthName, 'monthId' => $monthId]);
-            }
+
+        $interval = DateInterval::createFromDateString('1 month');
+        $period = new DatePeriod($awal, $interval, $akhir);
+        foreach($period as $dt){
+            $mo = new Carbon($dt);
+            $monthName = $mo->timezone('Asia/Jakarta')->formatLocalized('%B %Y');
+            $monthId = $mo->timezone('Asia/Jakarta')->formatLocalized('%m');
+            array_push($months, ['monthName' => $monthName, 'monthId' => $monthId]);
         }
+
         $users_name = [];
         foreach($users as $user){
             $users_name[$user->id] = $user->name;
@@ -183,18 +180,33 @@ class AssignmentController extends Controller
     {
         $allReqeust = $request->all();
         $dataPetugasArray = [];
+        $realisasiArray = [];
+        $tingkatKualitasArray = [];
+        $keteranganArray = [];
         foreach($allReqeust as $key=>$value){
             preg_match("/(\d+)_(.*)/", $key, $re);
             if (sizeof($re) != 0){
                 if (!isset($dataPetugasArray[$re[1]]))
                     $dataPetugasArray[$re[1]] = [];
+                if (!isset($realisasiArray[$re[1]]))
+                    $realisasiArray[$re[1]] = [];
+                if (!isset($keteranganArray[$re[1]]))
+                    $keteranganArray[$re[1]] = [];
+                if (!isset($tingkatKualitasArray[$re[1]]))
+                    $tingkatKualitasArray[$re[1]] = [];
                 $dataPetugasArray[(int)$re[1]][$re[2]] = (int)$value;
+                $realisasiArray[(int)$re[1]][$re[2]] = 0;
+                $keteranganArray[(int)$re[1]][$re[2]] = "";
+                $tingkatKualitasArray[(int)$re[1]][$re[2]] = 0;
             }
         }
         Assignment::updateOrCreate(
             ['id' => $assignment->id], // Syarat
             [
-                'petugas' => json_encode($dataPetugasArray)
+                'petugas' => json_encode($dataPetugasArray),
+                'realisasi' => json_encode($realisasiArray),
+                'tingkat_kualitas' => json_encode($tingkatKualitasArray),
+                'keterangan' => json_encode($keteranganArray),
             ] // update
         );
         return redirect()->route('assignment.index')->withStatus(__('Penugasan berhasil diubah.'));

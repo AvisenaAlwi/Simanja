@@ -33,12 +33,17 @@
                             <h3 class="mb-0">Edit Akun</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">Kembali</a>
+                            <a href="{{ route('user.index') }}" title="Kembali" data-toggle="tooltip"
+                                data-placement="top">
+                                <button type="button" class="btn btn-primary btn-sm"><span
+                                    class="ni ni-bold-left"></span>
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('user.update', $user) }}" autocomplete="off">
+                    <form method="post" action="{{ route('user.update', $user) }}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         @method('put')
 

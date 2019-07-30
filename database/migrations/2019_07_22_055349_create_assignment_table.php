@@ -21,12 +21,12 @@ class CreateAssignmentTable extends Migration
             $table->foreign('sub_activity_id')->references('id')->on('sub_activity')->onDelete('cascade');
             $table->unsignedSmallInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->json('petugas')->default('[]');
-            $table->smallInteger('realisasi')->nullable();
-            $table->tinyInteger('tingkat_kualitas')->nullable();
-            $table->string('kode_butir')->nullable();
-            $table->string('angka_kredit')->nullable();
-            $table->text('keterangan')->nullable();
+            $table->json('petugas')->default('{}');
+            $table->json('realisasi')->default('{}');
+            $table->json('tingkat_kualitas')->default('{}');
+            // $table->string('kode_butir')->nullable();
+            // $table->string('angka_kredit')->nullable();
+            $table->json('keterangan')->default('{}');
             $table->timestamps();
         });
     }

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use App\Assignment;
 
 class MyActivityController extends Controller
 {
@@ -35,7 +36,9 @@ class MyActivityController extends Controller
                 'sub_activity.*',
                 'activity.awal',
                 'activity.akhir',
-                'assignment.petugas as petugas'
+                'assignment.petugas as petugas',
+                'assignment.realisasi',
+                'assignment.keterangan as keterangan_r'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
@@ -186,4 +189,19 @@ class MyActivityController extends Controller
             return response()->json(['status'=>'gagal', 'message'=>'ID tidak ditemukan'], 404);
         }
     }
+
+    public function update_realisasi_keterangan(Request $request, $id){
+        // dd($request->all());
+        $f = Assignment::where('sub_activity_id','=',$id)->first();
+        // dd($f->toJson());
+        $realisasi = json_decode($f->realisasi, true);
+        $keterangan = json_decode($f->keterangan, true);
+        $realisasi[$request->user_id][$request->month_year] = $request->realisasi;
+        $keterangan[$request->user_id][$request->month_year] = $request->keterangan;
+        $f->update([
+            'realisasi' => json_encode($realisasi),
+            'keterangan' => json_encode($keterangan)
+        ]);
+    }
+
 }

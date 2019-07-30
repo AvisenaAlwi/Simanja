@@ -2360,7 +2360,6 @@ pre code
     transition: all .2s cubic-bezier(.68, -.55, .265, 1.55); 
 
     color: #8898aa;
-    border: 1px solid #cad1d7;
     border-radius: .375rem;
     background-color: #202020;
     background-clip: padding-box;
@@ -2381,10 +2380,10 @@ pre code
 .form-control:focus
 {
     color: #8898aa;
-    border-color: rgba(50, 151, 211, .25);
-    outline: 0;
-    background-color: #202020;
+    outline: none;
+    /* background-color: #202020; */
     box-shadow: none, none;
+    border-bottom: 1px solid white;
 }
 .form-control:-ms-input-placeholder
 {
@@ -2404,7 +2403,7 @@ pre code
 .form-control:disabled,
 .form-control[readonly]
 {
-    opacity: 1; 
+    opacity: .5; 
     background-color: #e9ecef;
 }
 
@@ -3020,7 +3019,6 @@ fieldset:disabled a.btn
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle
 {
-    color: #202020;
     border-color: #5e72e4; 
     background-color: #324cdd;
 }
@@ -3100,7 +3098,6 @@ fieldset:disabled a.btn
 .btn-success:not(:disabled):not(.disabled).active,
 .show > .btn-success.dropdown-toggle
 {
-    color: #202020;
     border-color: #2dce89; 
     background-color: #24a46d;
 }
@@ -3140,7 +3137,6 @@ fieldset:disabled a.btn
 .btn-info:not(:disabled):not(.disabled).active,
 .show > .btn-info.dropdown-toggle
 {
-    color: #202020;
     border-color: #11cdef; 
     background-color: #0da5c0;
 }
@@ -3180,7 +3176,6 @@ fieldset:disabled a.btn
 .btn-warning:not(:disabled):not(.disabled).active,
 .show > .btn-warning.dropdown-toggle
 {
-    color: #202020;
     border-color: #fb6340; 
     background-color: #fa3a0e;
 }
@@ -3220,7 +3215,6 @@ fieldset:disabled a.btn
 .btn-danger:not(:disabled):not(.disabled).active,
 .show > .btn-danger.dropdown-toggle
 {
-    color: #202020;
     border-color: #f5365c; 
     background-color: #ec0c38;
 }
@@ -3300,7 +3294,6 @@ fieldset:disabled a.btn
 .btn-dark:not(:disabled):not(.disabled).active,
 .show > .btn-dark.dropdown-toggle
 {
-    color: #202020;
     border-color: #adb5bd; 
     background-color: #0a0c0d;
 }
@@ -18039,7 +18032,7 @@ a.btn-icon-only
 .form-control
 {
     font-size: .875rem;
-    border: 1px solid rgba(255,255,255,.5) !important;
+    /* border: 1px solid rgba(255,255,255,.5) !important; */
     color: #fff !important;
 }
 .form-control:focus:-ms-input-placeholder

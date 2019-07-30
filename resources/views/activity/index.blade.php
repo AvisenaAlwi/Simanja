@@ -188,11 +188,12 @@
             Swal.fire({
                 title: '',
                 html: 'Yakin Ingin Menghapus <h3>' + title + ' ?</h3>',
-                type: 'question',
+                type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus'
+                confirmButtonText: 'Ya, hapus',
+                cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.value) {
                     axios({
