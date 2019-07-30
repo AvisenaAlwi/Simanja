@@ -43,52 +43,61 @@
                     <div class="card-body">
                         @csrf
 
-                        <h6 class="heading-small text-muted mb-4">Infomrasi Pengguna</h6>
+                        <h6 class="heading-small text-muted mb-4">Informasi Pengguna</h6>
                         <div>
-                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
-                                <input type="text" name="name" id="input-name"
-                                    class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                    placeholder="{{ __('Name') }}" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span>
-                                @endif
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label" for="input-name">Nama</label>
+                                        <input type="text" name="name" id="input-name"
+                                            class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                            value="{{ old('name') }}" required autofocus>
+                                            @if ($errors->has('name'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('name') }}</strong>
+                                            </span>
+                                            @endif
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group{{ $errors->has('nip') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label" for="input-account-nip">NIP</label>
+                                        <input type="text" name="nip" id="input-account-nip"
+                                            class="form-control form-control-alternative{{ $errors->has('account_nip') ? ' is-invalid' : '' }}"
+                                            value="{{ old('account_nip') }}" required autofocus>
+                                            @if ($errors->has('account_nip'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('account_nip') }}</strong>
+                                            </span>
+                                            @endif
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group{{ $errors->has('nip') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-account-nip">NIP</label>
-                                <input type="text" name="nip" id="input-account-nip"
-                                    class="form-control form-control-alternative{{ $errors->has('account_nip') ? ' is-invalid' : '' }}"
-                                    value="{{ old('account_nip') }}" required autofocus>
-
-                                @if ($errors->has('account_nip'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('account_nip') }}</strong>
-                                </span>
-                                @endif
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label" for="input-password">Password</label>
+                                        <input type="password" name="password" id="input-password"
+                                            class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                            autocomplete="false" value="" required> 
+                                            @if ($errors->has('password'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label"
+                                            for="input-password-confirmation">Konfirmasi Password</label>
+                                            <input type="password" name="password_confirmation" id="input-password-confirmation"
+                                                class="form-control form-control-alternative" autocomplete="false" value="" required>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-password">{{ __('Password') }}</label>
-                                <input type="password" name="password" id="input-password"
-                                    class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                    placeholder="{{ __('Password') }}" value="" required
-                                    autocomplete="false">
-
-                                @if ($errors->has('password'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label class="form-control-label"
-                                    for="input-password-confirmation">Konfirmasi Password</label>
-                                <input type="password" name="password_confirmation" id="input-password-confirmation"
-                                    class="form-control form-control-alternative" autocomplete="false"
-                                    placeholder="{{ __('Confirm Password') }}" value="" required>
-                            </div>
+                            
+                            
 
                             <div>
                                 <div class="row">

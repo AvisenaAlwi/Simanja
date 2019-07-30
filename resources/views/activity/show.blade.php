@@ -1,5 +1,6 @@
 @inject('Carbon', '\Carbon\Carbon')
 @inject('User', 'App\User')
+@inject('Activity', '\App\Activity')
 @extends('layouts.app', ['title' => $sub_activity->full_name])
 
 @push('style')
@@ -27,35 +28,46 @@
         <div class="col-xl-12 order-xl-1">
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
-                    <div class="card-body">
-                        <div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="heading-small text-muted mb-4">Kegiatan</h6>
-                                </div>
-                                <div class="col-md-6 d-flex justify-content-end">
-                                    {{-- <h5>Dibuat : {{ $Carbon::parse($sub_activity->created_at)->timezone('Asia/Jakarta')->format('H:i, d-m-Y')}}</h5> --}}
-                                    <h5>Dibuat : {{ $Carbon::parse($sub_activity->created_at)->timezone('Asia/Jakarta')->diffForHumans() }}</h5>
-                                </div>
-                            </div>
-                            <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
-                            <h4>dibuat oleh: {{$sub_activity->user_name}}</h4>
-                            @if (date_create($sub_activity->awal)->format("Y-m") == date_create($sub_activity->akhir)->format("Y-m"))
-                            <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}
-                            @else
-                            <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' .
-                                $Carbon::parse($sub_activity->akhir)->formatLocalized('%B %Y')}}</h4>
-                            @endif
-                            <h4>Kategori: {{$sub_activity->kategori}}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="text-muted">Kegiatan</h3>
+                            {{-- <h5 class="text-muted">Dibuat : {{ $Carbon::parse($sub_activity->created_at)->timezone('Asia/Jakarta')->format('H:i, d-m-Y')}}</h5> --}}
+                                <h5 class="text-muted">Dibuat : {{ $Carbon::createFromTimeStamp(strtotime($sub_activity->created_at))->diffForHumans() }}</h5>
+                        
                         </div>
-                        <hr>
-                        <div>
-                            <h6 class="heading-small text-muted mb-4">{{ __('Sub Kegiatan') }}</h6>
+                        <div class="col-md-6">
+                             <a href="{{ route('assignment.index') }}"
+                                title="Kembali" data-toggle="tooltip" data-placement="top">
+                                <button type="button"
+                                    class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                        <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
+                        <h4>dibuat oleh: {{$sub_activity->user_name}}</h4>
+                        @if (date_create($sub_activity->awal)->format("Y-m") == date_create($sub_activity->akhir)->format("Y-m"))
+                        <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}
+                        @else
+                        <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' .
+                            $Carbon::parse($sub_activity->akhir)->formatLocalized('%B %Y')}}</h4>
+                        @endif
+                        <h4>Kategori: {{$sub_activity->kategori}}
+                </div>
+                <div class="card-header bg-white border-0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="text-muted">Sub kegiatan</h3>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card-body">
                             <h1 class="display-4">{{$sub_activity->sub_activity_name}}</h1>
                             <h4>Satuan: {{$sub_activity->satuan}} | Volume: {{$sub_activity->volume}}</h4>
                             <h4>Pendidikan minimal: {{$sub_activity->pendidikan}}</h4>
                             <h4>Kualifikasi minimal:</h4>
-                            <div>
                                 <table class="table table-sm table-dark">
                                     <thead>
                                         <tr>
@@ -88,7 +100,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
                             <div>
                                 <br>
                                 <h4>Petugas pengemban:</h4>
@@ -128,14 +139,14 @@
                             </div>
                             @else
                                 <h4 class="text-center">Belum ada pegawai yang menerima tugas kegiatan ini</h4>
-                                <div class="col-7 text-right">
+                                @if (auth()->user()->role_id == 1 || $Activity::find($sub_activity->activity_id)->created_by_user_id == auth()->user()->id)
+                                <div class="text-center">
                                     <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}" class="btn btn-warning">
                                         <i class="ni ni-single-copy-04"></i> Tugaskan</a>
                                 </div>
+                                @endif
                             @endif
                         </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

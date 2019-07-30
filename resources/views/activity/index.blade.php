@@ -128,7 +128,7 @@
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <a href="{{ route('activity.show', $sub->id) }}" 
                                                 class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
-                                            @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
+                                            @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->created_by_user_id == auth()->user()->id)
                                             <a href="{{ route('activity.edit', $sub->id) }}"
                                                 class="dropdown-item"><i class="fa fa-edit text-success"></i>Edit</a>
                                             <a href="" class="dropdown-item btn-delete-item" title="{{ $sub->full_name }}"

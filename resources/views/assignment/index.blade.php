@@ -1,5 +1,6 @@
 @inject('Input', 'Illuminate\Support\Facades\Input')
 @inject('Carbon', '\Carbon\Carbon')
+@inject('Activity', '\App\Activity')
 @extends('layouts.app', ['showSearch' => true])
 @push('style')
 
@@ -123,19 +124,23 @@ $yearQuery = $Input::get('year', $currentYear);
                                 </td>
                                 <td>
                                     @empty(json_decode($sub->petugas))
+                                    @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->created_by_user_id == auth()->user()->id)
                                         <a href="{{ route('assignment.edit', $sub->id) }}">
                                             <button class="btn btn-warning btn-block text-left">
                                                 <i class="ni ni-single-copy-04"></i>
                                                 <span>Tugaskan</span>
                                             </button>
                                         </a>
+                                    @endif
                                     @else
+                                    @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->created_by_user_id == auth()->user()->id)
                                         <a href="{{ route('assignment.edit', $sub->id) }}">
                                             <div class="btn btn-success btn-block text-left">
                                                 <i class="fas fa-edit"></i>
                                                 <span>Edit Penugasan</span>
                                             </div>
                                         </a>
+                                    @endif
                                     @endempty
                                 </td>
                             </tr>
