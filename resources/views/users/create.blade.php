@@ -51,7 +51,7 @@
                                     <input type="text" name="name" id="input-name"
                                         class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                         placeholder="{{ __('Name') }}" value="{{ old('name') }}" required autofocus>
-    
+
                                     @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -65,7 +65,7 @@
                                     <input type="text" name="nip" id="input-account-nip"
                                         class="form-control form-control-alternative{{ $errors->has('account_nip') ? ' is-invalid' : '' }}"
                                         value="{{ old('account_nip') }}" required autofocus>
-    
+
                                     @if ($errors->has('account_nip'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('account_nip') }}</strong>
@@ -82,7 +82,7 @@
                                         class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                         placeholder="{{ __('Password') }}" value="" required
                                         autocomplete="false">
-    
+
                                     @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -146,19 +146,33 @@
                                     </span>
                                     @endif
                                 </div>
+                                <div class='row'>
+                                    <div
+                                        class="col-lg-6 form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label" for="input-jabatan">Jabatan*</label>
+                                        <input type="text"
+                                            class="form-control form-control-alternative{{ $errors->has('account_jabatan') ? ' is-invalid' : '' }}"
+                                            id="input-jabatan" name="jabatan" value="" required autofocus>
+                                        @if ($errors->has('account_jabatan'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('account_jabatan') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
 
-                                <div class="form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-jabatan">Jabatan</label>
-                                    <input type="text"
-                                        class="form-control form-control-alternative{{ $errors->has('account_jabatan') ? ' is-invalid' : '' }}"
-                                        id="input-jabatan" name="jabatan" required autofocus>
-                                    @if ($errors->has('account_jabatan'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('account_jabatan') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-
+                                    <div
+                                        class="col-lg-6 form-group{{ $errors->has('photo') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label" for="input-photo">Foto*</label>
+                                        <input type="file"
+                                            class="form-control form-control-alternative{{ $errors->has('account_photo') ? ' is-invalid' : '' }}"
+                                            id="input-photo" name="photo" value="" autofocus>
+                                        @if ($errors->has('account_photo'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('account_photo') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                            </div>
                                 <div class="row">
                                     <div class="col-lg-6">
 

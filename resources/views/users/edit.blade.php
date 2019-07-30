@@ -169,7 +169,7 @@
                                             <label class="form-control-label" for="input-photo">Foto*</label>
                                             <input type="file"
                                                 class="form-control form-control-alternative{{ $errors->has('account_photo') ? ' is-invalid' : '' }}"
-                                                id="input-photo" name="photo" value="{{ old('photo', $user->photo) }}" required autofocus>
+                                                id="input-photo" name="photo" value="" autofocus>
                                             @if ($errors->has('account_photo'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('account_photo') }}</strong>

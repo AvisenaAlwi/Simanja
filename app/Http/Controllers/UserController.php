@@ -58,9 +58,7 @@ class UserController extends Controller
             'pengalaman_survei' => config('scale.likert')[$request['pengalaman_survei']-1]
             ])->all());
 
-        $photo = $request->file('photo');
-
-        return redirect()->route('user.index')->withStatus(__('User successfully created.'));
+        return redirect()->route('user.index')->withStatus(__('Pengguna berhasil dibuat.'));
     }
 
     /**
@@ -100,7 +98,7 @@ class UserController extends Controller
                 ->except([$request->get('password') ? '' : 'password']
         ));
 
-        return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
+        return redirect()->route('user.index')->withStatus(__('Pengguna berhasil diubah.'));
     }
 
     /**
@@ -113,7 +111,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('user.index')->withStatus(__('User successfully deleted.'));
+        return redirect()->route('user.index')->withStatus(__('Pengguna berhasil dihapus.'));
     }
 
     public function autocomplete_jabatan(){

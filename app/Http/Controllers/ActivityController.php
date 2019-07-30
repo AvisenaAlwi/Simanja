@@ -128,12 +128,12 @@ class ActivityController extends Controller
             $endMonth = config('scale.month_reverse')[$request['activity_end_month']];
             $endYear = (int)$request['activity_end_year'];
             $akhir = Carbon::parse("$startYear-$startMonth-28")->endOfMonth();
-            
+
             $data['awal'] = $awal;
             if($request['issatubulan'] == false)
                 $akhir = Carbon::parse("$endYear-$endMonth-28")->endOfMonth();
             $data['akhir'] = $akhir;
-            
+
             $activity = Activity::create($data);
             if (sizeof(DB::table('autocomplete_activity')->where('name', $activity_name)->get()) == 0)
                 DB::table('autocomplete_activity')->insert(['name' => $activity_name]);
@@ -165,7 +165,10 @@ class ActivityController extends Controller
                     DB::table('autocomplete_satuan')->insert(['name' => $value['satuan']]);
             }
         });
-        return redirect()->route('activity.index');
+        return redirect()->route('activity.index')->withStatus(__('Kegiatan berhasil dibuat.'))
+        ->with('query',$activity_name)
+        ->with('month',$request['activity_start_month'])
+        ->with('year',$request['activity_start_year']);
     }
 
     /**
@@ -277,7 +280,7 @@ class ActivityController extends Controller
             $endMonth = config('scale.month_reverse')[$request['activity_end_month']];
             $endYear = (int)$request['activity_end_year'];
             $akhir = Carbon::parse("$startYear-$startMonth-28")->endOfMonth();
-            
+
             $data['awal'] = $awal;
             if($request['issatubulan'] == false){
                 $akhir = Carbon::parse("$endYear-$endMonth-28")->endOfMonth();
@@ -300,7 +303,10 @@ class ActivityController extends Controller
                 'pengalaman_survei' => config('scale.likert')[((int)$sub_activity['qualifikasi']['pengalaman'] -1)],
             ]);
         });
-        return redirect()->route('activity.index');
+        return redirect()->route('activity.index')->withStatus(__('Kegiatan berhasil diubah.'))
+        ->with('query',$sub_activity['name'])
+        ->with('month',$request['activity_start_month'])
+        ->with('year',$request['activity_start_year']);
     }
 
     /**
