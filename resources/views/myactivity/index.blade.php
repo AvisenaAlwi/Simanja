@@ -141,10 +141,10 @@ if($monthQuery == 'now')
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="number" maxlength="50" placeholder="Belum diisi" value="{{ $relal }}" class="realisasi" data-id="{{ $sub->id }}" min="0" max="{{ $maxRealisasi }}"> dari <b>{{ $maxRealisasi }}</b>
+                                    <input type="number" maxlength="50" placeholder="Belum diisi" value="{{ $relal }}" class="form-control realisasi" data-id="{{ $sub->id }}" min="0" max="{{ $maxRealisasi }}">
                                 </td>
                                 <td>
-                                    <input type="text" maxlength="100" placeholder="Belum diisi" value="{{ $ket }}" class="keterangan" data-id="{{ $sub->id }}" style="width: 150px !important">
+                                    <input type="text" maxlength="100" placeholder="Belum diisi" value="{{ $ket }}" class="form-control keterangan" data-id="{{ $sub->id }}" style="width: 150px !important">
                                 </td>
                                 <td class="text-right">
                                     <button class="btn btn-success btn-save-realisasi" data-id="{{ $sub->id }}" data-title="{{ $sub->full_name }}" month-year="{{ $monthQuery }}_{{ $yearQuery }}">
@@ -291,13 +291,11 @@ if($monthQuery == 'now')
                         url: '{{ url('/') }}/myactivity/' + id,
                         data: {user_id: {{ auth()->user()->id }}, month_year: monthYear, realisasi: realisasi, keterangan: keterangan}
                     }).then(function (res) {
-                        console.log(res.data);
-                        Swal.fire('Berhasil', title + " berhasil disimpan", 'success')
-                            .then((result) => {
-                                if (result.value) {
-                                    window.location.reload();
-                                }
-                            });
+                        Swal.fire({
+                            title: 'Berhasil', 
+                            html: "<b>" + title + "</b> berhasil disimpan",
+                            type: 'success'
+                        });
                     }).catch(function (err) {
                         console.error(err);
                         Swal.fire('Gagal Menyimpan', "Terjadi kesalahan saat menyimpan", 'error');
@@ -348,6 +346,13 @@ if($monthQuery == 'now')
         });
         $("#select").change(function () {
             $("#formChange").submit();
+        });
+        $('input.realisasi').on('input', function () {
+            var value = $(this).val();
+            let maxValue = $(this).attr('max');
+            if ((value !== '') && (value.indexOf('.') === -1)) {
+                $(this).val(Math.max(Math.min(value, maxValue), 0));
+            }
         });
     });
 

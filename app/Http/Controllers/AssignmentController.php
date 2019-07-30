@@ -207,7 +207,7 @@ class AssignmentController extends Controller
                 'realisasi' => json_encode($realisasiArray),
                 'tingkat_kualitas' => json_encode($tingkatKualitasArray),
                 'keterangan' => json_encode($keteranganArray),
-            ], // update
+            ] // update
         );
         return redirect()->route('assignment.index');
     }
