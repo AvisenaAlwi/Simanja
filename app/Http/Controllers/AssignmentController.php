@@ -195,7 +195,7 @@ class AssignmentController extends Controller
             ['id' => $assignment->id], // Syarat
             [
                 'petugas' => json_encode($dataPetugasArray)
-            ], // update
+            ] // update
         );
         return redirect()->route('assignment.index');
     }
