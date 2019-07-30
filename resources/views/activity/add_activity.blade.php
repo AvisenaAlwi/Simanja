@@ -1,7 +1,12 @@
+@inject('Cookie', 'Illuminate\Support\Facades\Cookie')
 @extends('layouts.app', ['title' => 'Tambah kegiatan'])
 @push('style')
 <!-- Latest compiled and minified CSS -->
+@if ($Cookie::get('dark') == 'true')
+<link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/dark-easy-autocomplete.min.css">
+@else
 <link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/easy-autocomplete.min.css">
+@endif
 <link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrapslider') }}/bootstrap-slider.min.css" />
 <style>
     .slider.slider-horizontal{
@@ -191,11 +196,11 @@ for($i = 0; $i < 5; $i++){
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_kode_butir" class="form-control form-control-alternative kode-butir-sub-kegiatan" value="" >
+                                                    <input type="text" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="">
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="" >
+                                                    <input type="text" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="">
                                                 </div>
                                             </div>
                                             <div class="form-group">

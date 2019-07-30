@@ -16,16 +16,19 @@ class CreateMyActivityTable extends Migration
         Schema::create('my_activity', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedSmallInteger('created_by_user_id');
-            $table->foreign('created_by_user_id')->references('id')->on('users');
+            $table->foreign('created_by_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
             $table->string('kategori');
             $table->date('awal');
             $table->date('akhir')->nullable();
             $table->string('satuan');
             $table->smallInteger('volume');
-            $table->smallInteger('kode_butir')->nullable();
-            $table->smallInteger('angka_kredit')->nullable();
-            $table->text('keterangan')->nullable();
+            $table->string('kode_butir')->nullable();
+            $table->string('angka_kredit')->nullable();
+            $table->smallInteger('realisasi')->nullable();
+            $table->smallInteger('tingkat_kualitas')->nullable();
+            $table->text('keterangan_t')->nullable();
+            $table->text('keterangan_r')->nullable();
             $table->timestamps();
         });
     }

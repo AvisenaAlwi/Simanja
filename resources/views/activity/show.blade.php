@@ -28,25 +28,31 @@
         <div class="col-xl-12 order-xl-1">
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h3 class="text-muted">Kegiatan</h3>
-                            {{-- <h5 class="text-muted">Dibuat : {{ $Carbon::parse($sub_activity->created_at)->timezone('Asia/Jakarta')->format('H:i, d-m-Y')}}</h5> --}}
-                                <h5 class="text-muted">Dibuat : {{ $Carbon::createFromTimeStamp(strtotime($sub_activity->created_at))->diffForHumans() }}</h5>
-                        
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="text-muted">Kegiatan</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                                <a href="{{ route('activity.index') }}"
+                                    title="Kembali" data-toggle="tooltip" data-placement="top">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                                    </button>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                             <a href="{{ route('assignment.index') }}"
-                                title="Kembali" data-toggle="tooltip" data-placement="top">
-                                <button type="button"
-                                    class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
-                                </button>
-                            </a>
-                        </div>
-                    </div>
                 </div>
                 <div class="card-body">
-                        <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
+                        </div>
+                        <div class="col-6 text-right">
+                            <h5>Dibuat :
+                                {{ $Carbon::createFromTimeStamp(strtotime($sub_activity->created_at))->diffForHumans() }}
+                            </h5>
+                        </div>
+                    </div>
                         <h4>dibuat oleh: {{$sub_activity->user_name}}</h4>
                         @if (date_create($sub_activity->awal)->format("Y-m") == date_create($sub_activity->akhir)->format("Y-m"))
                         <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}
@@ -68,47 +74,44 @@
                             <h4>Satuan: {{$sub_activity->satuan}} | Volume: {{$sub_activity->volume}}</h4>
                             <h4>Pendidikan minimal: {{$sub_activity->pendidikan}}</h4>
                             <h4>Kualifikasi minimal:</h4>
-                                <table class="table table-sm table-dark">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">No</th>
-                                            <th scope="col">Keahlian</th>
-                                            <th scope="col">Tingkat</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>TI</td>
-                                            <td>{{$sub_activity->ti}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Menulis</td>
-                                            <td>{{$sub_activity->menulis}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Administrasi</td>
-                                            <td>{{$sub_activity->administrasi}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>Pengalaman survei</td>
-                                            <td>{{$sub_activity->pengalaman_survei}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            <div>
-                                <br>
-                                <h4>Petugas pengemban:</h4>
-                                @php
-                                $result = json_decode($sub_activity->petugas,true);
-                                $users_size = sizeof($result);
-                                $counter = 0;
-                                @endphp
-                            </div>
+                            <table class="table table-sm table-dark">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Keahlian</th>
+                                        <th scope="col">Tingkat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>TI</td>
+                                        <td>{{$sub_activity->ti}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Menulis</td>
+                                        <td>{{$sub_activity->menulis}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Administrasi</td>
+                                        <td>{{$sub_activity->administrasi}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>Pengalaman survei</td>
+                                        <td>{{$sub_activity->pengalaman_survei}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <h4>Petugas pengemban:</h4>
+                            @php
+                            $result = json_decode($sub_activity->petugas,true);
+                            $users_size = sizeof($result);
+                            $counter = 0;
+                            @endphp
                             @if ($users_size!=0)
                             <div class="table-responsive">
                                 <table class="table table-sm table-dark">
@@ -122,7 +125,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($result as $petugas)
+                                        @foreach ($result as $petugas => $value)
                                         @php $counter = $counter + 1;
                                         $users_data = $User::find($petugas);
                                         @endphp
@@ -150,7 +153,6 @@
             </div>
         </div>
     </div>
-
     @include('layouts.footers.auth')
 </div>
 

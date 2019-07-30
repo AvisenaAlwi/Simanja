@@ -90,7 +90,7 @@
                                             <a href="#" data-toggle="tooltip"
                                                 data-original-title="{{ $sub->users_name }}"
                                                 class="avatar avatar-sm rounded-circle">
-                                                <img alt="Image placeholder" src="{{ asset('img/theme/team-1-800x800.jpg') }}">
+                                                <img alt="Image placeholder" src="{{ asset('storage') }}/{{auth()->user()->photo}}">
                                             </a>
                                     </div>
                                 </td>
@@ -118,23 +118,33 @@
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <a href="{{ route('report.show_pelaporan', $sub->id) }}"
                                                 class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
-                                            {{-- @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
+                                            @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
                                             <a href="{{ route('activity.edit', $sub->id) }}"
-                                                class="dropdown-item"><i class="fa fa-edit text-success"></i>Edit</a>
-                                            <a href="" class="dropdown-item btn-delete-item" title="{{ $sub->full_name }}"
-                                                id-item="{{ $sub->id }}"><i class="fa fa-trash text-danger"></i> Hapus</a>
-                                            @endif --}}
+                                                class="dropdown-item"><i class="fa fa-edit text-success"></i></a>
+                                            @endif
                                         </ul>
                                     </li>
                                 </td>
                             </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="5" class="text-center">
                                         <h3>Tidak ada kegiatan</h3>
                                     </td>
                                 </tr>
                             @endforelse
+                        </tbody>
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Kegiatan yang saya tambahkan</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="5" class="text-center"><h1>TODO biar gak lupa</h1></td></tr>
                         </tbody>
                     </table>
                 </div>

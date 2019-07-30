@@ -61,11 +61,24 @@
             $('input[data-toggle=toggle]').change((e)=>{
                 x = $(e.target).prop('checked');
                 t = $(document.getElementsByTagName('head')[0].children[9]);
+                var links = window.document.getElementsByTagName('link');
                 if (x){
                     t.attr('href', '{{ asset('argon') }}/css/argon-dark.css?v=1.0.0');
+                    $(links).each(function() {
+                        let link = $(this).attr('href');
+                        if ( /.*easy-autocomplete.min.css$/.test(link)){
+                            $(this).attr('href', '{{ asset('vendor/easyautocomplete') }}/dark-easy-autocomplete.min.css')
+                        }
+                    });
                     $.cookie('dark', true, { path: '/' });
                 }else{
                     t.attr('href', '{{ asset('argon') }}/css/argon.css?v=1.0.0')
+                    $(links).each(function() {
+                        let link = $(this).attr('href');
+                        if ( /.*easy-autocomplete.min.css$/.test(link)){
+                            $(this).attr('href', '{{ asset('vendor/easyautocomplete') }}/easy-autocomplete.min.css')
+                        }
+                    });
                     $.cookie('dark', false, { path: '/' });
                 }
             });

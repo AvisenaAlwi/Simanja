@@ -18,6 +18,7 @@ class MyActivityController extends Controller
      */
     public function index()
     {
+        $userId = auth()->user()->id;
         $my_activity = [];
         $currentYear = Carbon::now()->format('Y');
         $month = Input::get('month', 'now');
@@ -25,6 +26,7 @@ class MyActivityController extends Controller
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
             ->join('users', 'activity.created_by_user_id', '=', 'users.id')
+            ->join('assignment', 'assignment.sub_activity_id', '=', 'sub_activity.id')
             ->select([
                 'sub_activity.name as sub_activity_name',
                 'activity.name as activity_name',
@@ -33,9 +35,10 @@ class MyActivityController extends Controller
                 'sub_activity.*',
                 'activity.awal',
                 'activity.akhir',
+                'assignment.petugas as petugas'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
-            ->whereJsonContains('petugas', Auth::id())
+            ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
             ->orderBy('created_at', 'DESC');
         if ($month == 'now' && $year == $currentYear){
             $sub_activity = $sub_activity
@@ -96,7 +99,7 @@ class MyActivityController extends Controller
             "volume" => $request['volume'],
             "kode_butir" => $request['kode_butir'],
             "angka_kredit" => $request['angka_kredit'],
-            "keterangan" => strip_tags($request['keterangan']),
+            "keterangan_t" => strip_tags($request['keterangan']),
         ]);
         DB::table('autocomplete_activity')->insert([
             'name' => $request['name']
@@ -153,7 +156,7 @@ class MyActivityController extends Controller
             "volume" => $request['volume'],
             "kode_butir" => $request['kode_butir'],
             "angka_kredit" => $request['angka_kredit'],
-            "keterangan" => strip_tags($request['keterangan']),
+            "keterangan_t" => strip_tags($request['keterangan']),
         ]);
         return redirect()->route('myactivity.index');
     }

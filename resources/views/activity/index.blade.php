@@ -1,6 +1,5 @@
 @inject('Input', 'Illuminate\Support\Facades\Input')
 @inject('Carbon', '\Carbon\Carbon')
-@inject('Activity', '\App\Activity')
 
 @extends('layouts.app', ['title' => 'Kegiatan'])
 @push('style')
@@ -85,8 +84,8 @@
                                                     {{ $sub->full_name }}
                                                 </span>
                                             </div>
+                                        </a>
                                     </div>
-                                    </a>
                                 </th>
                                 <td>
                                     @if ($Carbon::parse($sub->awal)->format('Y-m') == $Carbon::parse($sub->akhir)->format('Y-m') || $sub->akhir == null)
@@ -100,7 +99,7 @@
                                             <a href="#" data-toggle="tooltip"
                                                 data-original-title="{{ $sub->users_name }}"
                                                 class="avatar avatar-sm rounded-circle">
-                                                <img alt="Image placeholder" src="{{ asset('img/theme/team-1-800x800.jpg') }}">
+                                                <img alt="Image placeholder" src="{{ asset('storage') }}/{{auth()->user()->photo}}">
                                             </a>
                                     </div>
                                 </td>
@@ -128,7 +127,7 @@
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <a href="{{ route('activity.show', $sub->id) }}" 
                                                 class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
-                                            @if (auth()->user()->role_id == 1 || $Activity::find($sub->activity_id)->created_by_user_id == auth()->user()->id)
+                                            @if (auth()->user()->role_id == 1 || $sub->created_by_user_id == auth()->user()->id)
                                             <a href="{{ route('activity.edit', $sub->id) }}"
                                                 class="dropdown-item"><i class="fa fa-edit text-success"></i>Edit</a>
                                             <a href="" class="dropdown-item btn-delete-item" title="{{ $sub->full_name }}"

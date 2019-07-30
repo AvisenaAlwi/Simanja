@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Auth;
+use App\Assignment;
 
 class ActivityController extends Controller
 {
@@ -39,6 +40,7 @@ class ActivityController extends Controller
                 'sub_activity.*',
                 'activity.awal',
                 'activity.akhir',
+                'activity.created_by_user_id',
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->orderBy('created_at', 'DESC');
@@ -137,7 +139,7 @@ class ActivityController extends Controller
                 DB::table('autocomplete_activity')->insert(['name' => $activity_name]);
 
             foreach($sub_activity as $key => $value){
-                SubActivity::create([
+                $sub = SubActivity::create([
                     'activity_id' => $activity->id,
                     'name' => $value['name'],
                     'satuan' => $value['satuan'],
@@ -151,6 +153,11 @@ class ActivityController extends Controller
                     'menulis' =>config('scale.likert')[((int)$value['qualifikasi']['menulis']-1)],
                     'administrasi' =>config('scale.likert')[((int)$value['qualifikasi']['administrasi']-1)],
                     'pengalaman_survei' => config('scale.likert')[((int)$value['qualifikasi']['pengalaman'] -1)],
+                ]);
+                Assignment::create([
+                    'activity_id' => $activity->id,
+                    'sub_activity_id' => $sub->id,
+                    'user_id' => Auth::id()
                 ]);
                 if (sizeof(DB::table('autocomplete_sub_activity')->where('name', $value['name'])->get()) == 0)
                     DB::table('autocomplete_sub_activity')->insert(['name' => $value['name']]);
@@ -172,6 +179,7 @@ class ActivityController extends Controller
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
             ->join('users', 'activity.created_by_user_id', '=', 'users.id')
+            ->join('assignment', 'assignment.sub_activity_id', '=', 'sub_activity.id')
             ->select([
                 'sub_activity.name as sub_activity_name',
                 'activity.name as activity_name',
@@ -179,7 +187,8 @@ class ActivityController extends Controller
                 'sub_activity.*',
                 'sub_activity.id as sub_activity_id',
                 'activity.*',
-                'users.name as user_name'
+                'users.name as user_name',
+                'assignment.petugas'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->where('sub_activity.id','=',$id)

@@ -8,10 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        @page { margin: 0 5%; }
         body {
             font-family: "Arial", Helvetica, sans-serif;
             font-size: 12px;
-            margin: 0 5%;
+            margin: 3%;
         }
 
         #title {
@@ -23,16 +24,16 @@
             text-align: center;
             width: 100px;
             border: 4px solid black;
-            margin-left: 80%
+            margin-left: 85%
         }
 
         /* table {
             text-align: center;
         } */
 
-        #kategori,
-        #uraian_keg,
-        #keterangan {
+        .kategori,
+        .uraian_keg,
+        .keterangan {
             text-align: left;
         }
 
@@ -91,7 +92,7 @@
             </tr>
             <tr>
                 <td>Periode </td>
-                <td>: {{$firstDay.' '.$currentMonth.' '.$currentYear.' - '.$lastDay.' '.$currentMonth.' '.$currentYear}}
+                <td>: {{$firstDay.' - '.$lastDay.' '.$currentMonth.' '.$currentYear}}
                 </td>
             </tr>
         </table>
@@ -99,7 +100,7 @@
     </div>
     <div>
         <table style="width:100%; border-collapse: collapse; text-align: center;" cellpadding="2" border="1">
-            <tr>
+            <tr style="background: #f3f3f3">
                 <th rowspan="2">No</th>
                 <th rowspan="2" width="30%">Uraian Kegiatan</th>
                 <th rowspan="2">Satuan</th>
@@ -109,62 +110,65 @@
                 <th rowspan="2">Angka kredit</th>
                 <th rowspan="2" width="25%">Keterangan</th>
             </tr>
-            <tr>
+            <tr style="background: #f3f3f3">
                 <th>Target</th>
                 <th>Realisasi</th>
                 <th>%</th>
             </tr>
             <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
+                <td>(1)</td>
+                <td>(2)</td>
+                <td>(3)</td>
+                <td>(4)</td>
+                <td>(5)</td>
+                <td>(6)</td>
+                <td>(7)</td>
+                <td>(8)</td>
+                <td>(9)</td>
+                <td>(10)</td>
             </tr>
+            @if (!empty($keg_utama))
             <tr>
-                <td id="kategori" colspan="10"><b>Utama</b></td>
+                <td class="kategori" colspan="10" style="background: #f3f3f3"><b>Utama</b></td>
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_utama as $utama)
             @php $counter++; @endphp
             <tr>
                 <td>{{$counter}}</td>
-                <td id="uraian_keg">{{$utama->sub_activity_name}}</td>
+                <td class="uraian_keg">{{$utama->full_name}}</td>
                 <td>{{$utama->satuan}}</td>
-                <td>{{$utama->volume}}</td>
+                <td>{{$utama->month_volume}}</td>
                 <td></td>
-                <td></td>
+                <td>{{ $utama->month_volume/($utama->realisasi??$utama->month_volume)*100}}%</td>
                 <td></td>
                 <td>{{$utama->kode_butir}}</td>
                 <td>{{$utama->angka_kredit}}</td>
-                <td>{{$utama->keterangan}}</td>
+                <td class="keterangan">{{$utama->keterangan}}</td>
             </tr>
             @endforeach
-
+            @endif
+            @if (!empty($keg_tambahan))
             <tr>
-                <td id="kategori" colspan="10"><b>Tambahan</b></td>
+                <td class="kategori" colspan="10" style="background: #f3f3f3"><b>Tambahan</b></td>
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_tambahan as $tambahan)
             @php $counter++; @endphp
             <tr>
                 <td>{{$counter}}</td>
-                <td id="uraian_keg">{{$tambahan->sub_activity_name}}</td>
+                <td class="uraian_keg">{{$tambahan->full_name}}</td>
                 <td>{{$tambahan->satuan}}</td>
-                <td>{{$tambahan->volume}}</td>
+                <td>{{$tambahan->month_volume}}</td>
                 <td></td>
-                <td></td>
+                <td>{{ $tambahan->month_volume/($tambahan->realisasi??$tambahan->month_volume)*100}}%</td>
                 <td></td>
                 <td>{{$tambahan->kode_butir}}</td>
                 <td>{{$tambahan->angka_kredit}}</td>
-                <td>{{$tambahan->keterangan}}</td>
+                <td class="keterangan">{{$tambahan->keterangan}}</td>
             </tr>
             @endforeach
+            @endif
         </table>
     </div>
     <div id="sign">

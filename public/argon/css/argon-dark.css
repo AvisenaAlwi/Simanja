@@ -3000,7 +3000,7 @@ fieldset:disabled a.btn
 }
 .btn-primary:hover
 {
-    color: #b1b1b1;
+    color: #eee;
     border-color: #5e72e4; 
     background-color: #5e72e4;
 }
@@ -3040,7 +3040,7 @@ fieldset:disabled a.btn
 }
 .btn-secondary:hover
 {
-    color: #adb5bd;
+    color: #eee;
     border-color: #2c2c2c; 
     background-color: #2c2c2c;
 }
@@ -3080,7 +3080,7 @@ fieldset:disabled a.btn
 }
 .btn-success:hover
 {
-    color: #b1b1b1;
+    color: #eee;
     border-color: #2dce89; 
     background-color: #2dce89;
 }
@@ -3120,7 +3120,7 @@ fieldset:disabled a.btn
 }
 .btn-info:hover
 {
-    color: #b1b1b1;
+    color: #eee;
     border-color: #11cdef; 
     background-color: #11cdef;
 }
@@ -3160,7 +3160,7 @@ fieldset:disabled a.btn
 }
 .btn-warning:hover
 {
-    color: #b1b1b1;
+    color: #eee;
     border-color: #fb6340; 
     background-color: #fb6340;
 }
@@ -3200,7 +3200,7 @@ fieldset:disabled a.btn
 }
 .btn-danger:hover
 {
-    color: #b1b1b1;
+    color: #eee;
     border-color: #f5365c; 
     background-color: #f5365c;
 }
@@ -3240,7 +3240,7 @@ fieldset:disabled a.btn
 }
 .btn-light:hover
 {
-    color: #b1b1b1;
+    color: #eee;
     border-color: #212529; 
     background-color: #212529;
 }
@@ -3280,7 +3280,7 @@ fieldset:disabled a.btn
 }
 .btn-dark:hover
 {
-    color: #b1b1b1;
+    color: #eee;
     border-color: #adb5bd; 
     background-color: #adb5bd;
 }
@@ -3320,7 +3320,7 @@ fieldset:disabled a.btn
 }
 .btn-default:hover
 {
-    color: #b1b1b1;
+    color: #eee;
     border-color: #172b4d; 
     background-color: #172b4d;
 }
@@ -3440,7 +3440,7 @@ fieldset:disabled a.btn
 }
 .btn-darker:hover
 {
-    color: #202020;
+    color: #eee;
     border-color: black; 
     background-color: black;
 }
@@ -4831,7 +4831,7 @@ input[type='button'].btn-block
 
     vertical-align: middle;
 
-    color: #8898aa;
+    color: #ddd;
     border: 1px solid #cad1d7;
     border-radius: .375rem;
     background: #202020 url('data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%2332325d\' d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E') no-repeat right .75rem center;
@@ -7390,7 +7390,7 @@ button.close
 
     text-align: center;
 
-    color: #202020;
+    color: #fff;
     border-radius: .375rem; 
     background-color: #000;
 }
@@ -18039,6 +18039,8 @@ a.btn-icon-only
 .form-control
 {
     font-size: .875rem;
+    border: 1px solid rgba(255,255,255,.5) !important;
+    color: #fff !important;
 }
 .form-control:focus:-ms-input-placeholder
 {

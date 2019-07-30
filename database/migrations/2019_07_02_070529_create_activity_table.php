@@ -18,7 +18,7 @@ class CreateActivityTable extends Migration
             $table->string('name');
             $table->string('kategori')->default('Utama');
             $table->unsignedSmallInteger('created_by_user_id');
-            $table->foreign('created_by_user_id')->references('id')->on('users');
+            $table->foreign('created_by_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('awal');
             $table->date('akhir')->nullable();
             $table->timestamps();
