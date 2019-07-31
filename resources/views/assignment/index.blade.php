@@ -129,15 +129,13 @@ $yearQuery = $Input::get('year', $currentYear);
                                         {{-- <a href="{{ route('assignment.edit', App\Assignment::where('sub_activity_id', '=', $sub->id)->select('id')->first()) }}"> --}}
                                         <a href="{{ route('assignment.edit', $sub->assignment_id) }}">
                                             <button class="btn btn-warning btn-block text-left">
-                                                <i class="ni ni-single-copy-04"></i>
-                                                <span>Tugaskan</span>
+                                                <i class="ni ni-single-copy-04"></i> Tugaskan
                                             </button>
                                         </a>
                                     @else
                                         <a href="{{ route('assignment.edit', $sub->id) }}">
                                             <div class="btn btn-success btn-block text-left">
-                                                <i class="fas fa-edit"></i>
-                                                <span>Edit Penugasan</span>
+                                                <i class="fas fa-edit"></i> Edit Penugasan
                                             </div>
                                         </a>
                                     @endempty

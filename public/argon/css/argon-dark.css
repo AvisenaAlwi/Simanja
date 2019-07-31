@@ -2404,7 +2404,7 @@ pre code
 .form-control[readonly]
 {
     opacity: .5; 
-    background-color: #e9ecef;
+    /* background-color: #e9ecef; */
 }
 
 select.form-control:focus::-ms-value

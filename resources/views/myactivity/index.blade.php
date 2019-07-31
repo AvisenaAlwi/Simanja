@@ -6,13 +6,20 @@
 @push('style')
 <style>
 input.realisasi,
-input.keterangan{
+input.keterangan,
+input.tingkat-kualitas,
+input.realisasi-myactivity,
+input.keterangan-myactivity,
+input.tingkat-kualitas-myactivity{
     border: none;
     background: transparent;
     border-bottom: 1px solid #888;
     width: 100px;
     border-radius: 0;
     outline: none;
+}
+.percent{
+    content: "%";
 }
 </style>
 @endpush
@@ -27,7 +34,7 @@ if($monthQuery == 'now')
 @endphp
 @section('content')
 @include('users.partials.header', [
-'title' => 'KegiatanKu',
+'title' => 'Kegiatanku',
 'description' => 'Kegiatan yang Anda emban'
 ])
 
@@ -72,19 +79,17 @@ if($monthQuery == 'now')
                             <div class="col-12 col-lg-4 text-center my-1 my-lg-0">
                                 <a href="{{ route('report.print_ckpt', ['month' => $monthQuery, 'year' => $yearQuery, 'ckp' => 't']) }}" target="_blank" title="Cetak CKP-T Bulan {{ $monthQuery }} {{ $yearQuery }}" data-toggle="tooltip" data-placement="top" class="mr-3">
                                     <button type="button" class="btn btn-warning btn-sm">
-                                        <i class="fa fa-print"></i>
-                                        Cetak CKP-T
+                                        <i class="fa fa-print"></i> Cetak CKP-T
                                     </button>
                                 </a>
                                 <a href="{{ route('report.print_ckpr', ['month' => $monthQuery, 'year' => $yearQuery, 'ckp' => 'r']) }}" target="_blank" title="Cetak CKP-R Bulan {{ $monthQuery }} {{ $yearQuery }}" title="Cetak CKP-R Bulan {{ $monthQuery }} {{ $yearQuery }}" data-toggle="tooltip" data-placement="top">
                                     <button type="button" class="btn btn-success btn-sm">
-                                        <i class="fa fa-print"></i>
-                                        Cetak CKP-R
+                                        <i class="fa fa-print"></i> Cetak CKP-R
                                     </button>
                                 </a>
                                 <a href="{{ route('myactivity.create') }}"
                                     class="ml-3"
-                                    title="Tambah kegiatan sendiri diluar yang ditetapkan supervisor" data-toggle="tooltip" data-placement="left">
+                                    title="Tambah kegiatan sendiri diluar yang ditetapkan supervisor untuk bulan sekarang" data-toggle="tooltip" data-placement="left">
                                     <button type="button" class="btn btn-primary btn-sm">
                                         <i class="fa fa-plus"></i>
                                     </button>
@@ -101,6 +106,7 @@ if($monthQuery == 'now')
                                 <th>Waktu</th>
                                 <th>Diberikan Oleh</th>
                                 <th>Realisasi</th>
+                                <th>Tingkat kualitas</th>
                                 <th>Keterangan*</th>
                                 <th></th>
                             </tr>
@@ -110,6 +116,7 @@ if($monthQuery == 'now')
                             @php
                                 $ket = json_decode($sub->keterangan_r, true)[auth()->user()->id]["${monthQuery}_${yearQuery}"];
                                 $relal = json_decode($sub->realisasi, true)[auth()->user()->id]["${monthQuery}_${yearQuery}"];
+                                $tingkul = json_decode($sub->tingkat_kualitas, true)[auth()->user()->id]["${monthQuery}_${yearQuery}"];
                                 $maxRealisasi = json_decode($sub->petugas, true)[auth()->user()->id]["${monthQuery}_${yearQuery}"];
                             @endphp
                             <tr>
@@ -143,12 +150,16 @@ if($monthQuery == 'now')
                                 <td>
                                     <input type="number" maxlength="50" placeholder="Belum diisi" value="{{ $relal }}" class="form-control realisasi" data-id="{{ $sub->id }}" min="0" max="{{ $maxRealisasi }}">
                                 </td>
+                                <td class="percent">
+                                    <input type="number" maxlength="50" placeholder="Belum dinilai" value="{{ $tingkul }}" class="form-control realisasi" data-id="{{ $sub->id }}" min="0" disabled aria-disabled="true"
+                                    title="Tidak bisa diisi karena yang berhak menilai adalah pembuat/pemberi kegiatan" data-toggle="tooltip" data-placement="top">
+                                </td>
                                 <td>
                                     <input type="text" maxlength="100" placeholder="Belum diisi" value="{{ $ket }}" class="form-control keterangan" data-id="{{ $sub->id }}" style="width: 150px !important">
                                 </td>
                                 <td class="text-right">
-                                    <button class="btn btn-success btn-save-realisasi" data-id="{{ $sub->id }}" data-title="{{ $sub->full_name }}" month-year="{{ $monthQuery }}_{{ $yearQuery }}">
-                                        Simpan
+                                    <button class="btn btn-success btn-block btn-save-realisasi" data-id="{{ $sub->id }}" data-title="{{ $sub->full_name }}" month-year="{{ $monthQuery }}_{{ $yearQuery }}">
+                                        <i class="fas fa-save"></i> Simpan
                                     </button>
                                     {{-- <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -169,17 +180,20 @@ if($monthQuery == 'now')
                             </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">
+                                    <td colspan="7" class="text-center">
                                         <h3>Tidak ada kegiatan</h3>
                                     </td>
                                 </tr>
                             @endforelse
                             <thead class="thead-light">
                                 <tr>
-                                    <th colspan="6">Kegiatan yang saya tambahkan</th>
+                                    <th colspan="7">Kegiatan yang saya tambahkan</th>
                                 </tr>
                             </thead>
                             @forelse ($my_activity as $activity)
+                            @php
+                                $maxRealisasi = $activity->volume;
+                            @endphp
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
@@ -209,19 +223,19 @@ if($monthQuery == 'now')
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-center"><span class="completion mr-2">60%</span>
-                                        <div>
-                                            <div class="progress-wrapper pt-0">
-                                                <div class="progress" style="height: 3px;">
-                                                    <div role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                                                        aria-valuemax="100" class="progress-bar bg-warning"
-                                                        style="width: 60%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <input type="number" maxlength="50" placeholder="Belum diisi" value="{{ $activity->realisasi }}" class="form-control realisasi-myactivity" data-id="{{ $activity->id }}" min="0" max="{{ $maxRealisasi }}">
+                                </td>
+                                <td>
+                                    <input type="number" maxlength="50" placeholder="Belum dinilai" value="{{ $activity->tingkat_kualitas ?? 0 }}" class="form-control tingkat-kualitas-myactivity" data-id="{{ $activity->id }}" min="0">
+                                </td>
+                                <td>
+                                    <input type="text" maxlength="100" placeholder="Belum diisi" value="{{ $activity->keterangan_r }}" class="form-control keterangan-myactivity" data-id="{{ $activity->id }}" style="width: 150px !important">
                                 </td>
                                 <td class="text-right">
+                                    <button class="btn btn-success btn-save-realisasi-my-activity" data-id="{{ $activity->id }}" data-title="{{ $activity->name }}">
+                                        <i class="fas fa-save"></i>
+                                        Simpan
+                                    </button>
                                     <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                             class="btn btn-sm btn-icon-only text-primary"><i
@@ -239,7 +253,7 @@ if($monthQuery == 'now')
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="text-center">
+                                <td colspan="7" class="text-center">
                                     <h3>Tidak ada kegiatan</h3>
                                 </td>
                             </tr>
@@ -265,6 +279,7 @@ if($monthQuery == 'now')
 @push('js')
 <script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('vendor/axios/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrapnotify/bootstrap-notify.min.js') }}"></script>
 <script>
     $(document).ready(function () {
         $('.btn-save-realisasi').click(function (e) {
@@ -288,7 +303,7 @@ if($monthQuery == 'now')
                     let keterangan = $('.keterangan[data-id='+id+']').val();
                     axios({
                         method: 'put',
-                        url: '{{ url('/') }}/myactivity/' + id,
+                        url: '{{ url('/') }}/myactivity/update/' + id,
                         data: {user_id: {{ auth()->user()->id }}, month_year: monthYear, realisasi: realisasi, keterangan: keterangan}
                     }).then(function (res) {
                         Swal.fire({
@@ -296,6 +311,51 @@ if($monthQuery == 'now')
                             html: "<b>" + title + "</b> berhasil disimpan",
                             type: 'success'
                         });
+                    }).catch(function (err) {
+                        console.error(err);
+                        Swal.fire('Gagal Menyimpan', "Terjadi kesalahan saat menyimpan", 'error');
+                    });
+                }
+            });
+        });
+        $('.btn-save-realisasi-my-activity').click(function (e) {
+            e.preventDefault();
+            let me = $(this);
+            let title = me.attr('data-title');
+            let id = me.attr('data-id');
+            Swal.fire({
+                title: 'Simpan realisasi',
+                html: 'Yakin ingin menyimpan <h3>' + title + ' ?</h3>',
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, simpan',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    var realisasi = $('.realisasi-myactivity[data-id='+id+']').val();
+                    var keterangan = $('.keterangan-myactivity[data-id='+id+']').val();
+                    var tingkat_kualitas = $('.tingkat-kualitas-myactivity[data-id='+id+']').val();
+                    axios({
+                        method: 'put',
+                        url: '{{ url('/') }}/myactivity/update-my-activity/' + id,
+                        data: {user_id: {{ auth()->user()->id }}, realisasi: realisasi, tingkat_kualitas: tingkat_kualitas, keterangan: keterangan}
+                    }).then(function (res) {
+                        let data = res.data;
+                        if(data.status == 'sukses'){
+                            Swal.fire({
+                                title: 'Berhasil', 
+                                html: data.message,
+                                type: 'success'
+                            });
+                        }else{
+                            Swal.fire({
+                                title: 'Gagal', 
+                                html: data.message,
+                                type: 'failed'
+                            });
+                        }
                     }).catch(function (err) {
                         console.error(err);
                         Swal.fire('Gagal Menyimpan', "Terjadi kesalahan saat menyimpan", 'error');
@@ -353,6 +413,29 @@ if($monthQuery == 'now')
             if ((value !== '') && (value.indexOf('.') === -1)) {
                 $(this).val(Math.max(Math.min(value, maxValue), 0));
             }
+        });
+        $(`
+        input.realisasi,
+        input.keterangan,
+        input.tingkat-kualitas,
+        input.realisasi-myactivity,
+        input.keterangan-myactivity,
+        input.tingkat-kualitas-myactivity
+        `).blur(function(){
+            $.notify({
+                title: '<strong>Jangan lupa menyimpan</strong><br>',
+                message: 'Perubahan belum disimpan sampai Anda menekan tombol simpan disebelah kanan'
+            },{
+                type: "info",
+                allow_dismiss: false,
+                newest_on_top: false,
+                showProgressbar: false,
+                placement: {
+                    from: "bottom",
+                    align: "right"
+                },
+                timer: 10,
+            });
         });
     });
 
