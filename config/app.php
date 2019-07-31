@@ -182,6 +182,7 @@ return [
         LaravelFrontendPresets\ArgonPreset\ArgonPresetServiceProvider::class,
         // Datatables
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -235,7 +236,9 @@ return [
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
         // DomPDF aliases
-        'PDF' => Barryvdh\DomPDF\Facade::class
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        // Image manipulation
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];
