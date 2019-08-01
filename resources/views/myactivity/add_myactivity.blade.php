@@ -395,7 +395,18 @@ for($i = 0; $i < 5; $i++){
                 list: {
                     maxNumberOfElements: 15,
                     match: {enabled: true},
-                    sort: {enabled: true}
+                    sort: {enabled: true},
+                    showAnimation: {
+			            type: "fade", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            },
+
+		            hideAnimation: {
+			            type: "slide", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            }
                 },
             });
             $('.nama-sub-kegiatan').each(function () {
@@ -409,7 +420,18 @@ for($i = 0; $i < 5; $i++){
                         },
                         sort: {
                             enabled: true
-                        }
+                        },
+                        showAnimation: {
+			            type: "fade", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            },
+
+		            hideAnimation: {
+			            type: "slide", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            }
                     }
                 });
             });
@@ -505,7 +527,18 @@ for($i = 0; $i < 5; $i++){
                     list: {
                         maxNumberOfElements: 15,
                         match: {enabled: true},
-                        sort: {enabled: true}
+                        sort: {enabled: true},
+                        showAnimation: {
+			            type: "fade", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            },
+
+		            hideAnimation: {
+			            type: "slide", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            }
                     }
                 });
             });
@@ -520,7 +553,18 @@ for($i = 0; $i < 5; $i++){
                     list: {
                         maxNumberOfElements: 15,
                         match: {enabled: true},
-                        sort: {enabled: true}
+                        sort: {enabled: true},
+                        showAnimation: {
+			            type: "fade", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            },
+
+		            hideAnimation: {
+			            type: "slide", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            }
                     }
                 });
             });

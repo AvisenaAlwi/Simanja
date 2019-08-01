@@ -50,7 +50,7 @@
                     <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-6">
-                                    <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
+                                    <h1 class="display-4 text-success">{{$sub_activity->activity_name}}</h1>
                                 </div>
                                 <div class="col-6 text-right">
                                     <h5>Dibuat :
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                         <div class="card-body">
-                            <h1 class="display-4">{{$sub_activity->sub_activity_name}}</h1>
+                            <h1 class="display-4 text-success">{{$sub_activity->sub_activity_name}}</h1>
 
                             @if ($sub_activity->created_by_user_id == Auth()->user()->id)
                             <h4>Petugas pengemban:</h4>
@@ -159,11 +159,11 @@
                         <div class="form-group">
                                 <label class="form-control-label">Keterangan</label>
                                 <textarea name="Keterangan" id="" rows="2" class="form-control form-control-alternative Keterangan"></textarea>
-                            </div>
+                        </div>
                         @endif
-                    </div>
-                    <div class="col-7 text-right">
-                        <a href="" class="btn btn-success">Simpan</a>
+                        <div class="col-7 text-right">
+                                <a href="" class="btn btn-success">Simpan</a>
+                        </div>
                     </div>
                     <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
                     <h4>dibuat oleh: {{ $sub_activity->user_name }}</h4>
@@ -242,6 +242,5 @@
             @include('layouts.footers.auth')
         </div>
     </div>
-    @include('layouts.footers.auth')
 </div>
 @endsection

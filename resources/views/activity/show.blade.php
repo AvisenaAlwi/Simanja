@@ -45,7 +45,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-6">
-                            <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
+                            <h1 class="display-4 text-success">{{$sub_activity->activity_name}}</h1>
                         </div>
                         <div class="col-6 text-right">
                             <h5>Dibuat :
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                     <div class="card-body">
-                            <h1 class="display-4">{{$sub_activity->sub_activity_name}}</h1>
+                            <h1 class="display-4 text-success">{{$sub_activity->sub_activity_name}}</h1>
                             <h4>Satuan: {{$sub_activity->satuan}} | Volume: {{$sub_activity->volume}}</h4>
                             <h4>Pendidikan minimal: {{$sub_activity->pendidikan}}</h4>
                             <h4>Kualifikasi minimal:</h4>
