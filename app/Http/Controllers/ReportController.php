@@ -145,31 +145,28 @@ class ReportController extends Controller
         foreach($sub_activity as $sub){
             try{
                 $sub->month_volume = json_decode($sub->petugas, true)[$userId]["${month}_${currentYear}"];
-                echo $sub->month_volume. "<br>";
             }catch(Exception $e){
                 $sub->month_volume = json_decode($sub->petugas, true)[$userId]["${month}"];
-                echo $sub->month_volume. "<br>";
             }
-            echo $sub->month_volume. "<br>";
             if ($sub->month_volume != 0 && $sub->month_volume > 0){
                 if ($sub->kategori == 'Utama'){
+                    $sub->tipe = 'tugas';
                     array_push($utama, $sub);
                 }else{
+                    $sub->tipe = 'tugas';
                     array_push($tambahan, $sub);
                 }
             }
         }
         // die();
         foreach($my_activity as $my){
-            try{
-                $my->month_volume = 1;
-            }catch(Exception $e){
-                $my->month_volume = 1;
-            }
+            $my->month_volume = $my->volume;
             if ($my->month_volume != 0 && $my->month_volume > 0){
                 if ($my->kategori == 'Utama'){
+                    $my->tipe = 'myactivity';
                     array_push($utama, $my);
                 }else{
+                    $my->tipe = 'myactivity';
                     array_push($tambahan, $my);
                 }
             }
@@ -177,20 +174,19 @@ class ReportController extends Controller
         if($ckp == 't'){
             $pdf = PDF::loadview('report.ckpt',
             ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan, 'date'=>$date]);
-    	    return $pdf->stream($month.'_'.$year.'_CKP-T_'.auth()->user()->name.'_'.auth()->user()->nip.'.pdf');
+            return $pdf->stream($month.'_'.$year.'_CKP-T_'.auth()->user()->name.'_'.auth()->user()->nip.'.pdf');
             // return view('report.ckpt',
             // ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan]);
 
         }else if($ckp == 'r'){
             $pdf = PDF::loadview('report.ckpr',
             ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan, 'date'=>$date]);
-    	    return $pdf->stream($month.'_'.$year.'_CKP-R_'.auth()->user()->name.'_'.auth()->user()->nip.'.pdf');
+            return $pdf->stream($month.'_'.$year.'_CKP-R_'.auth()->user()->name.'_'.auth()->user()->nip.'.pdf');
             // return view('report.ckpr',
             // ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan]);
         }else{
             return abort(404, 'CKP tidak valid');
         }
-
     }
 
     function pelaporan (Subactivity $id){

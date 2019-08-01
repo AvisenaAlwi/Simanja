@@ -55,7 +55,8 @@
                             <a href="{{ route('activity.create') }}"
                                 title="Tambah kegiatan" data-toggle="tooltip" data-placement="top">
                                 <button type="button"
-                                    class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                                    class="btn btn-primary btn-sm">
+                                    <i class="fa fa-plus"></i>
                                 </button>
                             </a>
                         </div>

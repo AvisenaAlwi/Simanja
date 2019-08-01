@@ -94,7 +94,7 @@
     </div>
     <div>
         <table style="width:100%; border-collapse: collapse; text-align: center;" cellpadding="2" border="1">
-            <tr style="background: #f3f3f3">
+            <tr>
                 <th>No</th>
                 <th width="45%">Uraian Kegiatan</th>
                 <th>Satuan</th>
@@ -113,7 +113,7 @@
                 <td>(7)</td>
             </tr>
             @if (!empty($keg_utama))
-                <tr style="background: #f3f3f3">
+                <tr>
                     <td class="kategori" colspan="7" ><b>Utama</b></td>
                 </tr>
                 @php $counter = 0; @endphp
@@ -126,12 +126,12 @@
                     <td>{{$utama->month_volume}}</td>
                     <td>{{$utama->kode_butir}}</td>
                     <td>{{$utama->angka_kredit}}</td>
-                    <td class="keterangan">{{$utama->keterangan}}</td>
+                    <td class="keterangan">{{ $utama->keterangan_t ?? $utama->keterangan}}</td>
                 </tr>
                 @endforeach
             @endif
             @if (!empty($keg_tambahan))
-                <tr style="background: #f3f3f3">
+                <tr>
                     <td class="kategori" colspan="7"><b>Tambahan</b></td>
                 </tr>
                 @php $counter = 0; @endphp
@@ -144,7 +144,7 @@
                     <td>{{$tambahan->month_volume}}</td>
                     <td>{{$tambahan->kode_butir}}</td>
                     <td>{{$tambahan->angka_kredit}}</td>
-                    <td class="keterangan">{{$tambahan->keterangan}}</td>
+                    <td class="keterangan">{{ $tambahan->keterangan_t ?? $tambahan->keterangan }}</td>
                 </tr>
                 @endforeach
             @endif

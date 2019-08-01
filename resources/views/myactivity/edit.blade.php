@@ -1,4 +1,5 @@
 @inject('Cookie', 'Illuminate\Support\Facades\Cookie')
+@inject('Carbon', 'Carbon\Carbon')
 @extends('layouts.app', ['title' => 'Tambah kegiatanku'])
 @push('style')
 <!-- Latest compiled and minified CSS -->
@@ -40,7 +41,7 @@ for($i = 0; $i < 5; $i++){
                     </div>
                 </div>
                 <div class="card-body">
-                    <form id="form-activity" method="POST" action="{{ route('myactivity.store') }}">
+                    <form id="form-activity" method="POST" action="{{ route('myactivity.update', $my_activity->id) }}">
                         @csrf
                         @method('post')
                         <h6 class="heading-small text-muted mb-4">Kegiatan</h6>
@@ -48,87 +49,23 @@ for($i = 0; $i < 5; $i++){
                             <div class ="row">
                                 <div class="col-lg-6">
                                     <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-activity-name">Nama Kegiatan</label>
-                                    <input type="text" name="name" id="input-activity-name" class="form-control form-control-alternative" value="{{ $my_activity->name }}" required autofocus>
+                                        <label class="form-control-label" for="input-activity-name">Nama Kegiatan</label>
+                                        <input type="text" name="name" id="input-activity-name" class="form-control form-control-alternative" value="{{ $my_activity->name }}" required autofocus>
                                     </div>
                                 </div>
                                 <div class ="col-lg-6">
                                     <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-kategori">Kategori</label>
-                                    <select class="form-control form-control-alternative" id="input-kategori" name="kategori" required autofocus>
-                                        <option value="Utama" {{ $my_activity->kategori == 'Utama' ? 'selected' : '' }}>Utama</option>
-                                        <option value="Tambahan" {{ $my_activity->kategori == 'Tambahan' ? 'selected' : '' }}>Tambahan</option>
-                                    </select>
+                                        <label class="form-control-label" for="input-kategori">Kategori</label>
+                                        <select class="form-control form-control-alternative" id="input-kategori" name="kategori" required autofocus>
+                                            <option value="Utama" {{ $my_activity->kategori == 'Utama' ? 'selected' : '' }}>Utama</option>
+                                            <option value="Tambahan" {{ $my_activity->kategori == 'Tambahan' ? 'selected' : '' }}>Tambahan</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-start-month">Awal</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <select name="start_month" id="activity-start-month"
-                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                    @for ($i = 1; $i <= sizeof(config('scale.month')); $i++) 
-                                                        @if($i == date_create($my_activity->awal)->format('m'))
-                                                            <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
-                                                        @else
-                                                            <option value="{{ config('scale.month')[$i-1] }}">{{ config('scale.month')[$i-1] }}</option>
-                                                        @endif
-                                                    @endfor
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <select name="start_year" id="activity-start-year"
-                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                @foreach ($tahun as $t)
-                                                    @if($t == date_create($my_activity->awal)->format('Y'))
-                                                        <option value="{{ $t }}" selected>{{ $t }}</option>
-                                                    @else
-                                                        <option value="{{ $t }}">{{ $t }}</option>
-                                                    @endif
-                                                @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6" id="zzx">
-                                    <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-end-month">Akhir</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <select name="end_month" id="activity-end-month"
-                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                @for ($i = 1; $i <= sizeof(config('scale.month')); $i++) 
-                                                    @if($i == date_create($my_activity->akhir)->format('m'))
-                                                        <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
-                                                    @else
-                                                        <option value="{{ config('scale.month')[$i-1] }}">{{ config('scale.month')[$i-1] }}</option>
-                                                    @endif
-                                                @endfor
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <select name="end_year" id="activity-end-year"
-                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                @foreach ($tahun as $t)
-                                                    @if($t == date_create($my_activity->akhir)->format('Y'))
-                                                        <option value="{{ $t }}" selected>{{ $t }}</option>
-                                                    @else
-                                                        <option value="{{ $t }}">{{ $t }}</option>
-                                                    @endif
-                                                @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div>
-                                <input type="checkbox" id="checkbox-periode-1-bulan" name="issatubulan"> Periode Tugas 1 Bulan
+                                Kegiatan pribadi untuk bulan <b>{{ $Carbon::parse($my_activity->awal)->timezone('Asia/Jakarta')->formatLocalized('%B %Y') }}</b>
                             </div>
                             <br>
                             <div class="row">
@@ -145,12 +82,16 @@ for($i = 0; $i < 5; $i++){
                                     </div>
                                 </div>
                                 <div class="col-6 col-lg-3">
-                                    <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                    <input type="number" name="kode_butir" class="form-control form-control-alternative" value="{{ $my_activity->kode_butir }}">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
+                                        <input type="number" name="kode_butir" class="form-control form-control-alternative" value="{{ $my_activity->kode_butir }}">
+                                    </div>
                                 </div>
                                 <div class="col-6 col-lg-3">
-                                    <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                    <input type="number" name="angka_kredit" class="form-control form-control-alternative" value="{{ $my_activity->angka_kredit }}">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
+                                        <input type="number" name="angka_kredit" class="form-control form-control-alternative" value="{{ $my_activity->angka_kredit }}">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">

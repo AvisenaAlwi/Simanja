@@ -6,9 +6,8 @@
 @else
 <link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/easy-autocomplete.min.css">
 @endif
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrapslider') }}/bootstrap-slider.min.css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/croppie') }}/croppie.min.css" />
 <style>
     .slider.slider-horizontal {
         margin-left: 7%;
@@ -36,14 +35,15 @@
                             <a href="{{ route('user.index') }}" title="Kembali" data-toggle="tooltip"
                                 data-placement="top">
                                 <button type="button" class="btn btn-primary btn-sm"><span
-                                    class="ni ni-bold-left"></span>
+                                        class="ni ni-bold-left"></span>
                                 </button>
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('user.update', $user) }}" autocomplete="off" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('user.update', $user) }}" autocomplete="off"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('put')
 
@@ -157,12 +157,12 @@
                                         @endif
                                     </div>
                                     <div class='row'>
-                                        <div
-                                            class="col-lg-6 form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
+                                        <div class="col-lg-6 form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-jabatan">Jabatan*</label>
                                             <input type="text"
                                                 class="form-control form-control-alternative{{ $errors->has('account_jabatan') ? ' is-invalid' : '' }}"
-                                                id="input-jabatan" name="jabatan" value="{{ old('jabatan', $user->jabatan) }}" required autofocus>
+                                                id="input-jabatan" name="jabatan"
+                                                value="{{ old('jabatan', $user->jabatan) }}" required autofocus>
                                             @if ($errors->has('account_jabatan'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('account_jabatan') }}</strong>
@@ -175,167 +175,172 @@
                                             <label class="form-control-label" for="input-photo">Foto*</label>
                                             <input type="file"
                                                 class="form-control form-control-alternative{{ $errors->has('account_photo') ? ' is-invalid' : '' }}"
-                                                id="input-photo" name="photo" value="" autofocus>
+                                                id="input-photo" name="photo" value="{{ old('photo', $user->photo) }}"
+                                                autofocus accept="image/png, image/jpeg"> Max 2 MB
                                             @if ($errors->has('account_photo'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('account_photo') }}</strong>
                                             </span>
                                             @endif
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6" style="border-left:1px solid #ccc;">
+                                    <h3>Tingkat keahlian</h3>
+                                    <div class="form-group" style="margin-left:10px">
+
+                                        @php
+                                        if ($user->pendidikan=="S2") {
+                                        $pendidikan = "1";
+                                        }elseif ($user->pendidikan=="S1") {
+                                        $pendidikan = "2";
+                                        }elseif ($user->pendidikan=="D-IV") {
+                                        $pendidikan = "3";
+                                        }elseif ($user->pendidikan=="D-III") {
+                                        $pendidikan = "4";
+                                        }elseif ($user->pendidikan=="SMA") {
+                                        $pendidikan = "5";
+                                        }
+
+                                        @endphp
+                                        <div class="form-control-label" for="input-current-password">Pendidikan</div>
+                                        <input type="text" name="pendidikan" class="qualifikasi-pendidikan"
+                                            data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
+                                            data-slider-ticks-labels='["S2", "S1", "D-IV", "D-III","SMA"]'
+                                            data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                            data-slider-value="{{ $pendidikan }}" data-slider-tooltip="hide"
+                                            style="width: 86%;" />
+                                    </div>
+
+                                    <div class="form-group" style="margin-left:10px">
+
+                                        @php
+                                        if ($user->ti=="Sangat Tinggi") {
+                                        $ti = "1";
+                                        }elseif ($user->ti=="Tinggi") {
+                                        $ti = "2";
+                                        }elseif ($user->ti=="Cukup") {
+                                        $ti = "3";
+                                        }elseif ($user->ti=="Kurang") {
+                                        $ti = "4";
+                                        }elseif ($user->ti=="Sangat Kurang") {
+                                        $ti = "5";
+                                        }
+
+                                        @endphp
+                                        <div class="form-control-label" for="input-current-password">Kemampuan TI
+                                        </div>
+                                        <input type="text" name="ti" class="qualifikasi-ti" data-provide="slider"
+                                            data-slider-ticks="[5,4,3,2,1]"
+                                            data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
+                                            data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                            data-slider-value="{{ $ti }}" data-slider-tooltip="hide"
+                                            style="width: 86%;" />
+                                    </div>
+                                    <div class="form-group" style="margin-left:10px">
+
+                                        @php
+                                        if ($user->menulis=="Sangat Tinggi") {
+                                        $menulis = "1";
+                                        }elseif ($user->menulis=="Tinggi") {
+                                        $menulis = "2";
+                                        }elseif ($user->menulis=="Cukup") {
+                                        $menulis = "3";
+                                        }elseif ($user->menulis=="Kurang") {
+                                        $menulis = "4";
+                                        }elseif ($user->menulis=="Sangat Kurang") {
+                                        $menulis = "5";
+                                        }
+
+                                        @endphp
+                                        <div class="form-control-label" for="input-current-password">Kemampuan
+                                            Menulis</div>
+                                        <input type="text" name="menulis" class="qualifikasi-menulis"
+                                            data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
+                                            data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
+                                            data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                            data-slider-value="{{ $menulis }}" data-slider-tooltip="hide"
+                                            style="width: 86%;" />
+                                    </div>
+                                    <div class="form-group" style="margin-left:10px">
+
+                                        @php
+                                        if ($user->administrasi=="Sangat Tinggi") {
+                                        $administrasi = "1";
+                                        }elseif ($user->administrasi=="Tinggi") {
+                                        $administrasi = "2";
+                                        }elseif ($user->administrasi=="Cukup") {
+                                        $administrasi = "3";
+                                        }elseif ($user->administrasi=="Kurang") {
+                                        $administrasi = "4";
+                                        }elseif ($user->administrasi=="Sangat Kurang") {
+                                        $administrasi = "5";
+                                        }
+
+                                        @endphp
+                                        <div class="form-control-label" for="input-current-password">Kemampuan
+                                            Administrasi</div>
+                                        <input type="text" name="administrasi" class="qualifikasi-administrasi"
+                                            data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
+                                            data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
+                                            data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                            data-slider-value="{{ $administrasi }}" data-slider-tooltip="hide"
+                                            style="width: 86%;" />
+                                    </div>
+                                    <div class="form-group" style="margin-left:10px">
+
+                                        @php
+                                        if ($user->pengalaman_survei=="Sangat Tinggi") {
+                                        $pengalaman_survei = "1";
+                                        }elseif ($user->pengalaman_survei=="Tinggi") {
+                                        $pengalaman_survei = "2";
+                                        }elseif ($user->pengalaman_survei=="Cukup") {
+                                        $pengalaman_survei = "3";
+                                        }elseif ($user->pengalaman_survei=="Kurang") {
+                                        $pengalaman_survei = "4";
+                                        }elseif ($user->pengalaman_survei=="Sangat Kurang") {
+                                        $pengalaman_survei = "5";
+                                        }
+
+                                        @endphp
+                                        <div class="form-control-label" for="input-current-password">Pengalaman
+                                            Survei</div>
+                                        <input type="text" name="pengalaman_survei" class="qualifikasi-pengalaman"
+                                            data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
+                                            data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
+                                            data-slider-min="1" data-slider-max="5" data-slider-step="1"
+                                            data-slider-value="{{ $pengalaman_survei }}" data-slider-tooltip="hide"
+                                            style="width: 86%;" />
+                                    </div>
+
                                 </div>
                             </div>
-                            <div class="col-lg-6" style="border-left:1px solid #ccc;">
-                                <h3>Tingkat keahlian</h3>
-                                <div class="form-group" style="margin-left:10px">
-
-                                    @php
-                                    if ($user->pendidikan=="S2") {
-                                    $pendidikan = "1";
-                                    }elseif ($user->pendidikan=="S1") {
-                                    $pendidikan = "2";
-                                    }elseif ($user->pendidikan=="D-IV") {
-                                    $pendidikan = "3";
-                                    }elseif ($user->pendidikan=="D-III") {
-                                    $pendidikan = "4";
-                                    }elseif ($user->pendidikan=="SMA") {
-                                    $pendidikan = "5";
-                                    }
-
-                                    @endphp
-                                    <div class="form-control-label" for="input-current-password">Pendidikan</div>
-                                    <input type="text" name="pendidikan" class="qualifikasi-pendidikan"
-                                        data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
-                                        data-slider-ticks-labels='["S2", "S1", "D-IV", "D-III","SMA"]'
-                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                        data-slider-value="{{ $pendidikan }}" data-slider-tooltip="hide"
-                                        style="width: 86%;" />
-                                </div>
-
-                                <div class="form-group" style="margin-left:10px">
-
-                                    @php
-                                    if ($user->ti=="Sangat Tinggi") {
-                                    $ti = "1";
-                                    }elseif ($user->ti=="Tinggi") {
-                                    $ti = "2";
-                                    }elseif ($user->ti=="Cukup") {
-                                    $ti = "3";
-                                    }elseif ($user->ti=="Kurang") {
-                                    $ti = "4";
-                                    }elseif ($user->ti=="Sangat Kurang") {
-                                    $ti = "5";
-                                    }
-
-                                    @endphp
-                                    <div class="form-control-label" for="input-current-password">Kemampuan TI
-                                    </div>
-                                    <input type="text" name="ti" class="qualifikasi-ti" data-provide="slider"
-                                        data-slider-ticks="[5,4,3,2,1]"
-                                        data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                        data-slider-value="{{ $ti }}" data-slider-tooltip="hide" style="width: 86%;" />
-                                </div>
-                                <div class="form-group" style="margin-left:10px">
-
-                                    @php
-                                    if ($user->menulis=="Sangat Tinggi") {
-                                    $menulis = "1";
-                                    }elseif ($user->menulis=="Tinggi") {
-                                    $menulis = "2";
-                                    }elseif ($user->menulis=="Cukup") {
-                                    $menulis = "3";
-                                    }elseif ($user->menulis=="Kurang") {
-                                    $menulis = "4";
-                                    }elseif ($user->menulis=="Sangat Kurang") {
-                                    $menulis = "5";
-                                    }
-
-                                    @endphp
-                                    <div class="form-control-label" for="input-current-password">Kemampuan
-                                        Menulis</div>
-                                    <input type="text" name="menulis" class="qualifikasi-menulis" data-provide="slider"
-                                        data-slider-ticks="[5,4,3,2,1]"
-                                        data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                        data-slider-value="{{ $menulis }}" data-slider-tooltip="hide"
-                                        style="width: 86%;" />
-                                </div>
-                                <div class="form-group" style="margin-left:10px">
-
-                                    @php
-                                    if ($user->administrasi=="Sangat Tinggi") {
-                                    $administrasi = "1";
-                                    }elseif ($user->administrasi=="Tinggi") {
-                                    $administrasi = "2";
-                                    }elseif ($user->administrasi=="Cukup") {
-                                    $administrasi = "3";
-                                    }elseif ($user->administrasi=="Kurang") {
-                                    $administrasi = "4";
-                                    }elseif ($user->administrasi=="Sangat Kurang") {
-                                    $administrasi = "5";
-                                    }
-
-                                    @endphp
-                                    <div class="form-control-label" for="input-current-password">Kemampuan
-                                        Administrasi</div>
-                                    <input type="text" name="administrasi" class="qualifikasi-administrasi"
-                                        data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
-                                        data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                        data-slider-value="{{ $administrasi }}" data-slider-tooltip="hide"
-                                        style="width: 86%;" />
-                                </div>
-                                <div class="form-group" style="margin-left:10px">
-
-                                    @php
-                                    if ($user->pengalaman_survei=="Sangat Tinggi") {
-                                    $pengalaman_survei = "1";
-                                    }elseif ($user->pengalaman_survei=="Tinggi") {
-                                    $pengalaman_survei = "2";
-                                    }elseif ($user->pengalaman_survei=="Cukup") {
-                                    $pengalaman_survei = "3";
-                                    }elseif ($user->pengalaman_survei=="Kurang") {
-                                    $pengalaman_survei = "4";
-                                    }elseif ($user->pengalaman_survei=="Sangat Kurang") {
-                                    $pengalaman_survei = "5";
-                                    }
-
-                                    @endphp
-                                    <div class="form-control-label" for="input-current-password">Pengalaman
-                                        Survei</div>
-                                    <input type="text" name="pengalaman_survei" class="qualifikasi-pengalaman"
-                                        data-provide="slider" data-slider-ticks="[5,4,3,2,1]"
-                                        data-slider-ticks-labels='["Sangat Tinggi", "Tinggi", "Cukup", "Kurang","Sangat Kurang"]'
-                                        data-slider-min="1" data-slider-max="5" data-slider-step="1"
-                                        data-slider-value="{{ $pengalaman_survei }}" data-slider-tooltip="hide"
-                                        style="width: 86%;" />
-                                </div>
-
+                            <p>* Biarkan jika tidak ingin mengubah.</p>
+                        </div>
+                        <br>
+                        <div class="upload-demo-wrap">
+                            <div id="upload-demo"></div>
+                        </div>
+                        <input type="hidden" name="photo_base64">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-success mt-4">Simpan</button>
                             </div>
                         </div>
-                        <p>* Biarkan jika tidak ingin mengubah.</p>
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="col-12 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success mt-4">Simpan</button>
-                    </div>
-                </div>
-                </form>
             </div>
         </div>
     </div>
-</div>
-@include('layouts.footers.auth')
+    @include('layouts.footers.auth')
 </div>
 @push('js')
 <!-- Latest compiled and minified JavaScript -->
 
 <script src="{{ asset('vendor/arrive') }}/arrive.min.js"></script>
 <script src="{{ asset('vendor/easyautocomplete') }}/jquery.easy-autocomplete.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
+<script type="text/javascript" src="{{ asset('vendor/bootstrapslider') }}/bootstrap-slider.min.js"></script>
+<script type="text/javascript" src="{{ asset('vendor/croppie') }}/croppie.min.js"></script>
 <script>
     // $(document).arrive('.slider-input', function (newElement) {
     //     $('.slider-input[identifier=pendidikan]').jRange({
@@ -361,9 +366,6 @@
     $(document).arrive('input[data-provide=slider]', function (newElement) {
         $(newElement).slider();
     });
-
-
-
     $("#input-jabatan").easyAutocomplete({
         url: "{{ route('user.autocomplete.jabatan') }}",
         getValue: "name",
@@ -377,7 +379,39 @@
             }
         },
     });
+    $('#upload-demo').hide();
+    var resize = $('#upload-demo').croppie({
+        enableExif: true,
+        enableOrientation: true,
+        viewport: { // Default { width: 100, height: 100, type: 'square' }
+            width: 400,
+            height: 400
+        },
+        boundary: {
+            width: 450,
+            height: 450
+        }
+    });
+    $('#input-photo').on('change', function () {
+        $('#upload-demo').show();
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            resize.croppie('bind', {
+                url: e.target.result
+            }).then(function () {
 
+            });
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
+    $('form').submit(function(){
+        resize.croppie('result', {
+            type: 'canvas',
+            size: 'viewport'
+        }).then(function (img) {
+            $('input[name="photo_base64"]').val(img);
+        });
+    });
 </script>
 @endpush
 

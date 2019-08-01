@@ -78,7 +78,7 @@
         <div style="display: flex; justify-content: flex-end;">
             <h2 id="reportType">CKP-R</h2>
         </div>
-        <h2 id="title">TARGET KINERJA PEGAWAI TAHUN {{$currentYear}}</h2><br>
+        <h2 id="title">TARGET KINERJA PEGAWAI TAHUN {{ $year }}</h2><br>
         <table style="border: nonek !important; border-collapse: none !important;">
             <tr>
                 <td>Satuan Organisasi</td>
@@ -102,7 +102,7 @@
     </div>
     <div>
         <table style="width:100%; border-collapse: collapse; text-align: center;" cellpadding="2" border="1">
-            <tr style="background: #f3f3f3">
+            <tr>
                 <th rowspan="2">No</th>
                 <th rowspan="2" width="30%">Uraian Kegiatan</th>
                 <th rowspan="2">Satuan</th>
@@ -112,7 +112,7 @@
                 <th rowspan="2">Angka kredit</th>
                 <th rowspan="2" width="25%">Keterangan</th>
             </tr>
-            <tr style="background: #f3f3f3">
+            <tr>
                 <th>Target</th>
                 <th>Realisasi</th>
                 <th>%</th>
@@ -131,15 +131,24 @@
             </tr>
             @if (!empty($keg_utama))
             <tr>
-                <td class="kategori" colspan="10" style="background: #f3f3f3"><b>Utama</b></td>
+                <td class="kategori" colspan="10"><b>Utama</b></td>
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_utama as $utama)
             @php
             $counter++;
-            $ket = json_decode($utama->keterangan_r, true)[auth()->user()->id]["${month}_${year}"];
-            $reali = json_decode($utama->realisasi, true)[auth()->user()->id]["${month}_${year}"];
-            $tingkul = json_decode($utama->tingkat_kualitas, true)[auth()->user()->id]["${month}_${year}"];
+            $ket = null;
+            $reali = null;
+            $tingkul = null;
+            if ($utama->tipe == 'tugas'){
+                $ket = json_decode($utama->keterangan_r, true)[auth()->user()->id]["${month}_${year}"];
+                $reali = json_decode($utama->realisasi, true)[auth()->user()->id]["${month}_${year}"];
+                $tingkul = json_decode($utama->tingkat_kualitas, true)[auth()->user()->id]["${month}_${year}"];
+            }else{
+                $ket = $utama->keterangan_r;
+                $reali = $utama->realisasi;
+                $tingkul = $utama->tingkat_kualitas ?? 0;
+            }
             @endphp
             <tr>
                 <td>{{$counter}}</td>
@@ -157,15 +166,24 @@
             @endif
             @if (!empty($keg_tambahan))
             <tr>
-                <td class="kategori" colspan="10" style="background: #f3f3f3"><b>Tambahan</b></td>
+                <td class="kategori" colspan="10"><b>Tambahan</b></td>
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_tambahan as $tambahan)
             @php
             $counter++;
-            $ket = json_decode($utama->keterangan_r, true)[auth()->user()->id]["${month}_${year}"];
-            $reali = json_decode($utama->realisasi, true)[auth()->user()->id]["${month}_${year}"];
-            $tingkul = json_decode($utama->tingkat_kualitas, true)[auth()->user()->id]["${month}_${year}"];
+            $ket = null;
+            $reali = null;
+            $tingkul = null;
+            if($tambahan->tipe == 'tugas'){
+                $ket = json_decode($tambahan->keterangan_r, true)[auth()->user()->id]["${month}_${year}"];
+                $reali = json_decode($tambahan->realisasi, true)[auth()->user()->id]["${month}_${year}"];
+                $tingkul = json_decode($tambahan->tingkat_kualitas, true)[auth()->user()->id]["${month}_${year}"];
+            }else{
+                $ket = $tambahan->keterangan_r;
+                $reali = $tambahan->realisasi;
+                $tingkul = $tambahan->tingkat_kualitas ?? 0;
+            }
             @endphp
             <tr>
                 <td>{{$counter}}</td>

@@ -22,8 +22,12 @@ class MyActivityController extends Controller
         $userId = auth()->user()->id;
         $my_activity = [];
         $currentYear = Carbon::now()->format('Y');
+        $currentMonth = Carbon::now()->formatLocalized('%B');
         $month = Input::get('month', 'now');
         $year = Input::get('year', $currentYear);
+        if($month == 'now')
+            $month = $currentMonth;
+
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
             ->join('users', 'activity.created_by_user_id', '=', 'users.id')
@@ -38,6 +42,7 @@ class MyActivityController extends Controller
                 'activity.akhir',
                 'assignment.petugas as petugas',
                 'assignment.realisasi',
+                'assignment.tingkat_kualitas',
                 'assignment.keterangan as keterangan_r'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
@@ -64,6 +69,12 @@ class MyActivityController extends Controller
         }else{
             return abort(404, 'bulan atau tahun yang akan dicari tidak valid');
         }
+        for ($i=0; $i < sizeof($sub_activity); $i++) { 
+            $sub = $sub_activity[$i];
+            $volumeBulanan = json_decode($sub->petugas, true)[auth()->user()->id]["${month}_${year}"];
+                if ($volumeBulanan <= 0)
+                    unset($sub_activity[$i]);
+        }
         return view('myactivity.index', ['sub_activity' => $sub_activity, 'my_activity' => $my_activity]);
     }
 
@@ -85,13 +96,8 @@ class MyActivityController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $startMonth = config('scale.month_reverse')[$request['start_month']];
-        $startYear = $request['start_year'];
-        $endMonth = config('scale.month_reverse')[$request['end_month']];
-        $endYear = $request['end_year'];
-        $start = Carbon::parse("$startYear-$startMonth-1");
-        $end = Carbon::parse("$endYear-$endMonth-28")->endOfMonth();
+        $start = Carbon::parse('first day of this month');
+        $end = Carbon::parse('last day of this month');
         MyActivity::create([
             "created_by_user_id" => auth()->user()->id,
             "name" => $request['name'],
@@ -191,9 +197,7 @@ class MyActivityController extends Controller
     }
 
     public function update_realisasi_keterangan(Request $request, $id){
-        // dd($request->all());
         $f = Assignment::where('sub_activity_id','=',$id)->first();
-        // dd($f->toJson());
         $realisasi = json_decode($f->realisasi, true);
         $keterangan = json_decode($f->keterangan, true);
         $realisasi[$request->user_id][$request->month_year] = $request->realisasi;
@@ -202,6 +206,21 @@ class MyActivityController extends Controller
             'realisasi' => json_encode($realisasi),
             'keterangan' => json_encode($keterangan)
         ]);
+    }
+    public function update_my_activity(Request $request, $id){
+        $f = MyActivity::where('id','=',$id)->where('created_by_user_id', '=', $request->user_id)->first();
+        if($f == null)
+            return response()->json(['status'=>'gagal', 'message'=>'Id tidak ditemukan'], 400);
+        $f->update([
+            'realisasi' => $request->realisasi,
+            'tingkat_kualitas' => $request->tingkat_kualitas,
+            'keterangan_r' => $request->keterangan
+        ]);
+        if($f){
+            return response()->json(['status'=>'sukses', 'message'=>'Berhasil disimpan'], 202);
+        }else{
+            return response()->json(['status'=>'gagal', 'message'=>'Data gagal disimpan'], 400);
+        }
     }
 
 }

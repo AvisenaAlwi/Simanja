@@ -7,9 +7,8 @@
 @else
 <link rel="stylesheet" href="{{ asset('vendor/easyautocomplete') }}/easy-autocomplete.min.css">
 @endif
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrapslider') }}/bootstrap-slider.min.css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/croppie') }}/croppie.min.css" />
 <style>
     .slider.slider-horizontal {
         margin-left: 7%;
@@ -150,12 +149,11 @@
                                     @endif
                                 </div>
                                 <div class='row'>
-                                    <div
-                                        class="col-lg-6 form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
+                                    <div class="col-lg-6 form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-jabatan">Jabatan*</label>
                                         <input type="text"
                                             class="form-control form-control-alternative{{ $errors->has('account_jabatan') ? ' is-invalid' : '' }}"
-                                            id="input-jabatan" name="jabatan" value="" required autofocus>
+                                            id="input-jabatan" name="jabatan" required autofocus>
                                         @if ($errors->has('account_jabatan'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('account_jabatan') }}</strong>
@@ -168,20 +166,12 @@
                                         <label class="form-control-label" for="input-photo">Foto*</label>
                                         <input type="file"
                                             class="form-control form-control-alternative{{ $errors->has('account_photo') ? ' is-invalid' : '' }}"
-                                            id="input-photo" name="photo" value="" autofocus>
+                                            id="input-photo" name="photo" value="" autofocus accept="image/png, image/jpeg"> Max 2 MB
                                         @if ($errors->has('account_photo'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('account_photo') }}</strong>
                                         </span>
                                         @endif
-                                    </div>
-                            </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-
-                                    </div>
-                                    <div class="col-lg-6">
-
                                     </div>
                                 </div>
                             </div>
@@ -235,6 +225,11 @@
 
                             </div>
                         </div>
+                        <br>
+                        <div class="upload-demo-wrap">
+                            <div id="upload-demo"></div>
+                        </div>
+                        <input type="hidden" name="photo_base64">
                         <hr class="my-4" />
                         <div class="row">
                             <div class="col-7 d-flex justify-content-end">
@@ -252,10 +247,8 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="{{ asset('vendor/arrive') }}/arrive.min.js"></script>
 <script src="{{ asset('vendor/easyautocomplete') }}/jquery.easy-autocomplete.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
+<script type="text/javascript" src="{{ asset('vendor/bootstrapslider') }}/bootstrap-slider.min.js"></script>
+<script type="text/javascript" src="{{ asset('vendor/croppie') }}/croppie.min.js"></script>
 <script>
     // $(document).arrive('.slider-input', function (newElement) {
     //     $('.slider-input[identifier=pendidikan]').jRange({
@@ -297,6 +290,39 @@
     });
     $("input[name='pengalaman_survei']").slider({ min: 1, max: 5, value: 2, focus: true });
 
+    $('#upload-demo').hide();
+    var resize = $('#upload-demo').croppie({
+        enableExif: true,
+        enableOrientation: true,
+        viewport: { // Default { width: 100, height: 100, type: 'square' }
+            width: 400,
+            height: 400
+        },
+        boundary: {
+            width: 450,
+            height: 450
+        }
+    });
+    $('#input-photo').on('change', function () {
+        $('#upload-demo').show();
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            resize.croppie('bind', {
+                url: e.target.result
+            }).then(function () {
+
+            });
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
+    $('form').submit(function(){
+        resize.croppie('result', {
+            type: 'canvas',
+            size: 'viewport'
+        }).then(function (img) {
+            $('input[name="photo_base64"]').val(img);
+        });
+    });
 </script>
 @endpush
 
