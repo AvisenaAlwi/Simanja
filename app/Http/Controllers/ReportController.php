@@ -82,7 +82,10 @@ class ReportController extends Controller
                 'activity.awal',
                 'activity.akhir',
                 'activity.kategori as kategori',
-                'assignment.petugas as petugas'
+                'assignment.petugas as petugas',
+                'assignment.keterangan as keterangan_r',
+                'assignment.realisasi as realisasi',
+                'assignment.tingkat_kualitas as tingkat_kualitas'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
@@ -167,7 +170,7 @@ class ReportController extends Controller
 
         }else if($ckp == 'r'){
             $pdf = PDF::loadview('report.ckpr',
-            ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan]);
+            ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan, 'date'=>$date]);
     	    return $pdf->stream($month.'_'.$year.'_CKP-R_'.auth()->user()->name.'_'.auth()->user()->nip.'.pdf');
             // return view('report.ckpr',
             // ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan]);

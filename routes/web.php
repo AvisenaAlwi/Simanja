@@ -51,5 +51,6 @@ Route::group([
 Route::group([
     'middleware' => ['auth', 'pegawai'],
 ], function () {
+    Route::put('myactivity/{id}', 'MyActivityController@update_realisasi_keterangan')->name('updatex');
     Route::resource('myactivity', 'MyActivityController');
 });

@@ -33,12 +33,17 @@
                             <h3 class="mb-0">Edit Akun</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">Kembali</a>
+                            <a href="{{ route('user.index') }}" title="Kembali" data-toggle="tooltip"
+                                data-placement="top">
+                                <button type="button" class="btn btn-primary btn-sm"><span
+                                    class="ni ni-bold-left"></span>
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('user.update', $user) }}" autocomplete="off">
+                    <form method="post" action="{{ route('user.update', $user) }}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         @method('put')
 
@@ -170,7 +175,7 @@
                                             <label class="form-control-label" for="input-photo">Foto*</label>
                                             <input type="file"
                                                 class="form-control form-control-alternative{{ $errors->has('account_photo') ? ' is-invalid' : '' }}"
-                                                id="input-photo" name="photo" value="{{ old('photo', $user->photo) }}" required autofocus>
+                                                id="input-photo" name="photo" value="{{ old('photo', $user->photo) }}" autofocus>
                                             @if ($errors->has('account_photo'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('account_photo') }}</strong>

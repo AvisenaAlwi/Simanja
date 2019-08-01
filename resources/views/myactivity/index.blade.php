@@ -4,13 +4,26 @@
 
 @extends('layouts.app', ['showSearch' => true, 'title' => 'KegiatanKu'])
 @push('style')
-
+<style>
+input.realisasi,
+input.keterangan{
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid #888;
+    width: 100px;
+    border-radius: 0;
+    outline: none;
+}
+</style>
 @endpush
 @php
 $months = config('scale.month');
+$currentMonth = $Carbon::now()->formatLocalized('%B');
 $currentYear = $Carbon::now()->format('Y');
 $monthQuery = $Input::get('month','now');
 $yearQuery = $Input::get('year',$currentYear);
+if($monthQuery == 'now')
+    $monthQuery = $currentMonth;
 @endphp
 @section('content')
 @include('users.partials.header', [
@@ -87,12 +100,18 @@ $yearQuery = $Input::get('year',$currentYear);
                                 <th>Nama Kegiatan</th>
                                 <th>Waktu</th>
                                 <th>Diberikan Oleh</th>
-                                <th>Completion</th>
+                                <th>Realisasi</th>
+                                <th>Keterangan*</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody class="list">
                             @forelse ($sub_activity as $sub)
+                            @php
+                                $ket = json_decode($sub->keterangan_r, true)[auth()->user()->id]["${monthQuery}_${yearQuery}"];
+                                $relal = json_decode($sub->realisasi, true)[auth()->user()->id]["${monthQuery}_${yearQuery}"];
+                                $maxRealisasi = json_decode($sub->petugas, true)[auth()->user()->id]["${monthQuery}_${yearQuery}"];
+                            @endphp
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
@@ -122,21 +141,16 @@ $yearQuery = $Input::get('year',$currentYear);
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-center"><span class="completion mr-2">60%</span>
-                                        <div>
-                                            <div class="progress-wrapper pt-0">
-                                                <!---->
-                                                <div class="progress" style="height: 3px;">
-                                                    <div role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                                                        aria-valuemax="100" class="progress-bar bg-warning"
-                                                        style="width: 60%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <input type="number" maxlength="50" placeholder="Belum diisi" value="{{ $relal }}" class="form-control realisasi" data-id="{{ $sub->id }}" min="0" max="{{ $maxRealisasi }}">
+                                </td>
+                                <td>
+                                    <input type="text" maxlength="100" placeholder="Belum diisi" value="{{ $ket }}" class="form-control keterangan" data-id="{{ $sub->id }}" style="width: 150px !important">
                                 </td>
                                 <td class="text-right">
-                                    <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
+                                    <button class="btn btn-success btn-save-realisasi" data-id="{{ $sub->id }}" data-title="{{ $sub->full_name }}" month-year="{{ $monthQuery }}_{{ $yearQuery }}">
+                                        Simpan
+                                    </button>
+                                    {{-- <li aria-haspopup="true" class="dropdown dropdown dropdown"><a role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                             class="btn btn-sm btn-icon-only text-primary"><i
                                                 class="fas fa-ellipsis-v" title="Aksi" data-toggle="tooltip" data-placement="left"></i></a>
@@ -150,7 +164,7 @@ $yearQuery = $Input::get('year',$currentYear);
                                                 id-item="{{ $sub->id }}"><i class="fa fa-trash text-danger"></i> Hapus</a>
                                             @endif
                                         </ul>
-                                    </li>
+                                    </li> --}}
                                 </td>
                             </tr>
                             @empty
@@ -162,11 +176,7 @@ $yearQuery = $Input::get('year',$currentYear);
                             @endforelse
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Kegiatan yang saya tambahkan</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                    <th colspan="6">Kegiatan yang saya tambahkan</th>
                                 </tr>
                             </thead>
                             @forelse ($my_activity as $activity)
@@ -229,7 +239,7 @@ $yearQuery = $Input::get('year',$currentYear);
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center">
+                                <td colspan="6" class="text-center">
                                     <h3>Tidak ada kegiatan</h3>
                                 </td>
                             </tr>
@@ -243,6 +253,7 @@ $yearQuery = $Input::get('year',$currentYear);
                             <h4>Total : {{ $sub_activity->count() + $my_activity->count() }} kegiatan</h4>
                         </div>
                     </div>
+                    * = Optional, tidak harus diisi
                 </div>
             </div>
         </div>
@@ -256,34 +267,38 @@ $yearQuery = $Input::get('year',$currentYear);
 <script src="{{ asset('vendor/axios/axios.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        $('.btn-delete-item').click(function (e) {
+        $('.btn-save-realisasi').click(function (e) {
             e.preventDefault();
             let me = $(this);
-            let title = me.attr('title');
-            let id = me.attr('id-item');
+            let title = me.attr('data-title');
+            let id = me.attr('data-id');
+            let monthYear = me.attr('month-year');
             Swal.fire({
-                title: '',
-                html: 'Yakin Ingin Menghapus <h3>' + title + ' ?</h3>',
+                title: 'Simpan realisasi',
+                html: 'Yakin ingin menyimpan <h3>' + title + ' ?</h3>',
                 type: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus'
+                confirmButtonText: 'Ya, simpan',
+                cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.value) {
+                    let realisasi = $('.realisasi[data-id='+id+']').val();
+                    let keterangan = $('.keterangan[data-id='+id+']').val();
                     axios({
-                        method: 'delete',
-                        url: '{{ url('/') }}/activity/' + id
+                        method: 'put',
+                        url: '{{ url('/') }}/myactivity/' + id,
+                        data: {user_id: {{ auth()->user()->id }}, month_year: monthYear, realisasi: realisasi, keterangan: keterangan}
                     }).then(function (res) {
-                        Swal.fire('Berhasil', title + " berhasil dihapus", 'success')
-                            .then((result) => {
-                                if (result.value) {
-                                    window.location.reload();
-                                }
-                            });
+                        Swal.fire({
+                            title: 'Berhasil', 
+                            html: "<b>" + title + "</b> berhasil disimpan",
+                            type: 'success'
+                        });
                     }).catch(function (err) {
-                        Swal.fire('Gagal Menghapus', "Terjadi kesalahan saat menghapus",
-                            'error');
+                        console.error(err);
+                        Swal.fire('Gagal Menyimpan', "Terjadi kesalahan saat menyimpan", 'error');
                     });
                 }
             });
@@ -305,7 +320,7 @@ $yearQuery = $Input::get('year',$currentYear);
                 if (result.value) {
                     axios({
                         method: 'delete',
-                        url: '{{ url('/') }}/myactivity/' + id
+                        url: '{{ url('/') }}/myactivity/' + id,
                     }).then(function (res) {
                         if (res.data.status == 'sukses'){
                             Swal.fire('Berhasil', res.data.message, 'success')
@@ -331,6 +346,13 @@ $yearQuery = $Input::get('year',$currentYear);
         });
         $("#select").change(function () {
             $("#formChange").submit();
+        });
+        $('input.realisasi').on('input', function () {
+            var value = $(this).val();
+            let maxValue = $(this).attr('max');
+            if ((value !== '') && (value.indexOf('.') === -1)) {
+                $(this).val(Math.max(Math.min(value, maxValue), 0));
+            }
         });
     });
 
