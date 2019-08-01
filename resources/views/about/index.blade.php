@@ -28,7 +28,7 @@
                 <br><br>
             </div>
             <div class="row">
-                <div class="col-12 col-lg-4 mb-5">
+                <div class="col-12 col-lg-4 mb-6">
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
                             <div class="col-lg-3 order-lg-2">
@@ -41,27 +41,27 @@
                             </div>
                         </div>
                         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                            <div class="d-flex justify-content-between">
-                                <a href="https://www.instagram.com/senaabdillah"
-                                    class="btn btn-sm btn-info mr-4">Instagram</a>
-                                <a href="https://wa.me/628563250975?text=SUBJECT:BPS Simanja dev %0AHai Sena!"
-                                    target="_blank" class="btn btn-sm btn-default float-right">Whatsapp</a>
+                                <div class="d-flex justify-content-between">
+                                    <a href="https://www.instagram.com/rochmadoniwahyu/"
+                                        class="btn btn-sm btn-info mr-4">Instagram</a>
+                                    <a href="https://wa.me/6288992821919?text=SUBJECT:BPS Simanja dev %0AHai Doni!"
+                                        class="btn btn-sm btn-default float-right">Whatsapp</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body pt-0 pt-md-4">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="text-center mt-md-5">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <h1>Avi</h1>
+                            <div class="card-body pt-0 pt-md-4">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="text-center mt-md-5">
+                                            <table style="margin: auto">
+                                                <tr>
+                                                    <td>
+                                                    <h2>Avi</h2>
                                                 </td>
                                                 <td>
-                                                    <h1 class="text-success">sena</h1>
+                                                    <h2 class="text-success">sena</h2>
                                                 </td>
                                                 <td>
-                                                    <h1>&nbsp;Abdillah Alwi</h1>
+                                                    <h2>&nbsp;Abdillah Alwi</h2>
                                                 </td>
                                             </tr>
                                         </table>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-4 mb-5">
+                <div class="col-12 col-lg-4 mb-6">
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
                             <div class="col-lg-3 order-lg-2">
@@ -87,27 +87,27 @@
                             </div>
                         </div>
                         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                            <div class="d-flex justify-content-between">
-                                <a href="https://www.instagram.com/rianonymous"
-                                    class="btn btn-sm btn-info mr-4">Instagram</a>
-                                <a href="https://wa.me/6281554411718?text=SUBJECT:BPS Simanja dev %0AHai Rian!"
-                                    class="btn btn-sm btn-default float-right">Whatsapp</a>
+                                <div class="d-flex justify-content-between">
+                                    <a href="https://www.instagram.com/rochmadoniwahyu/"
+                                        class="btn btn-sm btn-info mr-4">Instagram</a>
+                                    <a href="https://wa.me/6288992821919?text=SUBJECT:BPS Simanja dev %0AHai Doni!"
+                                        class="btn btn-sm btn-default float-right">Whatsapp</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body pt-0 pt-md-4">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="text-center mt-md-5">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <h1>Muhammad&nbsp;Faj</h1>
+                            <div class="card-body pt-0 pt-md-4">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="text-center mt-md-5">
+                                            <table style="margin: auto">
+                                                <tr>
+                                                    <td>
+                                                    <h2>Muhammad&nbsp;Faj</h2>
                                                 </td>
                                                 <td>
-                                                    <h1 class="text-success">rian</h1>
+                                                    <h2 class="text-success">rian</h2>
                                                 </td>
                                                 <td>
-                                                    <h1>syah</h1>
+                                                    <h2>syah</h2>
                                                 </td>
                                             </tr>
                                         </table>
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-4 mb-5">
+                <div class="col-12 col-lg-4 mb-6">
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
                             <div class="col-lg-3 order-lg-2">
@@ -147,13 +147,13 @@
                                         <table style="margin: auto">
                                             <tr>
                                                 <td>
-                                                    <h1>Rochma</h1>
+                                                    <h2>Rochma</h2>
                                                 </td>
                                                 <td>
-                                                    <h1 class="text-success">doni</h1>
+                                                    <h2 class="text-success">doni</h2>
                                                 </td>
                                                 <td>
-                                                    <h1>&nbsp;Wahyu</h1>
+                                                    <h2>&nbsp;Wahyu W</h2>
                                                 </td>
                                             </tr>
                                         </table>

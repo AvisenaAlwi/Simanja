@@ -135,8 +135,8 @@
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_utama as $utama)
-            @php 
-            $counter++; 
+            @php
+            $counter++;
             $ket = json_decode($utama->keterangan_r, true)[auth()->user()->id]["${month}_${year}"];
             $reali = json_decode($utama->realisasi, true)[auth()->user()->id]["${month}_${year}"];
             $tingkul = json_decode($utama->tingkat_kualitas, true)[auth()->user()->id]["${month}_${year}"];
@@ -147,7 +147,7 @@
                 <td>{{$utama->satuan}}</td>
                 <td>{{$utama->month_volume}}</td>
                 <td>{{ $reali }}</td>
-                <td>{{ $reali == 0 ? 0 : ($reali/$utama->month_volume)*100 }}%</td>
+                <td>{{ $reali == 0 ? 0 : round($reali/$utama->month_volume*100) }}%</td>
                 <td>{{ $tingkul }}%</td>
                 <td>{{$utama->kode_butir}}</td>
                 <td>{{$utama->angka_kredit}}</td>
@@ -161,8 +161,8 @@
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_tambahan as $tambahan)
-            @php 
-            $counter++; 
+            @php
+            $counter++;
             $ket = json_decode($utama->keterangan_r, true)[auth()->user()->id]["${month}_${year}"];
             $reali = json_decode($utama->realisasi, true)[auth()->user()->id]["${month}_${year}"];
             $tingkul = json_decode($utama->tingkat_kualitas, true)[auth()->user()->id]["${month}_${year}"];
@@ -173,7 +173,7 @@
                 <td>{{$tambahan->satuan}}</td>
                 <td>{{$tambahan->month_volume}}</td>
                 <td>{{ $reali }}</td>
-                <td>{{ $reali == 0 ? 0: ($reali/$utama->month_volume)*100}}%</td>
+                <td>{{ $reali == 0 ? 0: round($reali/$tambahan->month_volume*100)}}%</td>
                 <td>{{ $tingkul }}%</td>
                 <td>{{$tambahan->kode_butir}}</td>
                 <td>{{$tambahan->angka_kredit}}</td>
