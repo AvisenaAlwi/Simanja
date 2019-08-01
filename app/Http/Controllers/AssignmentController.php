@@ -75,7 +75,7 @@ class AssignmentController extends Controller
                                     ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
                             }, $boolean = 'and');
         }
-        
+
         if ($showQuery == 'showAssignment'){
             $sub_activity = $sub_activity
                                 ->whereJsonLength('petugas', '!=', 0)
@@ -99,7 +99,7 @@ class AssignmentController extends Controller
      */
     public function create()
     {
-        // 
+        //
     }
 
     /**
@@ -158,11 +158,11 @@ class AssignmentController extends Controller
             $users_name[$user->id] = $user->name;
         }
         // dd($months);
-        return view('assignment.add_edit_assignment', 
+        return view('assignment.add_edit_assignment',
         [
             'users'=>$users,
             'users_name'=>$users_name,
-            'assignment' => $assignment, 
+            'assignment' => $assignment,
             'activity' => $activity,
             'subActivity' => $subActivity,
             'months' => $months
@@ -209,7 +209,7 @@ class AssignmentController extends Controller
                 'keterangan' => json_encode($keteranganArray),
             ] // update
         );
-        return redirect()->route('assignment.index');
+        return redirect()->route('assignment.index')->withStatus(__('Penugasan berhasil diubah.'));
     }
 
     /**

@@ -53,7 +53,7 @@
                                     <input type="text" name="name" id="input-name"
                                         class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                         placeholder="{{ __('Name') }}" value="{{ old('name') }}" required autofocus>
-    
+
                                     @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -84,7 +84,7 @@
                                         class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                         placeholder="{{ __('Password') }}" value="" required
                                         autocomplete="false">
-    
+
                                     @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -294,7 +294,7 @@
     var resize = $('#upload-demo').croppie({
         enableExif: true,
         enableOrientation: true,
-        viewport: { // Default { width: 100, height: 100, type: 'square' } 
+        viewport: { // Default { width: 100, height: 100, type: 'square' }
             width: 400,
             height: 400
         },

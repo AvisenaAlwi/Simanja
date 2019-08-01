@@ -135,8 +135,8 @@
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_utama as $utama)
-            @php 
-            $counter++; 
+            @php
+            $counter++;
             $ket = null;
             $reali = null;
             $tingkul = null;
@@ -170,7 +170,7 @@
             </tr>
             @php $counter = 0; @endphp
             @foreach ($keg_tambahan as $tambahan)
-            @php 
+            @php
             $counter++;
             $ket = null;
             $reali = null;

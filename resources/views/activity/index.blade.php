@@ -74,6 +74,17 @@
                                 <th></th>
                             </tr>
                         </thead>
+                         <div class="col-12">
+                        @if (session('status'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('status') }}
+                                <a href="{{ route('assignment.index', ['query'=>session('query'),'month'=>session('month'),'year'=>session('year')])}}"> Tugaskan sekarang?</a>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
+                    </div>
                         <tbody class="list">
                             @forelse ($sub_activity as $sub)
                             <tr>
@@ -126,7 +137,7 @@
                                             <i class="fas fa-ellipsis-v" title="Aksi" data-toggle="tooltip" data-placement="left"></i>
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ route('activity.show', $sub->id) }}" 
+                                            <a href="{{ route('activity.show', $sub->id) }}"
                                                 class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
                                             @if (auth()->user()->role_id == 1 || $sub->created_by_user_id == auth()->user()->id)
                                             <a href="{{ route('activity.edit', $sub->id) }}"

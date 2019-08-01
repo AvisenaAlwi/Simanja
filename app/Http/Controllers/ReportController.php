@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers;
 
+
+use App\SubActivity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Barryvdh\DomPDF\Facade as PDF;
 use Exception;
+use DateInterval;
+use DatePeriod;
+use Illuminate\Http\Request;
+use App\Assignment;
 
 class ReportController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware(['auth']);
+        $this->middleware(['supervisor'])->except('print_ckp');
+    }
+
     function __construct()
     {
         $this->middleware(['auth']);
@@ -34,11 +46,12 @@ class ReportController extends Controller
                 'sub_activity.*',
                 'activity.awal',
                 'activity.akhir',
+                'assignment.petugas as petugas',
+                'assignment.realisasi as realisasi',
+                'assignment.keterangan as keterangan'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
-            ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
-            ->whereDate('awal', '<=', now() )
-            ->whereDate('akhir', '>=', now() )
+            ->where('user_id','=',auth()->user()->id)
             ->orderBy('created_at', 'DESC');
         if (!empty($searchQuery)){
             // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
@@ -180,7 +193,24 @@ class ReportController extends Controller
         }
     }
 
-    function pelaporan ($id){
+    function pelaporan (Subactivity $id){
+
+        // dd($id);
+        $activity = $id->activity;
+        $awal = Carbon::parse($activity->awal);
+        $akhir = Carbon::parse($activity->akhir);
+        $months = [];
+
+        $interval = DateInterval::createFromDateString('1 month');
+        $period = new DatePeriod($awal, $interval, $akhir);
+        foreach($period as $dt){
+            $mo = new Carbon($dt);
+            $monthName = $mo->timezone('Asia/Jakarta')->formatLocalized('%B %Y');
+            $monthId = $mo->timezone('Asia/Jakarta')->formatLocalized('%m');
+            array_push($months, ['monthName' => $monthName, 'monthId' => $monthId]);
+        }
+        // dd($months);
+
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
             ->join('users', 'activity.created_by_user_id', '=', 'users.id')
@@ -193,25 +223,50 @@ class ReportController extends Controller
                 'sub_activity.id as sub_activity_id',
                 'activity.*',
                 'users.name as user_name',
-                'assignment.petugas'
+                'assignment.petugas as petugas',
+                'assignment.keterangan as keterangan_r',
+                'assignment.realisasi as realisasi',
+                'assignment.tingkat_kualitas as tingkat_kualitas'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
-            ->where('sub_activity.id','=',$id)
+            ->where('sub_activity.id','=',$id->id)
             ->first();
+            // dd($sub_activity);
 
             $users = DB::table('users')
             ->select([
                 'users.*'
             ])
             ->get();
+
         if ($sub_activity != null){
-            return view('report.show_pelaporan', ['sub_activity' => $sub_activity],  ['users' => $users]);
+            // dd($period);
+            return view('report.show_pelaporan', ['sub_activity' => $sub_activity], ['period'=>$months]);
         }else{
             return abort(404, "Kegiatan atau Sub-Kegiatan dengan id $id tidak ditemukan");
         }
     }
 
-    function update_pelaporan ($id){
-
+    function update_pelaporan (Request $request, $id){
+            $f = Assignment::where('sub_activity_id','=',$id)->first();
+            // dd($f->toJson());
+            $realisasi = json_decode($f->realisasi, true);
+            $keterangan = json_decode($f->keterangan, true);
+            $tingkul = json_decode($f->tingkat_kualitas, true);
+            $userID = json_decode($request->userArray, true);
+            $realisasiR = json_decode($request->realisasi, true);
+            $keteranganR = json_decode($request->keterangan, true);
+            $tingkulR = json_decode($request->kualitas, true);
+            foreach ($userID as $idx => $idUser) {
+                $realisasi[$idUser][$request->monthYear] = (int) $realisasiR[$idx];
+                $tingkul[$idUser][$request->monthYear] = (int) $tingkulR[$idx];
+                $keterangan[$idUser][$request->monthYear] = $keteranganR[$idx];
+            }
+            $f->update([
+                'realisasi' => json_encode($realisasi),
+                'keterangan' => json_encode($keterangan),
+                'tingkat_kualitas' => json_encode($tingkul)
+            ]);
     }
+
 }

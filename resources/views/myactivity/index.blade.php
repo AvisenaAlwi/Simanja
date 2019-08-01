@@ -111,6 +111,17 @@ if($monthQuery == 'now')
                                 <th></th>
                             </tr>
                         </thead>
+                        <div class="col-12">
+                            @if (session('status'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('status') }}
+                                    {{-- <a href="{{ route('assignment.index')}}"> Tugaskan sekarang?</a> --}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
                         <tbody class="list">
                             @forelse ($sub_activity as $sub)
                             @php
@@ -241,7 +252,7 @@ if($monthQuery == 'now')
                                             class="btn btn-sm btn-icon-only text-primary"><i
                                                 class="fas fa-ellipsis-v" title="Aksi" data-toggle="tooltip" data-placement="left"></i></a>
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ route('myactivity.show', $activity->id) }}" 
+                                            <a href="{{ route('myactivity.show', $activity->id) }}"
                                                 class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
                                             <a href="{{ route('myactivity.edit', $activity->id) }}"
                                                 class="dropdown-item"><i class="fa fa-edit text-success"></i>Edit</a>

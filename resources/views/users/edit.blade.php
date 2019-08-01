@@ -385,7 +385,7 @@
     var resize = $('#upload-demo').croppie({
         enableExif: true,
         enableOrientation: true,
-        viewport: { // Default { width: 100, height: 100, type: 'square' } 
+        viewport: { // Default { width: 100, height: 100, type: 'square' }
             width: 400,
             height: 400
         },

@@ -40,8 +40,8 @@ $yearQuery = $Input::get('year', $currentYear);
                                     @php $x = 2019; @endphp
                                     @while ($x <= $currentYear)
                                         <option value="{{ $x }}" {{ $x == $yearQuery ? 'selected' : '' }}>{{ $x }}</option>
-                                        @php 
-                                        $x += 1; 
+                                        @php
+                                        $x += 1;
                                         @endphp
                                     @endwhile
                                 </select>
@@ -80,6 +80,17 @@ $yearQuery = $Input::get('year', $currentYear);
                                 <th></th>
                             </tr>
                         </thead>
+                        <div class="col-12">
+                            @if (session('status'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('status') }}
+                                    {{-- <a href="{{ route('assignment.index')}}"> Tugaskan sekarang?</a> --}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
                         <tbody class="list">
                             @forelse ($sub_activity as $sub)
                             <tr>

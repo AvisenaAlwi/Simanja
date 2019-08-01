@@ -116,7 +116,7 @@ class MyActivityController extends Controller
         DB::table('autocomplete_satuan')->insert([
             'name' => $request['satuan']
         ]);
-        return redirect()->route('myactivity.index');
+        return redirect()->route('myactivity.index')->withStatus(__('Kegiatan berhasil dibuat.'));
     }
 
     /**
@@ -167,7 +167,7 @@ class MyActivityController extends Controller
             "angka_kredit" => $request['angka_kredit'],
             "keterangan_t" => strip_tags($request['keterangan']),
         ]);
-        return redirect()->route('myactivity.index');
+        return redirect()->route('myactivity.index')->withStatus(__('Kegiatan berhasil diubah.'));
     }
 
     /**
