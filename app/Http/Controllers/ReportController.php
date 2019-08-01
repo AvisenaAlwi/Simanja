@@ -11,7 +11,11 @@ use Exception;
 
 class ReportController extends Controller
 {
-    //
+    function __construct()
+    {
+        $this->middleware(['auth']);
+        $this->middleware(['supervisor'])->except('print_ckp');
+    }
 
     public function index()
     {

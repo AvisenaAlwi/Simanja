@@ -45,6 +45,14 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
+        $request->validate([
+            'name' => 'required',
+            'nip' => 'required|min:18|max:21',
+            'email' => 'required|email',
+            'pejabat_penilai_nip' => 'required|exists:users,nip',
+            'role_id' => 'required|exists:roles,id',
+            'photo' => 'sometimes|required|image|max:2048',
+        ]);
         $photo = $request->file('photo');
         $temp = [
             'email_verified_at' => now(),
@@ -88,6 +96,15 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User  $user)
     {
+        // dd($request->all());
+        $request->validate([
+            'name' => 'required',
+            'nip' => 'required|min:18|max:21',
+            'email' => 'required|email',
+            'pejabat_penilai_nip' => 'required|exists:users,nip',
+            'role_id' => 'required|exists:roles,id',
+            'photo' => 'sometimes|required|image|max:2048',
+        ]);
         $photo = $request->file('photo');
         $temp = [
             'password' => Hash::make($request->get('password')),
@@ -97,7 +114,7 @@ class UserController extends Controller
             'administrasi' => config('scale.likert')[$request['administrasi']-1],
             'pengalaman_survei' => config('scale.likert')[$request['pengalaman_survei']-1]
         ];
-        $merged = $request->merge($temp)->except([$request->get('password') ? '' : 'password', $request->get('password_confirmation') ? '' : 'password_confirmation']);
+        $merged = $request->merge($temp)->except([ !$request->get('password') ? '' : 'password']);
         if ($photo != null){
             $photo_name = $request->nip.'_'.$request->name.'.'.$photo->getClientOriginalExtension();
             // $photo->storeAs('public/foto',$photo_name);
