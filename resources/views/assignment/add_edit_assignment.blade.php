@@ -266,14 +266,8 @@ $petugas = json_decode($assignment->petugas, true);
                             </table>
                             Total: <b id="total"></b> dari <b>{{ $subActivity->volume }}</b>
                         </div>
-<<<<<<< HEAD
-                        <button class="mx-auto w-auto p-3 m-3 btn btn-warning btn-block text-center" type="button" id="btn-submit-edit">
-                            <i class="ni ni-single-copy-04"></i>
-                            Tugaskan
-=======
                         <button class="mx-auto w-auto p-3 btn btn-warning btn-block text-center" type="button" id="btn-submit-edit">
                             <i class="ni ni-single-copy-04"></i> Tugaskan
->>>>>>> 0c1ebd3884617170aae383b117d8cb0f977ea06a
                         </button>
                     </div>
                 </div>
