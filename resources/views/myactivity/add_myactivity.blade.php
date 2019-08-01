@@ -1,4 +1,5 @@
 @inject('Cookie', 'Illuminate\Support\Facades\Cookie')
+@inject('Carbon', 'Carbon\Carbon')
 @extends('layouts.app', ['title' => 'Tambah kegiatanku'])
 @push('style')
 <!-- Latest compiled and minified CSS -->
@@ -36,15 +37,7 @@ for($i = 0; $i < 5; $i++){
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
                     <div class="row align-items-center">
-                        <h3 class="col-6 mb-0">Tambah Kegiatan untuk saya</h3>
-                            <div class="col-6 text-right">
-                                <a href="{{ route('myactivity.index') }}"
-                                    title="Kembali" data-toggle="tooltip" data-placement="top">
-                                    <button type="button"
-                                        class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
-                                    </button>
-                                </a>
-                            </div>
+                        <h3 class="col-12 mb-0">Tambah Kegiatan untuk saya pribadi</h3>
                     </div>
                 </div>
                 <div class="card-body">
@@ -81,91 +74,38 @@ for($i = 0; $i < 5; $i++){
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-start-month">Awal</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <select name="start_month" id="activity-start-month"
-                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                    @for ($i = 1; $i <= sizeof(config('scale.month')); $i++)
-                                                        @if ($i == $bulan_now)
-                                                            <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
-                                                        @else
-                                                            <option value="{{ config('scale.month')[$i-1] }}">{{ config('scale.month')[$i-1] }}</option>
-                                                        @endif
-                                                    @endfor
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <select name="start_year" id="activity-start-year"
-                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                    @foreach ($tahun as $t)
-                                                        <option value="{{ $t }}">{{ $t }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6" id="zzx">
-                                    <div class="form-group{{ $errors->has('kategori') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-activity-end-month">Akhir</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <select name="end_month" id="activity-end-month"
-                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                @for ($i = 1; $i <= sizeof(config('scale.month')); $i++)
-                                                    @if ($i == $bulan_now)
-                                                        <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
-                                                    @else
-                                                        <option value="{{ config('scale.month')[$i-1] }}">{{ config('scale.month')[$i-1] }}</option>
-                                                    @endif
-                                                @endfor
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <select name="end_year" id="activity-end-year"
-                                                class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}" value="{{ old('activity_value') }}" required>
-                                                    @foreach ($tahun as $t)
-                                                        <option value="{{ $t }}">{{ $t }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div>
-                                <input type="checkbox" id="checkbox-periode-1-bulan" name="issatubulan"> Periode Tugas 1 Bulan
+                                Kegiatan pribadi untuk satu bulan saat ini ( <b>{{ $Carbon::now()->timezone('Asia/Jakarta')->formatLocalized('%B %Y') }}</b> )
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-6 col-lg-3">
                                     <div class="form-group">
-                                        <label class="form-control-label" for="input-password">Satuan Sub Kegiatan 1</label>
+                                        <label class="form-control-label" for="input-password">Satuan Kegiatan</label>
                                         <input type="text" name="satuan" class="form-control form-control-alternative satuan-sub-kegiatan" value="" required>
                                     </div>
                                 </div>
                                 <div class="col-6 col-lg-3">
                                     <div class="form-group">
-                                        <label class="form-control-label" for="input-password">Volume Sub Kegiatan 1</label>
+                                        <label class="form-control-label" for="input-password">Volume Kegiatan</label>
                                         <input type="number" name="volume" class="form-control form-control-alternative volume-sub-kegiatan" value="" required>
                                     </div>
                                 </div>
                                 <div class="col-6 col-lg-3">
-                                    <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                    <input type="number" name="kode_butir" class="form-control form-control-alternative" value="">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Kode Butir Kegiatan</label>
+                                        <input type="text" name="kode_butir" class="form-control form-control-alternative" value="">
+                                    </div>
                                 </div>
                                 <div class="col-6 col-lg-3">
-                                    <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                    <input type="number" name="angka_kredit" class="form-control form-control-alternative" value="">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Angka Kredit Kegiatan</label>
+                                        <input type="text" name="angka_kredit" class="form-control form-control-alternative" value="">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-control-label">Keterangan Sub Kegiatan 1</label>
+                                <label class="form-control-label">Keterangan Kegiatan</label>
                                 <textarea name="keterangan" id="" rows="2" class="form-control form-control-alternative"></textarea>
                             </div>
                         </div>

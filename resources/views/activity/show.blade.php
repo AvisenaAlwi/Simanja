@@ -145,7 +145,8 @@
                                 @if (auth()->user()->role_id == 1 || $Activity::find($sub_activity->activity_id)->created_by_user_id == auth()->user()->id)
                                 <div class="text-center">
                                     <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}" class="btn btn-warning">
-                                        <i class="ni ni-single-copy-04"></i> Tugaskan</a>
+                                        <i class="ni ni-single-copy-04"></i> Tugaskan
+                                    </a>
                                 </div>
                                 @endif
                             @endif

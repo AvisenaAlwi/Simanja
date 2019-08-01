@@ -204,7 +204,7 @@ $petugas = json_decode($assignment->petugas, true);
                                         <input class="user d-none" type="checkbox" name="{{ $user->name }}" value="{{ $user->id }}"
                                         {{ $isDisabled ? 'disabled' : '' }} {{ array_key_exists($user->id, $petugas) ? 'checked' : '' }}/>
                                         <div class="md-chip md-chip-hover md-chip-clickable {{ $isDisabled ? 'disabled' : '' }} {{ array_key_exists($user->id, $petugas) ? 'active' : '' }}">
-                                            <img src="{{ asset('storage').'/'.$user->photo }}" alt="" class="md-chip-icon">
+                                            <img src="{{ asset('storage') }}/{{ $user->photo }}" alt="" class="md-chip-icon">
                                             {{ $user->name }}
                                             <div class="md-chip-remove"></div>
                                         </div>
@@ -217,7 +217,7 @@ $petugas = json_decode($assignment->petugas, true);
                                         <input class="user d-none" type="checkbox" name="{{ $user2->name }}" value="{{ $user2->id }}"
                                         {{ $isDisabled ? 'disabled' : '' }} {{ array_key_exists($user2->id, $petugas) ? 'checked' : '' }}/>
                                         <div class="md-chip md-chip-hover md-chip-clickable {{ $isDisabled ? 'disabled' : '' }} {{ array_key_exists($user2->id, $petugas) ? 'active' : '' }}">
-                                            <img src="{{ asset('storage').'/'.$user2->photo }}" alt="" class="md-chip-icon">
+                                            <img src="{{ asset('storage') }}/{{ $user2->photo }}" alt="" class="md-chip-icon">
                                             {{ $user2->name }}
                                             <div class="md-chip-remove"></div>
                                         </div>
@@ -266,9 +266,14 @@ $petugas = json_decode($assignment->petugas, true);
                             </table>
                             Total: <b id="total"></b> dari <b>{{ $subActivity->volume }}</b>
                         </div>
+<<<<<<< HEAD
                         <button class="mx-auto w-auto p-3 m-3 btn btn-warning btn-block text-center" type="button" id="btn-submit-edit">
                             <i class="ni ni-single-copy-04"></i>
                             Tugaskan
+=======
+                        <button class="mx-auto w-auto p-3 btn btn-warning btn-block text-center" type="button" id="btn-submit-edit">
+                            <i class="ni ni-single-copy-04"></i> Tugaskan
+>>>>>>> 0c1ebd3884617170aae383b117d8cb0f977ea06a
                         </button>
                     </div>
                 </div>
@@ -294,12 +299,33 @@ $petugas = json_decode($assignment->petugas, true);
                 $('#total').html(total);
                 return total;
             }
+            function inputalokasi(){
+                var value = $(this).val();
+                let maxValue = calculateTotalAllocation() - value;
+                console.log(maxValue);
+                if (value == ''){
+                    value = 0;
+                }
+                if ((value !== '') && (value.indexOf('.') === -1)) {
+                    $(this).val(Math.max(Math.min(value, maxValue), 0));
+                }
+                $(this).val(value)
+                let totalValueNow = calculateTotalAllocation();
+                if (totalValueNow > maxVolume){
+                    $(this).addClass('is-invalid')
+                    swal.fire("Berlebihan", 'Total alokasi melebihi volume kegiatan', 'error')
+                    .then((result) => {
+                    })
+                }else
+                    $(this).removeClass('is-invalid');
+                calculateTotalAllocation();
+            }
 
             let exampleRow = `
 <tr class="user-row" data-user-id="[[ id ]]">
     <td class="text-left">[[ nama ]]</td>
     @foreach($months as $month)
-    <td><input type="number" name="[[ key ]]_{{ $month['monthName'] }}" value="0" class="form-control" min="0"></td>
+    <td><input type="number" name="[[ key ]]_{{ $month['monthName'] }}" value="0" class="form-control input-alokasi" min="0"></td>
     @endforeach
 </tr>
             `
@@ -319,30 +345,9 @@ $petugas = json_decode($assignment->petugas, true);
                 }
                 calculateTotalAllocation();
             });
-            $('input[type="number"]').bind('keyup mouseup change', function(){
-                    let totalValueNow = calculateTotalAllocation();
-                    if (totalValueNow > maxVolume){
-                        $(this).addClass('is-invalid')
-                        swal.fire("Berlebihan", 'Total alokasi melebihi volume kegiatan', 'error')
-                        .then((result) => {
-                        })
-                    }else
-                        $(this).removeClass('is-invalid');
-                    calculateTotalAllocation();
-                });
             $(document).arrive('input[type="number"]', function() {
                 let newElem = $(this);
-                newElem.bind('keyup mouseup change', function(){
-                    let totalValueNow = calculateTotalAllocation();
-                    if (totalValueNow > maxVolume){
-                        $(this).addClass('is-invalid')
-                        swal.fire("Berlebihan", 'Total alokasi melebihi volume kegiatan', 'error')
-                        .then((result) => {
-                        })
-                    }else
-                        $(this).removeClass('is-invalid');
-                    calculateTotalAllocation();
-                });
+                newElem.bind('input', inputalokasi);
             });
             calculateTotalAllocation()
             $('.md-chip.md-chip-hover.md-chip-clickable').click(function(){
@@ -368,22 +373,29 @@ $petugas = json_decode($assignment->petugas, true);
                 return false;
                 }
             });
+            $('input.input-alokasi').on('input', inputalokasi);
             $('#btn-submit-edit').click(function(){
-                swal.fire({
-                    title: 'Peringatan',
-                    html: 'Mengupdate penugasan dapat mereset realisasi, tingkat kualitas, dan keterangan pada CKP-R untuk kegiatan ini. Ingin lanjutkan?',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, lanjutkan',
-                    cancelButtonText: 'Batal'
-                })
-                .then((result) => {
-                    if(result.value){
-                        $('#form-assignment').submit();
-                    }
-                });
+                let maxValue = {{ (int)$subActivity->volume }};
+                let val = calculateTotalAllocation();
+                if (val > maxValue){
+                    swal.fire("Berlebihan", 'Total alokasi melebihi volume kegiatan', 'error')
+                }else{
+                    swal.fire({
+                        title: 'Peringatan',
+                        html: 'Mengupdate penugasan dapat mereset realisasi, tingkat kualitas, dan keterangan pada CKP-R untuk kegiatan ini. Ingin lanjutkan?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, lanjutkan',
+                        cancelButtonText: 'Batal'
+                    })
+                    .then((result) => {
+                        if(result.value){
+                            $('#form-assignment').submit();
+                        }
+                    });
+                }
             })
         });
     </script>

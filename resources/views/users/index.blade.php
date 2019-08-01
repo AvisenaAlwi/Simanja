@@ -77,7 +77,7 @@
                                                     </button>
                                                 </form>
                                             @else
-                                                <a class="btn btn-primary" href="{{ route('profile.edit') }}"><i class="fa fa-edit text-white"></i> Edit</a>
+                                                <a class="btn btn-primary" href="{{ route('user.edit', $user) }}"><i class="fa fa-edit text-white"></i> Edit</a>
                                             @endif
                                             {{-- <div class="dropdown">
                                                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

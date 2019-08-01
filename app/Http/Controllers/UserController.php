@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -56,8 +57,10 @@ class UserController extends Controller
         ];
         $merged = $request->merge($temp)->all();
         if ($photo != null){
-            $photo_name = $request->nip.'_'.$request->name.'.'.$photo->getClientOriginalExtension();
-            $photo->storeAs('public/foto',$photo_name);
+            // $photo_name = $request->nip.'_'.$request->name.'.'.$photo->getClientOriginalExtension();
+            $photo_name = $request->nip.'_'.$request->name.'.jpg';
+            // $photo->storeAs('public/foto',$photo_name);
+            Image::make($request->photo_base64)->save(public_path('storage/foto/'.$photo_name, 80));
             $temp['photo'] = "foto/$photo_name";
             $merged['photo'] = "foto/$photo_name";
         }
@@ -97,7 +100,8 @@ class UserController extends Controller
         $merged = $request->merge($temp)->except([$request->get('password') ? '' : 'password', $request->get('password_confirmation') ? '' : 'password_confirmation']);
         if ($photo != null){
             $photo_name = $request->nip.'_'.$request->name.'.'.$photo->getClientOriginalExtension();
-            $photo->storeAs('public/foto',$photo_name);
+            // $photo->storeAs('public/foto',$photo_name);
+            Image::make($request->photo_base64)->save(public_path('storage/foto/'.$photo_name));
             $temp['photo'] = "foto/$photo_name";
             $merged['photo'] = "foto/$photo_name";
         }
