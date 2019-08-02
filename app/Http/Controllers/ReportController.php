@@ -17,7 +17,11 @@ use App\Assignment;
 
 class ReportController extends Controller
 {
-    //
+    function __construct()
+    {
+        $this->middleware(['auth']);
+        $this->middleware(['supervisor'])->except('print_ckp');
+    }
 
     function __construct()
     {

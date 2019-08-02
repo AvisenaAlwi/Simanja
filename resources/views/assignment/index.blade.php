@@ -127,7 +127,7 @@ $yearQuery = $Input::get('year', $currentYear);
                                         <a href="#" data-toggle="tooltip"
                                             data-original-title="{{ $person->name }}"
                                             class="avatar avatar-sm rounded-circle">
-                                            <img alt="Image placeholder" src="{{ asset('storage') }}/{{auth()->user()->photo}}">
+                                            <img alt="Image placeholder" src="{{ asset('storage') }}/{{ $person->photo }}">
                                         </a>
                                         @empty
                                             Tidak Ada Petugas

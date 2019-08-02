@@ -1,5 +1,29 @@
 @extends('layouts.app', ['title' => __('User Profile')])
 
+@push('style')
+<style>
+    .zoom{
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transform: scale(2);
+        z-index: 1000;
+        background: rgba(255, 255, 255, .5);
+        transition: all 1s;
+    }
+    #overlay{
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background: rgba(255, 255, 255, .5);
+        z-index: 999;
+        display: none;
+    }
+</style>
+@endpush
 @section('content')
 @include('users.partials.header', [
 'title' => 'Hai' . ' '. auth()->user()->name,
@@ -12,10 +36,9 @@
             <div class="card card-profile shadow">
                 <div class="row justify-content-center">
                     <div class="col-lg-3 order-lg-2">
-                        <div class="card-profile-image">
-                            <a href="#">
-                                <img src="{{ asset('storage') }}/{{auth()->user()->photo}}"class="rounded-circle">
-                            </a>
+                        <div id="overlay"></div>
+                        <div class="card-profile-image" style="transition: all 1s;">
+                            <img src="{{ asset('storage') }}/{{auth()->user()->photo}}"class="rounded-circle">
                         </div>
                     </div>
                 </div>
@@ -79,3 +102,17 @@
     @include('layouts.footers.auth')
 </div>
 @endsection
+@push('js')
+    <script>
+        $('#overlay').hide();
+        $('.card-profile-image').click(function(){
+            $(this).addClass('zoom');
+            $('#overlay').fadeIn();
+        });
+        $('#overlay').click(function(){
+            $('.card-profile-image').removeClass('zoom');
+            $('#overlay').fadeOut();
+        });
+
+    </script>
+@endpush
