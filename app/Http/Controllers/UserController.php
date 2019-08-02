@@ -45,14 +45,14 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
-        $request->validate([
-            'name' => 'required',
-            'nip' => 'required|min:18|max:21',
-            'email' => 'required|email',
-            'pejabat_penilai_nip' => 'required|exists:users,nip',
-            'role_id' => 'required|exists:roles,id',
-            'photo' => 'sometimes|required|image|max:2048',
-        ]);
+        // $this->validate($request, [
+        //     'name' => 'required',
+        //     'nip' => 'required|min:18|max:21',
+        //     'email' => 'required|email',
+        //     'pejabat_penilai_nip' => 'required|exists:users,nip',
+        //     'role_id' => 'required|exists:roles,id',
+        //     'photo' => 'sometimes|required|image|max:2048',
+        // ]);
         $photo = $request->file('photo');
         $temp = [
             'email_verified_at' => now(),
@@ -96,15 +96,14 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User  $user)
     {
-        // dd($request->all());
-        $request->validate([
-            'name' => 'required',
-            'nip' => 'required|min:18|max:21',
-            'email' => 'required|email',
-            'pejabat_penilai_nip' => 'required|exists:users,nip',
-            'role_id' => 'required|exists:roles,id',
-            'photo' => 'sometimes|required|image|max:2048',
-        ]);
+        // $request->validate([
+        //     'name' => 'required',
+        //     'nip' => 'required|min:18|max:21',
+        //     'email' => 'required|email',
+        //     'pejabat_penilai_nip' => 'required|exists:users,nip',
+        //     'role_id' => 'required|exists:roles,id',
+        //     'photo' => 'sometimes|required|image|max:2048',
+        // ]);
         $photo = $request->file('photo');
         $temp = [
             'password' => Hash::make($request->get('password')),

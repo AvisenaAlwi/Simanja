@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>CKPT</title>
     <style>
         @page { margin: 0 5%; }
         body {
@@ -60,9 +60,9 @@
         $currentYear = $Carbon::now()->format('Y');
         $currentMonth = $Carbon::now()->formatLocalized('%B');
         $currentMonthShort = $Carbon::now()->formatLocalized('%b');
-        $today = $Carbon::now()->format('d');
-        $firstDay = $date->startOfMonth()->format('d');
-        $lastDay = $date->lastOfMonth()->format('d');
+        $today = $Carbon::now()->format('j');
+        $firstDay = $date->startOfMonth()->format('j');
+        $lastDay = $date->lastOfMonth()->format('j');
         $month = $date->timezone('Asia/Jakarta')->formatLocalized('%B');
         $year = $date->timezone('Asia/Jakarta')->formatLocalized('%Y');
 
@@ -152,7 +152,7 @@
     </div>
     <div id="sign_penilai">
         <br>
-        <p> Malang, {{$today.' '.$currentMonthShort.' '.$currentYear}} <br>
+        <p> Malang, {{$today.' '.$currentMonth.' '.$currentYear}} <br>
             Pejabat Penilai,<br>
             {{$penilai->jabatan}}
             <br><br><br><br>

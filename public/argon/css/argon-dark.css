@@ -2714,9 +2714,7 @@ textarea.form-control
 .invalid-feedback
 {
     font-size: 80%;
-
-    display: none;
-
+    /* display: none; */
     width: 100%;
     margin-top: .25rem;
 

@@ -123,11 +123,13 @@
                             </div>
                             @else
                                 <h4 class="text-center">Belum ada pegawai yang menerima tugas kegiatan ini</h4>
-                                <div class="col-7 text-right">
-                                    <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}" class="btn btn-warning">
-                                        <i class="ni ni-single-copy-04"></i> Tugaskan
-                                    </a>
-                                </div>
+                                @if($sub_activity->created_by_user_id == auth()->id())
+                                    <div class="col-7 text-right">
+                                        <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}" class="btn btn-warning">
+                                            <i class="ni ni-single-copy-04"></i> Tugaskan
+                                        </a>
+                                    </div>
+                                @endif
                             @endif
                         </div>
                     </div>

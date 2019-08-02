@@ -23,12 +23,6 @@ class ReportController extends Controller
         $this->middleware(['supervisor'])->except('print_ckp');
     }
 
-    function __construct()
-    {
-        $this->middleware(['auth']);
-        $this->middleware(['supervisor'])->except('print_ckp');
-    }
-
     public function index()
     {
         $showing = Input::get('showing', 'showCreate');
@@ -241,14 +235,14 @@ class ReportController extends Controller
 
         if ($sub_activity != null){
             // dd($period);
-            return view('report.show_pelaporan', ['sub_activity' => $sub_activity], ['period'=>$months]);
+            return view('report.show_pelaporan', ['idz'=>$id->id,'sub_activity' => $sub_activity], ['period'=>$months]);
         }else{
             return abort(404, "Kegiatan atau Sub-Kegiatan dengan id $id tidak ditemukan");
         }
     }
 
-    function update_pelaporan (Request $request, $id){
-            $f = Assignment::where('sub_activity_id','=',$id)->first();
+    function update_pelaporan (Request $request, $assignmentId){
+            $f = Assignment::where('sub_activity_id','=',$assignmentId)->first();
             // dd($f->toJson());
             $realisasi = json_decode($f->realisasi, true);
             $keterangan = json_decode($f->keterangan, true);

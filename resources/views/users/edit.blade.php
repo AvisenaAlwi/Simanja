@@ -71,7 +71,6 @@
                                         <input type="text" name="nip" id="input-nip"
                                             class="form-control form-control-alternative{{ $errors->has('nip') ? ' is-invalid' : '' }}"
                                             placeholder="{{ __('nip') }}" value="{{ old('nip', $user->nip) }}" required>
-
                                         @if ($errors->has('nip'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('nip') }}</strong>
@@ -133,9 +132,6 @@
                                             <strong>{{ $errors->first('pejabat_penilai_nip') }}</strong>
                                         </span>
                                         @endif
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>sdd</strong>
-                                            </span>
                                     </div>
 
                                     <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">

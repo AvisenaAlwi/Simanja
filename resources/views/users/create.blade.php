@@ -44,12 +44,13 @@
                 <form method="post" action="{{ route('user.store') }}" autocomplete="off" enctype="multipart/form-data">
                     <div class="card-body">
                         @csrf
-
+                        @php
+                        @endphp
                         <h6 class="heading-small text-muted mb-4">Infomrasi Pengguna</h6>
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
+                                    <label class="form-control-label" for="input-name">Nama</label>
                                     <input type="text" name="name" id="input-name"
                                         class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                         placeholder="{{ __('Name') }}" value="{{ old('name') }}" required autofocus>
@@ -99,6 +100,11 @@
                                     <input type="password" name="password_confirmation" id="input-password-confirmation"
                                         class="form-control form-control-alternative" autocomplete="false"
                                         placeholder="{{ __('Confirm Password') }}" value="" required>
+                                    @if ($errors->has('password'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
 
                             </div>
@@ -112,14 +118,14 @@
                                         class="form-control form-control-alternative{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                         value="{{ old('email') }}" required autofocus>
 
-                                    @if ($errors->has('account_nip'))
+                                    @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                     @endif
                                 </div>
 
-                                <div class="form-group{{ $errors->has('penilai_nip') ? ' has-danger' : '' }}">
+                                <div class="form-group{{ $errors->has('pejabat_penilai_nip') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-account-penilai_nip">Pejabat
                                         penilai NIP</label>
                                     <input type="text" name="pejabat_penilai_nip" id="input-account-penilai_nip"
@@ -162,14 +168,14 @@
                                     </div>
 
                                     <div
-                                        class="col-lg-6 form-group{{ $errors->has('photo') ? ' has-danger' : '' }}">
+                                        class="col-lg-6 form-group{{ $errors->has('photo_base64') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-photo">Foto*</label>
                                         <input type="file"
-                                            class="form-control form-control-alternative{{ $errors->has('photo') ? ' is-invalid' : '' }}"
+                                            class="form-control form-control-alternative{{ $errors->has('photo_base64') ? ' is-invalid' : '' }}"
                                             id="input-photo" name="photo" value="" autofocus accept="image/png, image/jpeg"> Max 2 MB
-                                        @if ($errors->has('photo'))
+                                        @if ($errors->has('photo_base64'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('photo') }}</strong>
+                                            <strong>{{ $errors->first('photo_base64') }}</strong>
                                         </span>
                                         @endif
                                     </div>

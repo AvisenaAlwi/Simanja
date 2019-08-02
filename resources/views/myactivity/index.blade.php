@@ -154,7 +154,7 @@ if($monthQuery == 'now')
                                             <a href="#" data-toggle="tooltip"
                                                 data-original-title="{{ $sub->users_name }}"
                                                 class="avatar avatar-sm rounded-circle">
-                                                <img alt="Image placeholder" src="{{ asset('storage') }}/{{auth()->user()->photo}}">
+                                                <img alt="Image placeholder" src="{{ asset('storage') }}/{{ $sub->photo }}">
                                             </a>
                                     </div>
                                 </td>

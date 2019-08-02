@@ -118,16 +118,21 @@
                         <i class="fa fa-tasks text-warning"></i> <b id="text">Penugasan</b>
                     </a>
                 </li>
-                @endif
                 <li class="nav-item {{ $activeSideBar == 'report' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('report.index') }}">
                         <i class="ni ni-collection text-success"></i> <b id="text">Pelaporan</b>
                     </a>
                 </li>
+                @endif
+                <li class="nav-item {{ $activeSideBar == 'employees' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('employees') }}">
+                        <i class="fa fa-users text-black"></i> <b id="text">Daftar Pegawai</b>
+                    </a>
+                </li>
                 @if (auth()->user()->role_id == 1)
                 <li class="nav-item {{ $activeSideBar == 'user' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('user.index') }}">
-                        <i class="ni ni-key-25 text-primary"></i> <b id="text">Manajemen Akun</b>
+                        <i class="fa fa-user-cog text-primary"></i> <b id="text">Manajemen Akun</b>
                     </a>
                 </li>
                 @endif

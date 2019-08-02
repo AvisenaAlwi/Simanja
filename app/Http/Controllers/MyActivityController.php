@@ -37,6 +37,7 @@ class MyActivityController extends Controller
                 'activity.name as activity_name',
                 'users.name as users_name',
                 'users.id as users_id',
+                'users.photo',
                 'sub_activity.*',
                 'activity.awal',
                 'activity.akhir',

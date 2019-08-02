@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('report/show_pelaporan/{id}', ['as' => 'report.show_pelaporan', 'uses' => 'ReportController@pelaporan']);
     Route::get('report/ckpt', ['as' => 'report.print_ckpt', 'uses' => 'ReportController@print_ckp']);
     Route::get('report/ckpr', ['as' => 'report.print_ckpr', 'uses' => 'ReportController@print_ckp']);
-    Route::put('report/update/{id}', 'ReportController@update_pelaporan')->name('updatey');
+    Route::put('report/update/{assignmentId}', 'ReportController@update_pelaporan')->name('updatey');
 });
 
 
@@ -55,4 +55,6 @@ Route::group([
     Route::put('myactivity/update/{id}', 'MyActivityController@update_realisasi_keterangan')->name('update_activity_tugas_realisasi');
     Route::put('myactivity/update-my-activity/{id}', 'MyActivityController@update_my_activity')->name('update_my_activity_realisasi');
     Route::resource('myactivity', 'MyActivityController');
+    Route::get('employees', 'EmployeeController@index')->name('employees');
 });
+Route::get('{nip}', ['middleware'=>['auth'], 'uses'=>'ProfileController@profile', 'as'=>'employee']);

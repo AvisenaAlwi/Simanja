@@ -57,8 +57,10 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>
-                                            <img class="avatar avatar-lg rounded-circle mr-3" src="{{ asset('storage').'/'.$user->photo }}" alt="">
-                                            <b>{{ $user->name }}</b>
+                                            <a href="{{ route('employee', preg_replace('/\s+/', '', $user->nip)) }}">
+                                                <img class="avatar avatar-lg rounded-circle mr-3" src="{{ asset('storage').'/'.$user->photo }}" alt="">
+                                                <b>{{ $user->name }}</b>
+                                            </a>
                                         </td>
                                         <td>
                                             <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>

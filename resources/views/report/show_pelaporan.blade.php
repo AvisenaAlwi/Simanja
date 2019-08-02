@@ -201,7 +201,7 @@ $yearQuery = $Input::get('year',$currentYear);
                 e.preventDefault();
                 let me = $(this);
                 let title = me.attr('data-title');
-                let id = "{{ $sub_activity->id }}";
+                let id = "{{ $idz }}";
                 let monthYear = me.attr('month-year');
                 Swal.fire({
                     title: 'Simpan pelaporan',
