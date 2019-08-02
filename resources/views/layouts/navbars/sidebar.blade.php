@@ -118,12 +118,12 @@
                         <i class="fa fa-tasks text-warning"></i> <b id="text">Penugasan</b>
                     </a>
                 </li>
-                @endif
                 <li class="nav-item {{ $activeSideBar == 'report' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('report.index') }}">
-                        <i class="ni ni-collection text-success"></i> <b id="text">Pelaporan</b>
-                    </a>
-                </li>
+                        <a class="nav-link" href="{{ route('report.index') }}">
+                            <i class="ni ni-collection text-success"></i> <b id="text">Pelaporan</b>
+                        </a>
+                    </li>
+                @endif
                 @if (auth()->user()->role_id == 1)
                 <li class="nav-item {{ $activeSideBar == 'user' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('user.index') }}">
