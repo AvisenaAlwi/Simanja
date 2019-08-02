@@ -83,7 +83,7 @@
                             <div class="row">
                                 <div class="col-16 col-sm-6">
                                     <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-password">Password *</label>
+                                        <label class="form-control-label" for="input-password">Password **</label>
                                         <input type="password" name="password" id="input-password"
                                             class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                             placeholder="{{ __('Password') }}" value="">
@@ -111,36 +111,37 @@
 
                                     <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-account-email">E-mail*</label>
-                                        <input type="email" name="email" id="input-account-email"
+                                        <input autocomplete="off" type="email" name="email" id="input-account-email"
                                             class="form-control form-control-alternative{{ $errors->has('account_email') ? ' is-invalid' : '' }}"
                                             value="{{ old('email', $user->email) }}" required autofocus>
 
-                                        @if ($errors->has('account_nip'))
+                                        @if ($errors->has('email'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('account_email') }}</strong>
+                                            <strong>{{ $errors->first('email') }}</strong>
                                         </span>
                                         @endif
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('penilai_nip') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-account-penilai_nip">Pejabat
-                                            penilai NIP*</label>
+                                    <div class="form-group{{ $errors->has('pejabat_penilai_nip') ? ' has-danger' : '' }}">
+                                        <label class="form-control-label" for="input-account-penilai_nip">Pejabat penilai NIP*</label>
                                         <input type="text" name="pejabat_penilai_nip" id="input-account-penilai_nip"
                                             class="form-control form-control-alternative{{ $errors->has('account_penilai_nip') ? ' is-invalid' : '' }}"
-                                            value="{{ old('pejabat_penilai_nip', $user->pejabat_penilai_nip) }}"
-                                            required autofocus>
+                                            value="{{ old('pejabat_penilai_nip', $user->pejabat_penilai_nip) }}" required autofocus>
 
-                                        @if ($errors->has('account_penilai_nip'))
+                                        @if ($errors->has('pejabat_penilai_nip'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('account_penilai_nip') }}</strong>
+                                            <strong>{{ $errors->first('pejabat_penilai_nip') }}</strong>
                                         </span>
                                         @endif
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>sdd</strong>
+                                            </span>
                                     </div>
 
                                     <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-role_id">Level akun*</label>
                                         <select
-                                            class="form-control form-control-alternative{{ $errors->has('account_role_id') ? ' is-invalid' : '' }}"
+                                            class="form-control form-control-alternative{{ $errors->has('role_id') ? ' is-invalid' : '' }}"
                                             id="input-role_id" name="role_id"
                                             value="{{ old('role_id', $user->role_id) }}" required autofocus>
                                             <option value="3" {{ $user->role_id == "3" ? 'selected' : ''}}>Pegawai
@@ -150,9 +151,9 @@
                                             <option value="1" {{ $user->role_id == "1" ? 'selected' : ''}}>Admin
                                             </option>
                                         </select>
-                                        @if ($errors->has('account_role_id'))
+                                        @if ($errors->has('role_id'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('account_role_id') }}</strong>
+                                            <strong>{{ $errors->first('role_id') }}</strong>
                                         </span>
                                         @endif
                                     </div>
@@ -160,12 +161,12 @@
                                         <div class="col-lg-6 form-group{{ $errors->has('jabatan') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-jabatan">Jabatan*</label>
                                             <input type="text"
-                                                class="form-control form-control-alternative{{ $errors->has('account_jabatan') ? ' is-invalid' : '' }}"
+                                                class="form-control form-control-alternative{{ $errors->has('jabatan') ? ' is-invalid' : '' }}"
                                                 id="input-jabatan" name="jabatan"
                                                 value="{{ old('jabatan', $user->jabatan) }}" required autofocus>
-                                            @if ($errors->has('account_jabatan'))
+                                            @if ($errors->has('jabatan'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('account_jabatan') }}</strong>
+                                                <strong>{{ $errors->first('jabatan') }}</strong>
                                             </span>
                                             @endif
                                         </div>
@@ -174,12 +175,12 @@
                                             class="col-lg-6 form-group{{ $errors->has('photo') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-photo">Foto*</label>
                                             <input type="file"
-                                                class="form-control form-control-alternative{{ $errors->has('account_photo') ? ' is-invalid' : '' }}"
+                                                class="form-control form-control-alternative{{ $errors->has('photo') ? ' is-invalid' : '' }}"
                                                 id="input-photo" name="photo" value="{{ old('photo', $user->photo) }}"
                                                 autofocus accept="image/png, image/jpeg"> Max 2 MB
-                                            @if ($errors->has('account_photo'))
+                                            @if ($errors->has('photo'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('account_photo') }}</strong>
+                                                <strong>{{ $errors->first('photo') }}</strong>
                                             </span>
                                             @endif
                                         </div>
@@ -316,6 +317,7 @@
                                 </div>
                             </div>
                             <p>* Biarkan jika tidak ingin mengubah.</p>
+                            <p>** Kosongkan jika tidak ingin mengubah.</p>
                         </div>
                         <br>
                         <div class="upload-demo-wrap">
@@ -383,7 +385,7 @@
     var resize = $('#upload-demo').croppie({
         enableExif: true,
         enableOrientation: true,
-        viewport: { // Default { width: 100, height: 100, type: 'square' } 
+        viewport: { // Default { width: 100, height: 100, type: 'square' }
             width: 400,
             height: 400
         },
