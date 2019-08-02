@@ -23,12 +23,6 @@ class ReportController extends Controller
         $this->middleware(['supervisor'])->except('print_ckp');
     }
 
-    function __construct()
-    {
-        $this->middleware(['auth']);
-        $this->middleware(['supervisor'])->except('print_ckp');
-    }
-
     public function index()
     {
         $showing = Input::get('showing', 'showCreate');
