@@ -25,7 +25,6 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('profile/gantiPassword', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
-    Route::get('about', ['as' => 'about.index', 'uses' => 'AboutController@index']);
     Route::get('report/index', ['as' => 'report.index', 'uses' => 'ReportController@index']);
     Route::get('report/show_pelaporan/{id}', ['as' => 'report.show_pelaporan', 'uses' => 'ReportController@pelaporan']);
     Route::get('report/ckpt', ['as' => 'report.print_ckpt', 'uses' => 'ReportController@print_ckp']);
@@ -40,6 +39,7 @@ Route::group([], function () {
     Route::get('activity/request-autocomplete-satuan', 'ActivityController@autocomplete_satuan')->name('activity.autocomplete.satuan');
     Route::resource('activity', 'ActivityController');
     Route::resource('assignment', 'AssignmentController');
+    Route::get('about', ['as' => 'about.index', 'uses' => 'AboutController@index']);
 });
 
 Route::group([
