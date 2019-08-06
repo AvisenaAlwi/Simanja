@@ -96,12 +96,12 @@
         <table style="width:100%; border-collapse: collapse; text-align: center;" cellpadding="2" border="1">
             <tr>
                 <th>No</th>
-                <th width="45%">Uraian Kegiatan</th>
-                <th>Satuan</th>
-                <th>Kuantitas</th>
-                <th>Kode butir</th>
-                <th>Angka kredit</th>
-                <th width="30%">Keterangan</th>
+                <th width="255px">Uraian Kegiatan</th>
+                <th width="70px">Satuan</th>
+                <th width="70px">Kuantitas</th>
+                <th width="70px">Kode Butir Kegiatan</th>
+                <th width="70px">Angka Kredit</th>
+                <th width="100px">Keterangan</th>
             </tr>
             <tr>
                 <td>(1)</td>

@@ -39,12 +39,12 @@
 
         #sign_dinilai {
             text-align: center;
-            width: 50%;
+            width: 150%;
         }
 
         #sign_penilai {
             text-align: center;
-            width: 150%;
+            width: 50%;
         }
 
         #sign {
@@ -104,18 +104,18 @@
         <table style="width:100%; border-collapse: collapse; text-align: center;" cellpadding="2" border="1">
             <tr>
                 <th rowspan="2">No</th>
-                <th rowspan="2" width="30%">Uraian Kegiatan</th>
+                <th rowspan="2" width="225px">Uraian Kegiatan</th>
                 <th rowspan="2">Satuan</th>
                 <th colspan="3">Kuantitas</th>
-                <th rowspan="2">Tingkat kualitas</th>
-                <th rowspan="2">Kode butir</th>
-                <th rowspan="2">Angka kredit</th>
+                <th rowspan="2">Tingkat kualitas %</th>
+                <th rowspan="2">Kode Butir Kegiatan</th>
+                <th rowspan="2">Angka Kredit</th>
                 <th rowspan="2" width="25%">Keterangan</th>
             </tr>
             <tr>
-                <th>Target</th>
-                <th>Realisasi</th>
-                <th>%</th>
+                <th style="width:45px">Target</th>
+                <th style="width:45px">Reali sasi</th>
+                <th style="width:45px">%</th>
             </tr>
             <tr>
                 <td>(1)</td>
@@ -156,8 +156,8 @@
                 <td>{{$utama->satuan}}</td>
                 <td>{{$utama->month_volume}}</td>
                 <td>{{ $reali }}</td>
-                <td>{{ $reali == 0 ? 0 : round($reali/$utama->month_volume*100) }}%</td>
-                <td>{{ $tingkul }}%</td>
+                <td>{{ $reali == 0 ? 0 : round($reali/$utama->month_volume*100) }}</td>
+                <td>{{ $tingkul }}</td>
                 <td>{{$utama->kode_butir}}</td>
                 <td>{{$utama->angka_kredit}}</td>
                 <td class="keterangan">{{ $ket }}</td>

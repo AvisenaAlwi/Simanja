@@ -1,3 +1,4 @@
+@inject('Carbon', '\Carbon\Carbon')
 <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main"
     style="box-shadow: 5px 0 20px 1px rgba(0,0,0,.15) !important">
     <div class="container-fluid">
@@ -102,9 +103,16 @@
                         <i class="ni ni-tv-2 text-primary"></i> <b id="text">Dashboard</b>
                     </a>
                 </li>
+                @php
+                    $tenggatWaktu = $Carbon::now()->diff($Carbon::now()->endOfMonth())->d;
+                @endphp
                 <li class="nav-item {{ $activeSideBar == 'myactivity' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('myactivity.index') }}">
-                        <i class="ni ni-single-copy-04 text-danger"></i> <b id="text">Kegiatanku</b>
+                        <i class="ni ni-single-copy-04 text-danger"></i> <b id="text">Kegiatanku
+                            @if ($tenggatWaktu <= 5)
+                            <span class="text-danger"><i class="far fa-clock"></i> {{$tenggatWaktu}} hari</span>
+                            @endif
+                        </b>
                     </a>
                 </li>
                 @if (auth()->user()->role_id != 3)

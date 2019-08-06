@@ -179,10 +179,10 @@ $petugas = json_decode($assignment->petugas, true);
                             @endforeach
                         @endif
                         @for($i = 0; $i < sizeof($users); $i+=2)
-                            @php 
+                            @php
                             $user = $users[$i];
                             if ($i + 1 < sizeof($users))
-                                $user2 = $users[$i+1]; 
+                                $user2 = $users[$i+1];
                             @endphp
                             <div class="row">
                                 <div class="col-12 col-lg-4">
@@ -244,11 +244,11 @@ $petugas = json_decode($assignment->petugas, true);
                                     <tr class="user-row" data-user-id="{{ $idPetugas }}">
                                         <td class="text-left">{{ $users_name[$idPetugas] }}</td>
                                         @foreach($monthsAssign as $month => $monthValue)
-                                            <td><input type="number" name="{{ $idPetugas }}_{{ $month }}" value="{{ $monthValue }}" class="form-control" min="0"></td>
+                                            <td><input type="number" name="{{ $idPetugas }}_{{ $month }}" value="{{ $monthValue }}" class="form-control input-alokasi" min="0"></td>
                                         @endforeach
                                     </tr>
                                 @empty
-                                    
+
                                 @endforelse
                             </table>
                             Total: <b id="total"></b> dari <b>{{ $subActivity->volume }}</b>
