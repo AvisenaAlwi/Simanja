@@ -103,7 +103,7 @@
                 <th width="70px">Angka Kredit</th>
                 <th width="100px">Keterangan</th>
             </tr>
-            <tr>
+            <tr style="font-size:8pt">
                 <td>(1)</td>
                 <td>(2)</td>
                 <td>(3)</td>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Assignment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class EmployeeController extends Controller
 {
@@ -29,6 +30,16 @@ class EmployeeController extends Controller
             $count = $assignment->count();
             $jumlahKegiatanYangDiemban[$user->id] = $count;
         }
-        return view('employee.index', ['users' => $users, 'jumlahKegiatanYangDiemban' => $jumlahKegiatanYangDiemban]);
+        $searchQuery = Input::get('query', '');
+        $user = DB::table('users')
+        ->select(['users.*']);
+        if (!empty($searchQuery)){
+            $user = $user
+            ->where('users.name','LIKE',"%$searchQuery%")
+            ->where('users.nip','LIKE',"%$searchQuery%", 'OR');
+        }
+        $user = $user->paginate(10);
+        // dd($jumlahKegiatanYangDiemban);
+        return view('employee.index', ['users' => $user, 'jumlahKegiatanYangDiemban' => $jumlahKegiatanYangDiemban]);
     }
 }

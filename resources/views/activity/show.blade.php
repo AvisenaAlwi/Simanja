@@ -39,22 +39,24 @@
                                 </div>
                             </div>
                             <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
-                            <h4>dibuat oleh: {{$sub_activity->user_name}}</h4>
+                            <h4>dibuat oleh : {{$sub_activity->user_name}}</h4>
                             @if (date_create($sub_activity->awal)->format("Y-m") == date_create($sub_activity->akhir)->format("Y-m"))
-                            <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}
+                            <h4>Periode : {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}
                             @else
-                            <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' .
+                            <h4>Periode : {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' .
                                 $Carbon::parse($sub_activity->akhir)->formatLocalized('%B %Y')}}</h4>
                             @endif
-                            <h4>Kategori: {{$sub_activity->kategori}}
+                            <h4>Kategori : {{$sub_activity->kategori}}
                         </div>
                         <hr>
                         <div>
                             <h6 class="heading-small text-muted mb-4">{{ __('Sub Kegiatan') }}</h6>
                             <h1 class="display-4">{{$sub_activity->sub_activity_name}}</h1>
-                            <h4>Satuan: {{$sub_activity->satuan}} | Volume: {{$sub_activity->volume}}</h4>
-                            <h4>Pendidikan minimal: {{$sub_activity->pendidikan}}</h4>
-                            <h4>Kualifikasi minimal:</h4>
+                            <h4>Satuan : {{$sub_activity->satuan}} | Volume : {{$sub_activity->volume}}
+                                | Kode Butir Kegiatan : {{ $sub_activity->kode_butir != null ? $sub_activity->kode_butir : ' -' }}
+                                | Angka Kredit : {{$sub_activity->angka_kredit != null ? $sub_activity->kode_butir : ' -'}}</h4>
+                            <h4>Pendidikan minimal : {{$sub_activity->pendidikan}}</h4>
+                            <h4>Kualifikasi minimal :</h4>
                             <table class="table table-sm table-dark">
                                 <thead>
                                     <tr>
@@ -87,7 +89,7 @@
                                 </tbody>
                             </table>
                             <br>
-                            <h4>Petugas pengemban:</h4>
+                            <h4>Petugas pengemban :</h4>
                             @php
                             $result = json_decode($sub_activity->petugas,true);
                             $users_size = sizeof($result);

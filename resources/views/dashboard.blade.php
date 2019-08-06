@@ -85,6 +85,8 @@
                             $lastMonth = $Carbon::now()->subMonth()->timezone('Asia/Jakarta')->formatLocalized( '%B' );
                             $thisYear = $Carbon::now()->timezone('Asia/Jakarta')->format('Y');
                             $dateCollapse = str_replace("_"," ",$dateNow);
+                            $kegiatanCounter = 0;
+                            $pengingatCounter = 0;
                             @endphp
                             <h3 class="mb-0">Kegiatanku {{ $dateCollapse }}</h3>
                             <h5>Tenggat waktu :
@@ -116,13 +118,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($myAssignment as $assignmnent)
+                            @foreach ($myAssignment as $assignmnent)
                             @php
                             $realisasi = (int)json_decode($assignmnent->realisasi)->$userID->$dateNow;
                             $volume = (int)json_decode($assignmnent->petugas)->$userID->$dateNow;
                             // dd($volume - $realisasi);
                             @endphp
                             @if ($volume - $realisasi > 0)
+                            @php
+                            $kegiatanCounter++;
+                            @endphp
                             <tr>
                                 <th scope="">
                                     <a href={{ route('activity.show', $assignmnent->sub_activity) }}>
@@ -142,11 +147,14 @@
                                 </td> --}}
                             </tr>
                             @endif
-
-
-                            @empty
-
-                            @endforelse
+                            @endforeach
+                            <tr>
+                                <td colspan="2">
+                                @if ($kegiatanCounter == 0)
+                                <h3 class="text-center">Untuk saat ini semua kegiatan terselesaikan</h3>
+                                @endif
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -174,6 +182,9 @@
                         </thead>
                         <tbody>
                             @if ($tenggatWaktu <= 5) <tr>
+                                @php
+                                    $pengingatCounter++;
+                                @endphp
                                 <td class="bg-danger">
                                     <a href="{{ route('myactivity.index') }}">
                                         <h3 class="text-white">{{ $tenggatWaktu }} hari tersisa bulan ini</h3>
@@ -182,6 +193,9 @@
                                 </td>
                                 </tr>
                                 @elseif ($dayNow <= 5)
+                                @php
+                                    $pengingatCounter++;
+                                @endphp
                                 <tr class="table-success">
                                     <td>
                                         <a href="{{ route('myactivity.index') }}">
@@ -194,9 +208,12 @@
                                     @foreach ($myAssignment as $assignment)
                                     @php
                                     $date = $Carbon::parse($assignment->update)->timezone('Asia/Jakarta');
-                                    //  dd($Carbon::now()->timezone('Asia/Jakarta')->format('d'), $Carbon::now()->timezone('Asia/Jakarta')->diffInDays($date), $date->format('d'))
+                                    //   dd($Carbon::now()->timezone('Asia/Jakarta')->format('d'), $Carbon::now()->timezone('Asia/Jakarta')->diffInDays($date), $date->format('d'))
                                     @endphp
                                     @if ($Carbon::now()->timezone('Asia/Jakarta')->diff($date)->d < 1)
+                                    @php
+                                        $pengingatCounter++;
+                                    @endphp
                                     <tr class='bg-success'>
                                         <td>
                                             <a href="{{ route('myactivity.index') }}">
@@ -208,7 +225,14 @@
                                     </tr>
                                     @endif
                                     @endforeach
-                        </tbody>
+                                    @if ($pengingatCounter == 0)
+                                    <tr>
+                                        <td>
+                                    <h3 class="text-center">Selamat bekerja</h3>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                </tbody>
                     </table>
                 </div>
             </div>

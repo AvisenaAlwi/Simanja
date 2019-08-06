@@ -117,7 +117,7 @@
                 <th style="width:45px">Reali sasi</th>
                 <th style="width:45px">%</th>
             </tr>
-            <tr>
+            <tr style="font-size:8pt">
                 <td>(1)</td>
                 <td>(2)</td>
                 <td>(3)</td>

@@ -63,7 +63,7 @@ for($i = 0; $i < 5; $i++){
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div>
                                 Kegiatan pribadi untuk bulan <b>{{ $Carbon::parse($my_activity->awal)->timezone('Asia/Jakarta')->formatLocalized('%B %Y') }}</b>
                             </div>
@@ -90,7 +90,7 @@ for($i = 0; $i < 5; $i++){
                                 <div class="col-6 col-lg-3">
                                     <div class="form-group">
                                         <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                        <input type="number" name="angka_kredit" class="form-control form-control-alternative" value="{{ $my_activity->angka_kredit }}">
+                                        <input type="number" step="0.0001" name="angka_kredit" class="form-control form-control-alternative" value="{{ $my_activity->angka_kredit }}">
                                     </div>
                                 </div>
                             </div>
@@ -223,7 +223,7 @@ for($i = 0; $i < 5; $i++){
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                    <input type="number" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="">
+                                                    <input type="number" step="0.0001" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
