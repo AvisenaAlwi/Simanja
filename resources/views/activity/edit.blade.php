@@ -70,7 +70,7 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                         <input type="text" name="activity_name" id="input-activity-name"
                                             class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
                                             value="{{ $sub_activity->activity->name }}" required autofocus>
-        
+
                                         @if ($errors->has('activity_name'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('activity_name') }}</strong>
@@ -104,7 +104,7 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                                 <select name="activity_start_month" id="activity-start-month"
                                                     class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
                                                     value="{{ old('activity_value') }}" required>
-                                                    @for ($i = 1; $i <= sizeof(config('scale.month')); $i++) 
+                                                    @for ($i = 1; $i <= sizeof(config('scale.month')); $i++)
                                                         @if($i == date_create($sub_activity->activity->awal)->format('m'))
                                                             <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
                                                         @else
@@ -137,7 +137,7 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                                 <select name="activity_end_month" id="activity-end-month"
                                                     class="form-control form-control-alternative{{ $errors->has('activity_name') ? ' is-invalid' : '' }}"
                                                     value="{{ old('activity_value') }}" required>
-                                                    @for ($i = 1; $i <= sizeof(config('scale.month')); $i++) 
+                                                    @for ($i = 1; $i <= sizeof(config('scale.month')); $i++)
                                                         @if($i == date_create($sub_activity->activity->akhir)->format('m'))
                                                             <option value="{{ config('scale.month')[$i-1] }}" selected>{{ config('scale.month')[$i-1] }}</option>
                                                         @else
@@ -171,7 +171,7 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                             </div>
                             <div>
                                 <input type="checkbox" id="checkbox-periode-1-bulan" name="issatubulan"
-                                {{ date_create($sub_activity->activity->awal)->format("Y-m") == 
+                                {{ date_create($sub_activity->activity->awal)->format("Y-m") ==
                                     date_create($sub_activity->activity->akhir)->format("Y-m") ? 'checked' : ''}}> Periode Tugas 1 Bulan
                             </div>
                         </div>
@@ -219,7 +219,7 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                                             </div>
                                             <div class="col-lg-6">
                                                 <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                <input type="text" name="sub_activity_angka_kredit" class="form-control form-control-alternative" value="{{ $sub_activity->angka_kredit }}">
+                                                <input type="number" step="0.0001" name="sub_activity_angka_kredit" class="form-control form-control-alternative" value="{{ $sub_activity->angka_kredit }}">
                                             </div>
                                         </div>
                                         <div class="form-group">
