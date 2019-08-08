@@ -38,7 +38,7 @@ class UserRequest extends FormRequest
             'nip' => 'required|min:18|max:21',
             'pejabat_penilai_nip' => 'required|exists:users,nip',
             'role_id' => 'required|exists:roles,id',
-            'photo' => 'sometimes|required|image|max:2048'
+            'photo' => 'sometimes|required|image|max:4096'
         ];
     }
 }

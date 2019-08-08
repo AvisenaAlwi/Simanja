@@ -207,6 +207,7 @@ class AssignmentController extends Controller
                 'realisasi' => json_encode($realisasiArray),
                 'tingkat_kualitas' => json_encode($tingkatKualitasArray),
                 'keterangan' => json_encode($keteranganArray),
+                'update_state' => 1,
             ] // update
         );
         return redirect()->route('assignment.index')->withStatus(__('Penugasan berhasil diubah.'));

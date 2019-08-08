@@ -172,7 +172,7 @@
                                         <label class="form-control-label" for="input-photo">Foto*</label>
                                         <input type="file"
                                             class="form-control form-control-alternative{{ $errors->has('photo_base64') ? ' is-invalid' : '' }}"
-                                            id="input-photo" name="photo" value="" autofocus accept="image/png, image/jpeg"> Max 2 MB
+                                            id="input-photo" name="photo" value="" autofocus accept="image/png, image/jpeg"> Max 4 MB
                                         @if ($errors->has('photo_base64'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('photo_base64') }}</strong>

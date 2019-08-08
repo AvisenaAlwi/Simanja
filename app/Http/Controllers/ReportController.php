@@ -267,8 +267,10 @@ class ReportController extends Controller
             $f->update([
                 'realisasi' => json_encode($realisasi),
                 'keterangan' => json_encode($keterangan),
-                'tingkat_kualitas' => json_encode($tingkul)
+                'tingkat_kualitas' => json_encode($tingkul),
+                'update_state' => 0,
             ]);
+            dd("aasasasas");
     }
 
 }

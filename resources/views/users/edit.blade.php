@@ -173,7 +173,7 @@
                                             <input type="file"
                                                 class="form-control form-control-alternative{{ $errors->has('photo') ? ' is-invalid' : '' }}"
                                                 id="input-photo" name="photo" value="{{ old('photo', $user->photo) }}"
-                                                autofocus accept="image/png, image/jpeg"> Max 2 MB
+                                                autofocus accept="image/png, image/jpeg"> Max 4 MB
                                             @if ($errors->has('photo'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('photo') }}</strong>

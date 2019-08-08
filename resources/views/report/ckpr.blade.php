@@ -107,7 +107,7 @@
                 <th rowspan="2" width="225px">Uraian Kegiatan</th>
                 <th rowspan="2">Satuan</th>
                 <th colspan="3">Kuantitas</th>
-                <th rowspan="2">Tingkat kualitas %</th>
+                <th rowspan="2">Tingkat kualitas (%)</th>
                 <th rowspan="2">Kode Butir Kegiatan</th>
                 <th rowspan="2">Angka Kredit</th>
                 <th rowspan="2" width="25%">Keterangan</th>
@@ -191,8 +191,8 @@
                 <td>{{$tambahan->satuan}}</td>
                 <td>{{$tambahan->month_volume}}</td>
                 <td>{{ $reali }}</td>
-                <td>{{ $reali == 0 ? 0: round($reali/$tambahan->month_volume*100)}}%</td>
-                <td>{{ $tingkul }}%</td>
+                <td>{{ $reali == 0 ? 0: round($reali/$tambahan->month_volume*100)}}</td>
+                <td>{{ $tingkul }}</td>
                 <td>{{$tambahan->kode_butir}}</td>
                 <td>{{$tambahan->angka_kredit}}</td>
                 <td class="keterangan">{{$ket}}</td>
