@@ -32,25 +32,49 @@
                             <div class="col-8">
                                 <h3 class="text-muted">Kegiatan</h3>
                             </div>
-                            <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
-                            <h4>dibuat oleh : {{$sub_activity->user_name}}</h4>
-                            @if (date_create($sub_activity->awal)->format("Y-m") == date_create($sub_activity->akhir)->format("Y-m"))
-                            <h4>Periode : {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}
-                            @else
-                            <h4>Periode : {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' .
-                                $Carbon::parse($sub_activity->akhir)->formatLocalized('%B %Y')}}</h4>
-                            @endif
-                            <h4>Kategori : {{$sub_activity->kategori}}
+                            <div class="col-4 text-right">
+                                <a href="{{ route('activity.index') }}"
+                                    title="Kembali" data-toggle="tooltip" data-placement="top">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                                    </button>
+                                </a>
+                            </div>
                         </div>
-                        <hr>
-                        <div>
-                            <h6 class="heading-small text-muted mb-4">{{ __('Sub Kegiatan') }}</h6>
-                            <h1 class="display-4">{{$sub_activity->sub_activity_name}}</h1>
-                            <h4>Satuan : {{$sub_activity->satuan}} | Volume : {{$sub_activity->volume}}
-                                | Kode Butir Kegiatan : {{ $sub_activity->kode_butir != null ? $sub_activity->kode_butir : ' -' }}
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <h1 class="display-4 text-success">{{$sub_activity->activity_name}}</h1>
+                        </div>
+                        <div class="col-6 text-right">
+                            <h5>Dibuat :
+                                {{ $Carbon::createFromTimeStamp(strtotime($sub_activity->created_at))->diffForHumans() }}
+                            </h5>
+                        </div>
+                    </div>
+                        <h4>dibuat oleh: {{$sub_activity->user_name}}</h4>
+                        @if (date_create($sub_activity->awal)->format("Y-m") == date_create($sub_activity->akhir)->format("Y-m"))
+                        <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') }}
+                        @else
+                        <h4>Periode: {{ $Carbon::parse($sub_activity->awal)->formatLocalized('%B %Y') . ' - ' .
+                            $Carbon::parse($sub_activity->akhir)->formatLocalized('%B %Y')}}</h4>
+                        @endif
+                        <h4>Kategori: {{$sub_activity->kategori}}
+                </div>
+                <div class="card-header bg-white border-0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="text-muted">Sub kegiatan</h3>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card-body">
+                            <h1 class="display-4 text-success">{{$sub_activity->sub_activity_name}}</h1>
+                            <h4>Satuan: {{$sub_activity->satuan}} | Volume: {{$sub_activity->volume}} | Kode Butir Kegiatan : {{ $sub_activity->kode_butir != null ? $sub_activity->kode_butir : ' -' }}
                                 | Angka Kredit : {{$sub_activity->angka_kredit != null ? $sub_activity->kode_butir : ' -'}}</h4>
-                            <h4>Pendidikan minimal : {{$sub_activity->pendidikan}}</h4>
-                            <h4>Kualifikasi minimal :</h4>
+                            <h4>Pendidikan minimal: {{$sub_activity->pendidikan}}</h4>
+                            <h4>Kualifikasi minimal:</h4>
                             <table class="table table-sm table-dark">
                                 <thead>
                                     <tr>
