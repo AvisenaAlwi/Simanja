@@ -44,9 +44,8 @@
                 <form method="post" action="{{ route('user.store') }}" autocomplete="off" enctype="multipart/form-data">
                     <div class="card-body">
                         @csrf
-                        @php
-                        @endphp
-                        <h6 class="heading-small text-muted mb-4">Infomrasi Pengguna</h6>
+
+                        <h6 class="heading-small text-muted mb-4">Informasi Pengguna</h6>
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">

@@ -5,7 +5,6 @@
     table, th, td {
        border: 1px solid black;
        border-collapse: collapse;
-       text-align: center;
        padding: .5rem
     }
     input[type="number"]{
@@ -139,35 +138,57 @@ $petugas = json_decode($assignment->petugas, true);
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
-                            <h3 class="col-12 mb-0">
+                            <h3 class="col-8 mb-0">
                                 Tugaskan <strong class="text-success">{{ $assignment->subActivity->name . " " . $assignment->activity->name }}</strong>
                             </h3>
+                            <div class="col-4 text-right">
+                                <a href="{{ route('assignment.index') }}"
+                                    title="Kembali" data-toggle="tooltip" data-placement="top">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <h3>Kualifikasi yang dibutuhkan</h3>
-                        <table>
-                            <tr>
-                                <td>Pendidikan (min.)</td>
-                                <td>{{ $subActivity->pendidikan }}</td>
-                            </tr>
-                            <tr>
-                                <td>Kemempuan TI</td>
-                                <td>{{ $subActivity->ti }}</td>
-                            </tr>
-                            <tr>
-                                <td>Kemampuan Menulis</td>
-                                <td>{{ $subActivity->menulis }}</td>
-                            </tr>
-                            <tr>
-                                <td>Kemampuan Administrasi</td>
-                                <td>{{ $subActivity->administrasi }}</td>
-                            </tr>
-                            <tr>
-                                <td>Pengalaman Survei</td>
-                                <td>{{ $subActivity->pengalaman_survei }}</td>
-                            </tr>
-                        </table>
+                        <table class="table table-sm table-dark">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Keahlian</th>
+                                        <th scope="col">Tingkat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Pendidikan (min.)</td>
+                                        <td>{{$subActivity->pendidikan}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>TI</td>
+                                        <td>{{$subActivity->ti}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Menulis</td>
+                                        <td>{{$subActivity->menulis}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>Administrasi</td>
+                                        <td>{{$subActivity->administrasi}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">5</th>
+                                        <td>Pengalaman survei</td>
+                                        <td>{{$subActivity->pengalaman_survei}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         <br>
                         <br>
                         @if (isset($recomended_employee))
@@ -230,7 +251,7 @@ $petugas = json_decode($assignment->petugas, true);
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="table-user">
+                            <table id="table-user" class="table-sm table-dark" style="text-align: center">
                                 <tr>
                                     <th width="300px" rowspan="2">Nama</th>
                                     <th colspan="{{ sizeof($months) }}">Bulan</th>
@@ -253,7 +274,7 @@ $petugas = json_decode($assignment->petugas, true);
                             </table>
                             Total: <b id="total"></b> dari <b>{{ $subActivity->volume }}</b>
                         </div>
-                        <button class="mx-auto w-auto p-3 btn btn-warning btn-block text-center" type="button" id="btn-submit-edit">
+                        <button class="mx-auto w-auto p-3 m-2 btn btn-warning btn-block text-center" type="button" id="btn-submit-edit">
                             <i class="ni ni-single-copy-04"></i> Tugaskan
                         </button>
                     </div>
