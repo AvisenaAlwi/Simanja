@@ -37,6 +37,7 @@ class ActivityController extends Controller
                 'activity.name as activity_name',
                 'users.name as users_name',
                 'users.id as users_id',
+                'users.photo',
                 'sub_activity.*',
                 'activity.awal',
                 'activity.akhir',
@@ -62,7 +63,7 @@ class ActivityController extends Controller
                                 ->paginate(10);
         }
         else{
-            // Menampilkan sub dan kegiatan yang aktif bulan dan tahub saat ini
+            // Menampilkan sub dan kegiatan yang aktif bulan dan tahun saat ini
             $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
             $sub_activity = $sub_activity
                                 ->whereDate('awal', '<=', now() )

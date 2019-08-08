@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>CKPR</title>
     <style>
         @page { margin: 0 5%; }
         body {
@@ -39,12 +39,12 @@
 
         #sign_dinilai {
             text-align: center;
-            width: 50%;
+            width: 150%;
         }
 
         #sign_penilai {
             text-align: center;
-            width: 150%;
+            width: 50%;
         }
 
         #sign {
@@ -68,9 +68,9 @@
         $currentYear = $Carbon::now()->format('Y');
         $currentMonth = $Carbon::now()->formatLocalized('%B');
         $currentMonthShort = $Carbon::now()->formatLocalized('%b');
-        $today = $Carbon::now()->format('d');
-        $firstDay = $date->startOfMonth()->format('d');
-        $lastDay = $date->lastOfMonth()->format('d');
+        $today = $Carbon::now()->format('j');
+        $firstDay = $date->startOfMonth()->format('j');
+        $lastDay = $date->lastOfMonth()->format('j');
         $month = $date->timezone('Asia/Jakarta')->formatLocalized('%B');
         $year = $date->timezone('Asia/Jakarta')->formatLocalized('%Y');
 
@@ -104,20 +104,20 @@
         <table style="width:100%; border-collapse: collapse; text-align: center;" cellpadding="2" border="1">
             <tr>
                 <th rowspan="2">No</th>
-                <th rowspan="2" width="30%">Uraian Kegiatan</th>
+                <th rowspan="2" width="225px">Uraian Kegiatan</th>
                 <th rowspan="2">Satuan</th>
                 <th colspan="3">Kuantitas</th>
-                <th rowspan="2">Tingkat kualitas</th>
-                <th rowspan="2">Kode butir</th>
-                <th rowspan="2">Angka kredit</th>
+                <th rowspan="2">Tingkat kualitas %</th>
+                <th rowspan="2">Kode Butir Kegiatan</th>
+                <th rowspan="2">Angka Kredit</th>
                 <th rowspan="2" width="25%">Keterangan</th>
             </tr>
             <tr>
-                <th>Target</th>
-                <th>Realisasi</th>
-                <th>%</th>
+                <th style="width:45px">Target</th>
+                <th style="width:45px">Reali sasi</th>
+                <th style="width:45px">%</th>
             </tr>
-            <tr>
+            <tr style="font-size:8pt">
                 <td>(1)</td>
                 <td>(2)</td>
                 <td>(3)</td>
@@ -156,8 +156,8 @@
                 <td>{{$utama->satuan}}</td>
                 <td>{{$utama->month_volume}}</td>
                 <td>{{ $reali }}</td>
-                <td>{{ $reali == 0 ? 0 : round($reali/$utama->month_volume*100) }}%</td>
-                <td>{{ $tingkul }}%</td>
+                <td>{{ $reali == 0 ? 0 : round($reali/$utama->month_volume*100) }}</td>
+                <td>{{ $tingkul }}</td>
                 <td>{{$utama->kode_butir}}</td>
                 <td>{{$utama->angka_kredit}}</td>
                 <td class="keterangan">{{ $ket }}</td>
@@ -204,7 +204,7 @@
     <div id="sign">
         <div id="sign_dinilai">
             <br>
-            <p>Malang, {{$today.' '.$currentMonthShort.' '.$currentYear}} <br>
+            <p>Malang, {{$today.' '.$currentMonth.' '.$currentYear}} <br>
                 Pegawai Yang dinilai <br>
                 <br><br><br><br>
                 {{auth()->user()->name}} <br>

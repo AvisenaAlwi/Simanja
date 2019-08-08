@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>CKPT</title>
     <style>
         @page { margin: 0 5%; }
         body {
@@ -60,9 +60,9 @@
         $currentYear = $Carbon::now()->format('Y');
         $currentMonth = $Carbon::now()->formatLocalized('%B');
         $currentMonthShort = $Carbon::now()->formatLocalized('%b');
-        $today = $Carbon::now()->format('d');
-        $firstDay = $date->startOfMonth()->format('d');
-        $lastDay = $date->lastOfMonth()->format('d');
+        $today = $Carbon::now()->format('j');
+        $firstDay = $date->startOfMonth()->format('j');
+        $lastDay = $date->lastOfMonth()->format('j');
         $month = $date->timezone('Asia/Jakarta')->formatLocalized('%B');
         $year = $date->timezone('Asia/Jakarta')->formatLocalized('%Y');
 
@@ -96,14 +96,14 @@
         <table style="width:100%; border-collapse: collapse; text-align: center;" cellpadding="2" border="1">
             <tr>
                 <th>No</th>
-                <th width="45%">Uraian Kegiatan</th>
-                <th>Satuan</th>
-                <th>Kuantitas</th>
-                <th>Kode butir</th>
-                <th>Angka kredit</th>
-                <th width="30%">Keterangan</th>
+                <th width="255px">Uraian Kegiatan</th>
+                <th width="70px">Satuan</th>
+                <th width="70px">Kuantitas</th>
+                <th width="70px">Kode Butir Kegiatan</th>
+                <th width="70px">Angka Kredit</th>
+                <th width="100px">Keterangan</th>
             </tr>
-            <tr>
+            <tr style="font-size:8pt">
                 <td>(1)</td>
                 <td>(2)</td>
                 <td>(3)</td>
@@ -152,7 +152,7 @@
     </div>
     <div id="sign_penilai">
         <br>
-        <p> Malang, {{$today.' '.$currentMonthShort.' '.$currentYear}} <br>
+        <p> Malang, {{$today.' '.$currentMonth.' '.$currentYear}} <br>
             Pejabat Penilai,<br>
             {{$penilai->jabatan}}
             <br><br><br><br>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
@@ -19,7 +20,36 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
-        return view('users.index', ['users' => $model->paginate(15)]);
+        $showing = Input::get('showing', 'Semualevel');
+        $searchQuery = Input::get('query', '');
+        $user = DB::table('users')
+        ->select(['users.*']);
+        if (!empty($searchQuery)){
+            $user = $user
+            ->where('users.name','LIKE',"%$searchQuery%")
+            ->where('users.nip','LIKE',"%$searchQuery%", 'OR');
+        }
+        if ($showing == 'Semualevel') {
+            $user = $user
+            ->paginate(10);
+        }
+        elseif ($showing == 'Admin') {
+            $user = $user
+            ->where('users.role_id','=','1')
+            ->paginate(10);
+        }
+        elseif ($showing == 'Supervisor') {
+            $user = $user
+            ->where('users.role_id','=','2')
+            ->paginate(10);
+        }
+        else{
+            $user = $user
+            ->where('users.role_id','=','3')
+            ->paginate(10);
+        }
+        //  dd($user);
+        return view('users.index', ['users' => $user , 'showing' => $showing]);
     }
 
     public function show(User $model)
@@ -45,14 +75,14 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
-        $request->validate([
-            'name' => 'required',
-            'nip' => 'required|min:18|max:21',
-            'email' => 'required|email',
-            'pejabat_penilai_nip' => 'required|exists:users,nip',
-            'role_id' => 'required|exists:roles,id',
-            'photo' => 'sometimes|required|image|max:2048',
-        ]);
+        // $this->validate($request, [
+        //     'name' => 'required',
+        //     'nip' => 'required|min:18|max:21',
+        //     'email' => 'required|email',
+        //     'pejabat_penilai_nip' => 'required|exists:users,nip',
+        //     'role_id' => 'required|exists:roles,id',
+        //     'photo' => 'sometimes|required|image|max:2048',
+        // ]);
         $photo = $request->file('photo');
         $temp = [
             'email_verified_at' => now(),
@@ -96,15 +126,14 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User  $user)
     {
-        // dd($request->all());
-        $request->validate([
-            'name' => 'required',
-            'nip' => 'required|min:18|max:21',
-            'email' => 'required|email',
-            'pejabat_penilai_nip' => 'required|exists:users,nip',
-            'role_id' => 'required|exists:roles,id',
-            'photo' => 'sometimes|required|image|max:2048',
-        ]);
+        // $request->validate([
+        //     'name' => 'required',
+        //     'nip' => 'required|min:18|max:21',
+        //     'email' => 'required|email',
+        //     'pejabat_penilai_nip' => 'required|exists:users,nip',
+        //     'role_id' => 'required|exists:roles,id',
+        //     'photo' => 'sometimes|required|image|max:2048',
+        // ]);
         $photo = $request->file('photo');
         $temp = [
             'password' => Hash::make($request->get('password')),

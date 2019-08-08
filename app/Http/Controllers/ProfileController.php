@@ -6,6 +6,8 @@ use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Assignment;
+use App\User;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -52,5 +54,26 @@ class ProfileController extends Controller
         auth()->user()->update(['password' => Hash::make($request->get('password'))]);
 
         return redirect('profile')->withPasswordStatus(__('Password berhasil diganti.'));
+    }
+
+    public function profile($nip){
+        $nip = preg_replace('/\s+/', '', $nip);
+        if($nip == preg_replace('/\s+/', '', auth()->user()->nip))
+            return redirect()->route('profile.index');
+        $user = User::whereRaw("REPLACE(`nip`, ' ', '')='$nip'")->first();
+        if ($user ?? ($user = User::whereRaw("REPLACE(`name`, ' ', '')='$nip'")->first())){
+            $assignments = Assignment::whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$user->id\"') = true")->get();
+            $assignment = DB::table('assignment')
+                            ->join('activity', 'assignment.activity_id', '=', 'activity.id')
+                            ->select(['awal', 'akhir'])
+                            ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$user->id\"') = true")
+                            ->whereDate('awal', '<=', now() )
+                            ->whereDate('akhir', '>=', now() )
+                            ->get();
+            $count = $assignment->count();
+            return view('profile.profile_user', ['user'=>$user, 'assignments'=>$assignments,'jumlahTugasYangDiemban' => $count]);
+        }else{
+            return abort(404);
+        }
     }
 }

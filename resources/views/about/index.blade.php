@@ -27,7 +27,7 @@
                     Komputer.</p>
                 <br><br>
             </div>
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-12 col-lg-4 mb-6">
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-4 mb-6">
+                <div class="col-12 col-lg-4 mb-6 mx--3">
                     <div class="card card-profile shadow">
                         <div class="row justify-content-center">
                             <div class="col-lg-3 order-lg-2">
@@ -113,7 +113,7 @@
                                         </table>
                                     </div>
                                     <div class="card-profile-stats d-flex justify-content-center mt-md--2">
-                                            &#9993; fajriansyah@student.ub.ac.id
+                                           <a href="mailto:blablabla@bla.com"> &#9993; fajriansyah@student.ub.ac.id </a>
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +191,9 @@
             </div>
         </div>
     </div>
+    @auth
     @include('layouts.footers.auth')
+    @endauth
 </div>
 
 @endsection

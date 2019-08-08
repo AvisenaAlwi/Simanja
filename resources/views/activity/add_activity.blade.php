@@ -200,7 +200,7 @@ for($i = 0; $i < 5; $i++){
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                    <input type="text" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="">
+                                                    <input type="number" step="0.0001"  name="sub_activity_1_angka_kredit" class="form-control form-control-alternative" value="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -425,7 +425,7 @@ for($i = 0; $i < 5; $i++){
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
-                                                    <input type="text" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="">
+                                                    <input type="number" step="0.0001" name="sub_activity_1_angka_kredit" class="form-control form-control-alternative angka-kredit-sub-kegiatan" value="">
                                                 </div>
                                             </div>
                                             <div class="form-group">

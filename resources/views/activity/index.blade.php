@@ -70,11 +70,10 @@
                                 <th>Nama Kegiatan</th>
                                 <th>Waktu</th>
                                 <th>Pembuat</th>
-                                <th>Completion</th>
                                 <th></th>
                             </tr>
                         </thead>
-                         <div class="col-12">
+                        <div class="col-12">
                         @if (session('status'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ session('status') }}
@@ -111,22 +110,8 @@
                                             <a href="#" data-toggle="tooltip"
                                                 data-original-title="{{ $sub->users_name }}"
                                                 class="avatar avatar-sm rounded-circle">
-                                                <img alt="Image placeholder" src="{{ asset('storage') }}/{{auth()->user()->photo}}">
+                                                <img alt="Image placeholder" src="{{ asset('storage') }}/{{ $sub->photo }}">
                                             </a>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center"><span class="completion mr-2">60%</span>
-                                        <div>
-                                            <div class="progress-wrapper pt-0">
-                                                <!---->
-                                                <div class="progress" style="height: 3px;">
-                                                    <div role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                                                        aria-valuemax="100" class="progress-bar bg-warning"
-                                                        style="width: 60%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </td>
                                 <td class="text-right">
