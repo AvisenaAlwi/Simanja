@@ -384,7 +384,7 @@ $petugas = json_decode($assignment->petugas, true);
                 }else{
                     swal.fire({
                         title: 'Peringatan',
-                        html: 'Mengupdate penugasan dapat mereset realisasi, tingkat kualitas, dan keterangan pada CKP-R untuk kegiatan ini. Ingin lanjutkan?',
+                        html: '<b>Mengupdate penugasan dapat mereset realisasi, tingkat kualitas, dan keterangan pada CKP-R untuk kegiatan ini. Ingin lanjutkan?</b>',
                         type: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',

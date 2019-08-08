@@ -264,6 +264,7 @@ class ActivityController extends Controller
         }
         DB::transaction(function ()
         use(
+            $id,
             $SubActivityOriginal,
             $activity_name,
             $activity_kategori,
@@ -302,6 +303,13 @@ class ActivityController extends Controller
                 'menulis' =>config('scale.likert')[((int)$sub_activity['qualifikasi']['menulis']-1)],
                 'administrasi' =>config('scale.likert')[((int)$sub_activity['qualifikasi']['administrasi']-1)],
                 'pengalaman_survei' => config('scale.likert')[((int)$sub_activity['qualifikasi']['pengalaman'] -1)],
+            ]);
+            Assignment::where('sub_activity_id', '=', $id)->update([
+                'petugas' => '{}',
+                'realisasi' => '{}',
+                'keterangan' => '{}',
+                'tingkat_kualitas' => '{}',
+                'init_assign' => true
             ]);
         });
         return redirect()->route('activity.index')->withStatus(__('Kegiatan berhasil diubah.'))

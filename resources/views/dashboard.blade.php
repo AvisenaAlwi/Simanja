@@ -270,73 +270,66 @@
                         </div>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col" class="text-center">Pengingat</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($tenggatWaktu <= 5) <tr>
-                                @php
-                                    $pengingatCounter++;
-                                @endphp
-                                <td class="bg-danger">
-                                    <a href="{{ route('myactivity.index') }}">
-                                        <h3 class="text-white">{{ $tenggatWaktu }} hari tersisa bulan ini</h3>
-                                        <h5 class="text-white">Segera isi realisasi!</h5>
-                                    </a>
-                                </td>
-                                </tr>
-                                {{-- @elseif ($dayNow <= 5)
-                                @php
-                                    $pengingatCounter++;
-                                @endphp
-                                <tr class="table-success">
-                                    <td>
-                                        <a href="{{ route('activity.show', $assignment->sub_activity_id) }}">
-                                            <h3 class="text-white">Anda baru saja ditugaskan!</h3>
-                                            <h5 class="text-white"> {{ $assignment->full_name }}<h5>
-                                                    <h5 class="text-white">
-                                                        {{ $Carbon::parse($assignment->update)->timezone('Asia/Jakarta')->diffForHumans() }}
-                                                    </h5>
-                                        </a>
-                                    </td>
-                                </tr> --}}
+                <div>
+                    <h3 class="text-center bg-secondary p-1" style="margin-bottom: 0 !important">Pengingat</h3>
+                    @if ($tenggatWaktu <= 5)
+                        @php
+                            $pengingatCounter++;
+                        @endphp
+                        <div class="bg-danger" style="border-bottom: 1px solid rgba(0,0,0,0.1)">
+                            <a href="{{ route('myactivity.index') }}">
+                                <h3 class="text-white">{{ $tenggatWaktu }} hari tersisa bulan ini</h3>
+                                <h5 class="text-white">Segera isi realisasi!</h5>
+                            </a>
+                        </div>
+                        {{-- @elseif ($dayNow <= 5)
+                        @php
+                            $pengingatCounter++;
+                        @endphp
+                        <tr class="table-success">
+                            <td>
+                                <a href="{{ route('activity.show', $assignment->sub_activity_id) }}">
+                                    <h3 class="text-white">Anda baru saja ditugaskan!</h3>
+                                    <h5 class="text-white"> {{ $assignment->full_name }}<h5>
+                                            <h5 class="text-white">
+                                                {{ $Carbon::parse($assignment->update)->timezone('Asia/Jakarta')->diffForHumans() }}
+                                            </h5>
+                                </a>
+                            </td>
+                        </tr> --}}
+                    @endif
+                    @foreach ($myAssignment as $assignment)
+                        @php
+                        if($assignment->update_state == 0)
+                            continue;
+                        $date = $Carbon::parse($assignment->update)->timezone('Asia/Jakarta');
+                        //   dd($Carbon::now()->timezone('Asia/Jakarta')->format('d'), $Carbon::now()->timezone('Asia/Jakarta')->diffInDays($date), $date->format('d'))
+                        @endphp
+                        @if ($Carbon::now()->timezone('Asia/Jakarta')->diff($date)->d < 1)
+                        @php
+                            $pengingatCounter++;
+                        @endphp
+                        <div class='bg-success p-4' style="border-bottom: 1px solid rgba(0,0,0,0.1)">
+                            <a href="{{ route('myactivity.index') }}">
+                                @if ($assignment->update_state == 1 && $assignment->init_assign == true)
+                                <h3 class="text-white">Anda baru saja ditugaskan!</h3>
+                                @elseif ($assignment->update_state == 2 && $assignment->init_assign == false)
+                                <h3 class="text-white">Anda baru saja ditugaskan ulang, harap cek kembali target dan realisasi!</h3>
                                 @endif
-                                @foreach ($myAssignment as $assignment)
-                                    @php
-                                    if($assignment->update_state == 0)
-                                        continue;
-                                    $date = $Carbon::parse($assignment->update)->timezone('Asia/Jakarta');
-                                    //   dd($Carbon::now()->timezone('Asia/Jakarta')->format('d'), $Carbon::now()->timezone('Asia/Jakarta')->diffInDays($date), $date->format('d'))
-                                    @endphp
-                                    @if ($Carbon::now()->timezone('Asia/Jakarta')->diff($date)->d < 1)
-                                    @php
-                                        $pengingatCounter++;
-                                    @endphp
-                                    <tr class='bg-success'>
-                                        <td>
-                                            <a href="{{ route('myactivity.index') }}">
-                                                <h3 class="text-white">Anda baru saja ditugaskan!</h3>
-                                                <h5 class="text-white"> {{$assignment->name}}<h5>
-                                                        <h5 class="text-white">{{ $Carbon::parse($assignment->update)->timezone('Asia/Jakarta')->diffForHumans() }}</h5>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    @endif
-                                    @endforeach
-                                    @if ($pengingatCounter == 0)
-                                    <tr>
-                                        <td>
-                                    <h3 class="text-center">Selamat bekerja</h3>
-                                        </td>
-                                    </tr>
-                                    @endif
-                                </tbody>
-                    </table>
+                                <h5 class="text-white"> {{$assignment->full_name}}</h5>
+                                <h5 class="text-white">{{ $Carbon::parse($assignment->update)->timezone('Asia/Jakarta')->diffForHumans() }}</h5>
+                            </a>
+                        </div>
+                        @endif
+                    @endforeach
+                    @if ($pengingatCounter == 0)
+                    <tr>
+                        <td>
+                    <h3 class="text-center">Selamat bekerja</h3>
+                        </td>
+                    </tr>
+                    @endif
+                    
                 </div>
             </div>
         </div>

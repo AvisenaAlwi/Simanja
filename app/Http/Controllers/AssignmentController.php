@@ -200,6 +200,7 @@ class AssignmentController extends Controller
                 $tingkatKualitasArray[(int)$re[1]][$re[2]] = 0;
             }
         }
+        $updateState = sizeof(json_decode(Assignment::where('id','=', $assignment->id)->first()->petugas, true)) == 0 ? 1 : 2;
         Assignment::updateOrCreate(
             ['id' => $assignment->id], // Syarat
             [
@@ -207,7 +208,8 @@ class AssignmentController extends Controller
                 'realisasi' => json_encode($realisasiArray),
                 'tingkat_kualitas' => json_encode($tingkatKualitasArray),
                 'keterangan' => json_encode($keteranganArray),
-                'update_state' => 1,
+                'update_state' => $updateState,
+                'init_assign' => empty(json_decode($assignment->petugas, true)) ? true : false,
             ] // update
         );
         return redirect()->route('assignment.index')->withStatus(__('Penugasan berhasil diubah.'));

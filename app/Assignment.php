@@ -20,6 +20,7 @@ class Assignment extends Model
         'tingkat_kualitas',
         'keterangan',
         'update_state',
+        'init_assign',
     ];
     public $guarded = [];
     

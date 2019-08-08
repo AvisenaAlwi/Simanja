@@ -29,6 +29,7 @@ class CreateAssignmentTable extends Migration
             $table->json('keterangan')->default('{}');
             $table->timestamps();
             $table->tinyInteger('update_state')->default(1);
+            $table->boolean('init_assign')->default(true);
         });
     }
 

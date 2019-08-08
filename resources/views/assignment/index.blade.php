@@ -106,7 +106,7 @@ $yearQuery = $Input::get('year', $currentYear);
                                     </div>
                                 </th>
                                 <td>
-                                    @if (sizeof(json_decode($sub->petugas, true)) == 0)
+                                    @if (empty(json_decode($sub->petugas, true)))
                                         <span class="badge badge-dot mr-4 badge-warning">
                                             <i class="bg-warning"></i>
                                             <span class="status">Belum Ditugaskan</span>
@@ -136,20 +136,20 @@ $yearQuery = $Input::get('year', $currentYear);
                                 </td>
                                 <td>
                                     @if($sub->created_by_user_id == auth()->user()->id || auth()->user()->role_id == 1)
-                                    @empty(json_decode($sub->petugas))
-                                        {{-- <a href="{{ route('assignment.edit', App\Assignment::where('sub_activity_id', '=', $sub->id)->select('id')->first()) }}"> --}}
-                                        <a href="{{ route('assignment.edit', $sub->assignment_id) }}">
-                                            <button class="btn btn-warning btn-block text-left">
-                                                <i class="ni ni-single-copy-04"></i> Tugaskan
-                                            </button>
-                                        </a>
-                                    @else
-                                        <a href="{{ route('assignment.edit', $sub->id) }}">
-                                            <div class="btn btn-success btn-block text-left">
-                                                <i class="fas fa-edit"></i> Edit Penugasan
-                                            </div>
-                                        </a>
-                                    @endempty
+                                        @if(empty(json_decode($sub->petugas, true)))
+                                            {{-- <a href="{{ route('assignment.edit', App\Assignment::where('sub_activity_id', '=', $sub->id)->select('id')->first()) }}"> --}}
+                                            <a href="{{ route('assignment.edit', $sub->assignment_id) }}">
+                                                <button class="btn btn-warning btn-block text-left">
+                                                    <i class="ni ni-single-copy-04"></i> Tugaskan
+                                                </button>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('assignment.edit', $sub->id) }}">
+                                                <div class="btn btn-success btn-block text-left">
+                                                    <i class="fas fa-edit"></i> Edit Penugasan
+                                                </div>
+                                            </a>
+                                        @endif
                                     @else
                                     Harus ditugaskan oleh {{ $sub->user_name }}
                                     @endif

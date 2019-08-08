@@ -295,7 +295,7 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                 <hr class="my-4" />
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success">Simpan</button>
+                        <button type="button" class="btn btn-success" id="btn-submit-edit">Simpan</button>
                     </div>
                 </div>
                 </form>
@@ -313,6 +313,7 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
 <script type="text/javascript" src="{{ asset('vendor/easyautocomplete') }}/jquery.easy-autocomplete.min.js"></script>
 <script type="text/javascript" src="{{ asset('vendor/momentjs') }}/moment.min.js"></script>
 <script type="text/javascript" src="{{ asset('vendor/bootstrapslider') }}/bootstrap-slider.min.js"></script>
+<script type="text/javascript" src="{{ asset('vendor/sweetalert2') }}/sweetalert2.min.js"></script>
 <script>
     var value = [];
 
@@ -540,5 +541,22 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
         $(newElement).slider();
     });
 
+    $('#btn-submit-edit').click(function(){
+        swal.fire({
+            title: 'Peringatan',
+            html: '<b>Mengupdate kegiatan ini dapat mereset penugasan, oleh karena itu Anda harus menugaskan ulang untuk kegiatan ini. Tetap ingin lanjutkan?</b>',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, lanjutkan',
+            cancelButtonText: 'Batal'
+        })
+        .then((result) => {
+            if(result.value){
+                $('#form-activity').submit();
+            }
+        });
+    });
 </script>
 @endpush
