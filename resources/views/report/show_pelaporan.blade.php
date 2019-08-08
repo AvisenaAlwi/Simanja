@@ -76,15 +76,18 @@ $yearQuery = $Input::get('year',$currentYear);
                                 <h4>Kategori: {{$sub_activity->kategori}}
                     </div>
                     <div class="card-header bg-white border-0">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3 class="text-muted">Sub kegiatan</h3>
+                        <div class="row align-items-center">
+                            <div class="col-12">
+                                <h3 class="text-muted">Sub Kegiatan</h3>
                             </div>
                         </div>
-                        <hr>
-                        <div>
-                            <h6 class="heading-small text-muted mb-4">{{ __('Sub Kegiatan') }}</h6>
-                            <h1 class="display-4">{{$sub_activity->sub_activity_name}}</h1>
+                    </div>
+                    <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-12">
+                                    <h1 class="display-4 text-success">{{$sub_activity->sub_activity_name}}</h1>
+                                </div>
+                            </div>
                             {{-- @foreach ($collection as $item) --}}
 
                             {{-- @endforeach --}}
@@ -98,8 +101,8 @@ $yearQuery = $Input::get('year',$currentYear);
                             $users_size = sizeof($petugasArray);
                             $user_data_save = array_keys($petugasArray);
                             @endphp
-
-                        </div>
+                            
+                     </div>
                         @if ($users_size!=0)
                         {{-- @php dd($period); @endphp --}}
                         <div class="accordion" id="accordionExample">
@@ -179,9 +182,12 @@ $yearQuery = $Input::get('year',$currentYear);
                                                     </tbody>
                                                 </table>
                                             </div>
-
-                                            <div class="col-12 d-flex justify-content-end mt-4">
-                                                <button class="btn btn-success btn-save-realisasi" data-title="{{ $sub_activity->full_name.' '.$periode['monthName'] }}" month-year="{{ $idCollapse }}"> Simpan </button>
+                                            <div class="row">
+                                                <div class="col-12 d-flex justify-content-center">
+                                                    <button class="mx-auto m-3 w-auto btn btn-success btn-save-realisasi text-center" data-title="{{ $sub_activity->full_name.' '.$periode['monthName'] }}" 
+                                                        month-year="{{ $idCollapse }}"> Simpan 
+                                                    </button>
+                                                </div>
                                             </div>
                                             </form>
                                             @endif
@@ -190,8 +196,6 @@ $yearQuery = $Input::get('year',$currentYear);
                                 </div>
                                 @endforeach
                             </div>
-
-
                             @else
                             <h4 class="text-center">Belum ada pegawai yang menerima tugas kegiatan ini</h4>
                             <div class="col-7 text-right">
@@ -201,12 +205,10 @@ $yearQuery = $Input::get('year',$currentYear);
                             </div>
                             @endif
                         </div>
-                    </div>
                 </div>
             </div>
             @include('layouts.footers.auth')
         </div>
-        @include('layouts.footers.auth')
     </div>
     @endsection
     @push('js')

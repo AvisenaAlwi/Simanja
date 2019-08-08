@@ -138,9 +138,17 @@ $petugas = json_decode($assignment->petugas, true);
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
-                            <h3 class="col-12 mb-0">
+                            <h3 class="col-8 mb-0">
                                 Tugaskan <strong class="text-success">{{ $assignment->subActivity->name . " " . $assignment->activity->name }}</strong>
                             </h3>
+                            <div class="col-4 text-right">
+                                <a href="{{ route('assignment.index') }}"
+                                    title="Kembali" data-toggle="tooltip" data-placement="top">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
