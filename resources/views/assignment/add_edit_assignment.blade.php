@@ -206,7 +206,7 @@ $petugas = json_decode($assignment->petugas, true);
                                 $user2 = $users[$i+1];
                             @endphp
                             <div class="row">
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12 col-lg-6">
                                     <label>
                                         @php $isDisabled = auth()->user()->role_id != 1 && $user->jabatan === 'Kepala' @endphp
                                         <input class="user d-none" type="checkbox" name="{{ $user->name }}" value="{{ $user->id }}"
@@ -219,7 +219,7 @@ $petugas = json_decode($assignment->petugas, true);
                                     </label>
                                 </div>
                                 @if ($i + 1 < sizeof($users))
-                                <div class="col-12 col-lg-8">
+                                <div class="col-12 col-lg-6">
                                     <label>
                                         @php $isDisabled = auth()->user()->role_id != 1 && $user2->jabatan === 'Kepala' @endphp
                                         <input class="user d-none" type="checkbox" name="{{ $user2->name }}" value="{{ $user2->id }}"

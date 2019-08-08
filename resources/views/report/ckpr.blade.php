@@ -78,7 +78,7 @@
         <div style="display: flex; justify-content: flex-end;">
             <h2 id="reportType">CKP-R</h2>
         </div>
-        <h2 id="title">TARGET KINERJA PEGAWAI TAHUN {{ $year }}</h2><br>
+        <h2 id="title">CAPAIAN KINERJA PEGAWAI TAHUN {{ $year }}</h2><br>
         <table style="border: nonek !important; border-collapse: none !important;">
             <tr>
                 <td>Satuan Organisasi</td>

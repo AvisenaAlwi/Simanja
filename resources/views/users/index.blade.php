@@ -9,6 +9,9 @@
         text-align: left;
     }
 </style>
+@php
+$query = $Input::get('query','');
+@endphp
 @endpush
 @section('content')
 @include('users.partials.header', [
@@ -46,7 +49,7 @@
                                                 class="fas fa-search"></i></span>
                                     </div>
                                     <input class="form-control text-dark pl-4" placeholder="Cari berdasarkan nama / NIP"
-                                        type="text" name="query" value="{{ $Input::get('query','') }}">
+                                        type="text" name="query" value="{{ $query }}">
                                 </div>
                             </div>
                             </form>
@@ -159,7 +162,7 @@
         <div class="card-footer py-4">
             <h4>Total : {{ $users->total() }} Pengguna</h4>
             <nav class="d-flex justify-content-end" aria-label="...">
-                {{ $users->links() }}
+                {{ $users->appends(['showing'=>$showing, 'query'=>$query])->links() }}
             </nav>
         </div>
     </div>

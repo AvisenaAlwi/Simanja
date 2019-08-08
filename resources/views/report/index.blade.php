@@ -12,6 +12,7 @@ $currentMonth = $Carbon::now()->formatLocalized('%B');
 $currentYear = $Carbon::now()->format('Y');
 $monthQuery = $Input::get('month','now');
 $yearQuery = $Input::get('year',$currentYear);
+$query = $Input::get('query','');
 if($monthQuery == 'now')
 $monthQuery = $currentMonth;
 @endphp
@@ -70,7 +71,7 @@ $monthQuery = $currentMonth;
                                                     class="fas fa-search"></i></span>
                                         </div>
                                         <input class="form-control text-dark pl-2" placeholder="Cari berdasarkan nama"
-                                            type="text" name="query" value="{{ $Input::get('query','') }}">
+                                            type="text" name="query" value="{{ $query }}">
                                     </div>
                                 </div>
                     </form>
@@ -150,7 +151,7 @@ $monthQuery = $currentMonth;
             </table>
         </div>
         <div class="card-footer d-flex justify-content-end">
-            {{ $sub_activity->links() }}
+            {{ $sub_activity->appends(['month'=>$monthQuery, 'year'=>$yearQuery, 'query'=>$query])->links() }}
         </div>
     </div>
 </div>
