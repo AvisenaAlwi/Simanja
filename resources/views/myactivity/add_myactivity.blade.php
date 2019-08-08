@@ -37,7 +37,17 @@ for($i = 0; $i < 5; $i++){
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
                     <div class="row align-items-center">
-                        <h3 class="col-12 mb-0">Tambah Kegiatan untuk saya pribadi</h3>
+                        <div class="col-8">
+                            <h3 class="mb-0">Tambah kegiatan untuk saya pribadi</h3>
+                        </div>
+                        <div class="col-4 text-right">
+                            <a href="{{ redirect()->getUrlGenerator()->previous() }}" title="Kembali" data-toggle="tooltip"
+                                data-placement="top">
+                                <button type="button" class="btn btn-primary btn-sm"><span
+                                        class="ni ni-bold-left"></span>
+                                </button>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -74,9 +84,6 @@ for($i = 0; $i < 5; $i++){
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                Kegiatan pribadi untuk satu bulan saat ini ( <b>{{ $Carbon::now()->timezone('Asia/Jakarta')->formatLocalized('%B %Y') }}</b> )
-                            </div>
                             <br>
                             <div class="row">
                                 <div class="col-6 col-lg-3">
@@ -109,6 +116,9 @@ for($i = 0; $i < 5; $i++){
                                 <textarea name="keterangan" id="" rows="2" class="form-control form-control-alternative"></textarea>
                             </div>
                         </div>
+                        <div>
+                            *Kegiatan pribadi untuk satu bulan saat ini ( <b>{{ $Carbon::now()->timezone('Asia/Jakarta')->formatLocalized('%B %Y') }}</b> )
+                            </div>
                         <hr class="my-4" />
                         <div class=" d-flex justify-content-center">
                             <button type="submit" class="btn btn-success" id="btn-submit">Simpan</button>
@@ -335,7 +345,18 @@ for($i = 0; $i < 5; $i++){
                 list: {
                     maxNumberOfElements: 15,
                     match: {enabled: true},
-                    sort: {enabled: true}
+                    sort: {enabled: true},
+                    showAnimation: {
+			            type: "fade", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            },
+
+		            hideAnimation: {
+			            type: "slide", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            }
                 },
             });
             $('.nama-sub-kegiatan').each(function () {
@@ -349,7 +370,18 @@ for($i = 0; $i < 5; $i++){
                         },
                         sort: {
                             enabled: true
-                        }
+                        },
+                        showAnimation: {
+			            type: "fade", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            },
+
+		            hideAnimation: {
+			            type: "slide", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            }
                     }
                 });
             });
@@ -445,7 +477,18 @@ for($i = 0; $i < 5; $i++){
                     list: {
                         maxNumberOfElements: 15,
                         match: {enabled: true},
-                        sort: {enabled: true}
+                        sort: {enabled: true},
+                        showAnimation: {
+			            type: "fade", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            },
+
+		            hideAnimation: {
+			            type: "slide", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            }
                     }
                 });
             });
@@ -460,7 +503,18 @@ for($i = 0; $i < 5; $i++){
                     list: {
                         maxNumberOfElements: 15,
                         match: {enabled: true},
-                        sort: {enabled: true}
+                        sort: {enabled: true},
+                        showAnimation: {
+			            type: "fade", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            },
+
+		            hideAnimation: {
+			            type: "slide", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            }
                     }
                 });
             });

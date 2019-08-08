@@ -10,6 +10,7 @@ $currentYear = now()->year;
 $currentMonth = $Carbon::now()->formatLocalized('%B');
 $monthQuery = $Input::get('month', 'now');
 $yearQuery = $Input::get('year', $currentYear);
+$query = $Input::get('query','');
 @endphp
 @section('content')
 @include('users.partials.header', [
@@ -62,7 +63,7 @@ $yearQuery = $Input::get('year', $currentYear);
                                             ><i class="fas fa-search"></i></span>
                                         </div>
                                     <input class="form-control text-dark pl-2" placeholder="Cari berdasarkan nama" type="text" name="query"
-                                    value="{{ $Input::get('query','') }}">
+                                    value="{{ $query }}">
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +107,7 @@ $yearQuery = $Input::get('year', $currentYear);
                                     </div>
                                 </th>
                                 <td>
-                                    @if (sizeof(json_decode($sub->petugas, true)) == 0)
+                                    @if (empty(json_decode($sub->petugas, true)))
                                         <span class="badge badge-dot mr-4 badge-warning">
                                             <i class="bg-warning"></i>
                                             <span class="status">Belum Ditugaskan</span>
@@ -136,20 +137,20 @@ $yearQuery = $Input::get('year', $currentYear);
                                 </td>
                                 <td>
                                     @if($sub->created_by_user_id == auth()->user()->id || auth()->user()->role_id == 1)
-                                    @empty(json_decode($sub->petugas))
-                                        {{-- <a href="{{ route('assignment.edit', App\Assignment::where('sub_activity_id', '=', $sub->id)->select('id')->first()) }}"> --}}
-                                        <a href="{{ route('assignment.edit', $sub->assignment_id) }}">
-                                            <button class="btn btn-warning btn-block text-left">
-                                                <i class="ni ni-single-copy-04"></i> Tugaskan
-                                            </button>
-                                        </a>
-                                    @else
-                                        <a href="{{ route('assignment.edit', $sub->id) }}">
-                                            <div class="btn btn-success btn-block text-left">
-                                                <i class="fas fa-edit"></i> Edit Penugasan
-                                            </div>
-                                        </a>
-                                    @endempty
+                                        @if(empty(json_decode($sub->petugas, true)))
+                                            {{-- <a href="{{ route('assignment.edit', App\Assignment::where('sub_activity_id', '=', $sub->id)->select('id')->first()) }}"> --}}
+                                            <a href="{{ route('assignment.edit', $sub->assignment_id) }}">
+                                                <button class="btn btn-warning btn-block text-left">
+                                                    <i class="ni ni-single-copy-04"></i> Tugaskan
+                                                </button>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('assignment.edit', $sub->id) }}">
+                                                <div class="btn btn-success btn-block text-left">
+                                                    <i class="fas fa-edit"></i> Edit Penugasan
+                                                </div>
+                                            </a>
+                                        @endif
                                     @else
                                     Harus ditugaskan oleh {{ $sub->user_name }}
                                     @endif
@@ -171,7 +172,7 @@ $yearQuery = $Input::get('year', $currentYear);
                             <h4>Total : {{ $sub_activity->total() }} penugasan</h4>
                         </div>
                         <div class="col-12 col-lg-8 d-flex justify-content-center justify-content-lg-end align-items-center">
-                            {{ $sub_activity->links() }}
+                            {{ $sub_activity->appends(['month'=>$monthQuery, 'year'=>$yearQuery, 'show'=>$show, 'query'=>$query])->links() }}
                         </div>
                     </div>
                 </div>

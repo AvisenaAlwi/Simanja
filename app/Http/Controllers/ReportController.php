@@ -250,25 +250,27 @@ class ReportController extends Controller
     }
 
     function update_pelaporan (Request $request, $assignmentId){
-            $f = Assignment::where('sub_activity_id','=',$assignmentId)->first();
-            // dd($f->toJson());
-            $realisasi = json_decode($f->realisasi, true);
-            $keterangan = json_decode($f->keterangan, true);
-            $tingkul = json_decode($f->tingkat_kualitas, true);
-            $userID = json_decode($request->userArray, true);
-            $realisasiR = json_decode($request->realisasi, true);
-            $keteranganR = json_decode($request->keterangan, true);
-            $tingkulR = json_decode($request->kualitas, true);
-            foreach ($userID as $idx => $idUser) {
-                $realisasi[$idUser][$request->monthYear] = (int) $realisasiR[$idx];
-                $tingkul[$idUser][$request->monthYear] = (int) $tingkulR[$idx];
-                $keterangan[$idUser][$request->monthYear] = $keteranganR[$idx];
-            }
-            $f->update([
-                'realisasi' => json_encode($realisasi),
-                'keterangan' => json_encode($keterangan),
-                'tingkat_kualitas' => json_encode($tingkul)
-            ]);
+        $f = Assignment::where('sub_activity_id','=',$assignmentId)->first();
+        // dd($f->toJson());
+        $realisasi = json_decode($f->realisasi, true);
+        $keterangan = json_decode($f->keterangan, true);
+        $tingkul = json_decode($f->tingkat_kualitas, true);
+        $userID = json_decode($request->userArray, true);
+        $realisasiR = json_decode($request->realisasi, true);
+        $keteranganR = json_decode($request->keterangan, true);
+        $tingkulR = json_decode($request->kualitas, true);
+        foreach ($userID as $idx => $idUser) {
+            $realisasi[$idUser][$request->monthYear] = (int) $realisasiR[$idx];
+            $tingkul[$idUser][$request->monthYear] = (int) $tingkulR[$idx];
+            $keterangan[$idUser][$request->monthYear] = $keteranganR[$idx];
+        }
+        $f->update([
+            'realisasi' => json_encode($realisasi),
+            'keterangan' => json_encode($keterangan),
+            'tingkat_kualitas' => json_encode($tingkul),
+            'update_state' => 0,
+            'init_assign' => empty(json_decode($assignment->petugas, true)) ? true : false,
+        ]);
     }
 
 }

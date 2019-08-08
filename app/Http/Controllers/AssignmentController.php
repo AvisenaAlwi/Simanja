@@ -26,7 +26,7 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        $monthQuery = Input::get('month', 'allMonth');
+        $monthQuery = Input::get('month', 'now');
         $yearQuery = Input::get('year', now()->year);
         $showQuery = Input::get('show', 'showAll');
         $searchQuery = Input::get('query', '');
@@ -75,7 +75,6 @@ class AssignmentController extends Controller
                                     ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
                             }, $boolean = 'and');
         }
-
         if ($showQuery == 'showAssignment'){
             $sub_activity = $sub_activity
                                 ->whereJsonLength('petugas', '!=', 0)
@@ -86,7 +85,7 @@ class AssignmentController extends Controller
                                 ->whereJsonLength('petugas', '=', 0)
                                 ->paginate(10);
             return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $showQuery]);
-        }else{
+        }else{ 
             $sub_activity = $sub_activity->paginate(10);
             return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $showQuery]);
         }
@@ -200,6 +199,7 @@ class AssignmentController extends Controller
                 $tingkatKualitasArray[(int)$re[1]][$re[2]] = 0;
             }
         }
+        $updateState = sizeof(json_decode(Assignment::where('id','=', $assignment->id)->first()->petugas, true)) == 0 ? 1 : 2;
         Assignment::updateOrCreate(
             ['id' => $assignment->id], // Syarat
             [
@@ -207,6 +207,8 @@ class AssignmentController extends Controller
                 'realisasi' => json_encode($realisasiArray),
                 'tingkat_kualitas' => json_encode($tingkatKualitasArray),
                 'keterangan' => json_encode($keteranganArray),
+                'update_state' => $updateState,
+                'init_assign' => empty(json_decode($assignment->petugas, true)) ? true : false,
             ] // update
         );
         return redirect()->route('assignment.index')->withStatus(__('Penugasan berhasil diubah.'));

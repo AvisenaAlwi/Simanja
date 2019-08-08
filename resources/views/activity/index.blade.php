@@ -3,7 +3,9 @@
 
 @extends('layouts.app', ['title' => 'Kegiatan'])
 @push('style')
-
+@php
+$query = $Input::get('query','');
+@endphp
 @endpush
 @php
 $months = config('scale.month');
@@ -172,7 +174,7 @@ if($monthQuery == 'now')
                             <h4>Total : {{ $sub_activity->total() }} kegiatan</h4>
                         </div>
                         <div class="col-12 col-lg-8 d-flex justify-content-center justify-content-lg-end align-items-center">
-                            {{ $sub_activity->links() }}
+                            {{ $sub_activity->appends(['showing'=>$showing, 'query'=>$query])->links() }}
                         </div>
                     </div>
                 </div>

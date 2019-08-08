@@ -32,7 +32,7 @@
                             <h3 class="mb-0">Tambah Pengguna</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('user.index') }}" title="Kembali" data-toggle="tooltip"
+                            <a href="{{ redirect()->getUrlGenerator()->previous() }}" title="Kembali" data-toggle="tooltip"
                                 data-placement="top">
                                 <button type="button" class="btn btn-primary btn-sm"><span
                                         class="ni ni-bold-left"></span>
@@ -44,9 +44,8 @@
                 <form method="post" action="{{ route('user.store') }}" autocomplete="off" enctype="multipart/form-data">
                     <div class="card-body">
                         @csrf
-                        @php
-                        @endphp
-                        <h6 class="heading-small text-muted mb-4">Infomrasi Pengguna</h6>
+
+                        <h6 class="heading-small text-muted mb-4">Informasi Pengguna</h6>
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
@@ -172,7 +171,7 @@
                                         <label class="form-control-label" for="input-photo">Foto*</label>
                                         <input type="file"
                                             class="form-control form-control-alternative{{ $errors->has('photo_base64') ? ' is-invalid' : '' }}"
-                                            id="input-photo" name="photo" value="" autofocus accept="image/png, image/jpeg"> Max 2 MB
+                                            id="input-photo" name="photo" value="" autofocus accept="image/png, image/jpeg"> Max 4 MB
                                         @if ($errors->has('photo_base64'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('photo_base64') }}</strong>

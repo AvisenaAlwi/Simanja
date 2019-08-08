@@ -40,21 +40,31 @@ $yearQuery = $Input::get('year',$currentYear);
         <div class="col-xl-12 order-xl-1">
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="text-muted">Kegiatan</h3>
+                        </div>
+                        <div class="col-4 text-right">
+                            <a href="{{ redirect()->getUrlGenerator()->previous() }}"
+                                title="Kembali" data-toggle="tooltip" data-placement="top">
+                                <button type="button"
+                                    class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                     <div class="card-body">
-                        <div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="heading-small text-muted mb-4">Kegiatan</h6>
+                            <div class="row align-items-center">
+                                <div class="col-6">
+                                    <h1 class="display-4 text-success">{{$sub_activity->activity_name}}</h1>
                                 </div>
-                                <div class="col-md-6 d-flex justify-content-end">
-                                    {{-- <h5>Dibuat : {{ $Carbon::parse($sub_activity->created_at)->timezone('Asia/Jakarta')->format('H:i, d-m-Y')}}
-                                    </h5> --}}
+                                <div class="col-6 text-right">
                                     <h5>Dibuat :
                                         {{ $Carbon::createFromTimeStamp(strtotime($sub_activity->created_at))->diffForHumans() }}
                                     </h5>
                                 </div>
                             </div>
-                            <h1 class="display-4">{{$sub_activity->activity_name}}</h1>
                             <h4>dibuat oleh: {{$sub_activity->user_name}}</h4>
                             @if (date_create($sub_activity->awal)->format("Y-m") ==
                             date_create($sub_activity->akhir)->format("Y-m"))
@@ -64,11 +74,20 @@ $yearQuery = $Input::get('year',$currentYear);
                                 $Carbon::parse($sub_activity->akhir)->formatLocalized('%B %Y')}}</h4>
                                 @endif
                                 <h4>Kategori: {{$sub_activity->kategori}}
+                    </div>
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-12">
+                                <h3 class="text-muted">Sub Kegiatan</h3>
+                            </div>
                         </div>
-                        <hr>
-                        <div>
-                            <h6 class="heading-small text-muted mb-4">{{ __('Sub Kegiatan') }}</h6>
-                            <h1 class="display-4">{{$sub_activity->sub_activity_name}}</h1>
+                    </div>
+                    <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-12">
+                                    <h1 class="display-4 text-success">{{$sub_activity->sub_activity_name}}</h1>
+                                </div>
+                            </div>
                             {{-- @foreach ($collection as $item) --}}
 
                             {{-- @endforeach --}}
@@ -82,8 +101,8 @@ $yearQuery = $Input::get('year',$currentYear);
                             $users_size = sizeof($petugasArray);
                             $user_data_save = array_keys($petugasArray);
                             @endphp
-
-                        </div>
+                            
+                     </div>
                         @if ($users_size!=0)
                         {{-- @php dd($period); @endphp --}}
                         <div class="accordion" id="accordionExample">
@@ -163,9 +182,12 @@ $yearQuery = $Input::get('year',$currentYear);
                                                     </tbody>
                                                 </table>
                                             </div>
-
-                                            <div class="col-12 d-flex justify-content-end mt-4">
-                                                <button class="btn btn-success btn-save-realisasi" data-title="{{ $sub_activity->full_name.' '.$periode['monthName'] }}" month-year="{{ $idCollapse }}"> Simpan </button>
+                                            <div class="row">
+                                                <div class="col-12 d-flex justify-content-center">
+                                                    <button class="mx-auto m-3 w-auto btn btn-success btn-save-realisasi text-center" data-title="{{ $sub_activity->full_name.' '.$periode['monthName'] }}" 
+                                                        month-year="{{ $idCollapse }}"> Simpan 
+                                                    </button>
+                                                </div>
                                             </div>
                                             </form>
                                             @endif
@@ -174,8 +196,6 @@ $yearQuery = $Input::get('year',$currentYear);
                                 </div>
                                 @endforeach
                             </div>
-
-
                             @else
                             <h4 class="text-center">Belum ada pegawai yang menerima tugas kegiatan ini</h4>
                             <div class="col-7 text-right">
@@ -185,11 +205,10 @@ $yearQuery = $Input::get('year',$currentYear);
                             </div>
                             @endif
                         </div>
-                    </div>
                 </div>
             </div>
+            @include('layouts.footers.auth')
         </div>
-        @include('layouts.footers.auth')
     </div>
     @endsection
     @push('js')

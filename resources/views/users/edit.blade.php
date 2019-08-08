@@ -32,7 +32,7 @@
                             <h3 class="mb-0">Edit Akun</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('user.index') }}" title="Kembali" data-toggle="tooltip"
+                            <a href="{{ redirect()->getUrlGenerator()->previous() }}" title="Kembali" data-toggle="tooltip"
                                 data-placement="top">
                                 <button type="button" class="btn btn-primary btn-sm"><span
                                         class="ni ni-bold-left"></span>
@@ -173,7 +173,7 @@
                                             <input type="file"
                                                 class="form-control form-control-alternative{{ $errors->has('photo') ? ' is-invalid' : '' }}"
                                                 id="input-photo" name="photo" value="{{ old('photo', $user->photo) }}"
-                                                autofocus accept="image/png, image/jpeg"> Max 2 MB
+                                                autofocus accept="image/png, image/jpeg"> Max 4 MB
                                             @if ($errors->has('photo'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('photo') }}</strong>

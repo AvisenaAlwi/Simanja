@@ -7,6 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class Assignment extends Model
 {
     protected $table = 'assignment';
+    protected $fillable = [
+        'id',
+        'activity_id',
+        'activity_id',
+        'sub_activity_id',
+        'sub_activity_id',
+        'user_id',
+        'user_id',
+        'petugas',
+        'realisasi',
+        'tingkat_kualitas',
+        'keterangan',
+        'update_state',
+        'init_assign',
+    ];
     public $guarded = [];
     
     public function activity(){

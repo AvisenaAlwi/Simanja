@@ -36,7 +36,15 @@ for($i = 0; $i < 5; $i++){
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
                     <div class="row align-items-center">
-                        <h3 class="col-12 mb-0">Tambah Kegiatan</h3>
+                        <h3 class="col-6 mb-0">Tambah Kegiatan</h3>
+                        <div class="col-6 text-right">
+                            <a href="{{ redirect()->getUrlGenerator()->previous() }}"
+                                title="Kembali" data-toggle="tooltip" data-placement="top">
+                                <button type="button"
+                                    class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                                </button>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -188,7 +196,7 @@ for($i = 0; $i < 5; $i++){
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Kode Butir Sub Kegiatan 1</label>
-                                                    <input type="text" name="sub_activity_1_kode_butir" class="form-control form-control-alternative" value="">
+                                                    <input type="text" name="sub_activity_1_kode_butir" class="form-control form-control-alternative kode-butir-sub-kegiatan" value="">
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label class="form-control-label">Angka Kredit Sub Kegiatan 1</label>
@@ -519,7 +527,18 @@ for($i = 0; $i < 5; $i++){
                 list: {
                     maxNumberOfElements: 15,
                     match: {enabled: true},
-                    sort: {enabled: true}
+                    sort: {enabled: true},
+                    showAnimation: {
+			            type: "fade", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            },
+
+		            hideAnimation: {
+			            type: "slide", //normal|slide|fade
+			            time: 400,
+			            callback: function() {}
+		            }
                 },
             });
             $('.nama-sub-kegiatan').each(function () {
@@ -533,18 +552,41 @@ for($i = 0; $i < 5; $i++){
                         },
                         sort: {
                             enabled: true
-                        }
+                        },
+                        showAnimation: {
+			                type: "fade", //normal|slide|fade
+			                time: 400,
+			                callback: function() {}
+		                },
+
+		                hideAnimation: {
+			                type: "slide", //normal|slide|fade
+			                time: 400,
+			                callback: function() {}
+		                }
                     }
                 });
             });
             $('.satuan-sub-kegiatan').each(function () {
                 $(this).easyAutocomplete({
+                    
                     url: "{{ route('activity.autocomplete.satuan') }}",
                     getValue: 'name',
                     list: {
                         maxNumberOfElements: 15,
                         match: {enabled: true},
-                        sort: {enabled: true}
+                        sort: {enabled: true},
+                        showAnimation: {
+			                type: "fade", //normal|slide|fade
+			                time: 400,
+			                callback: function() {}
+		                },
+
+		                hideAnimation: {
+			                type: "slide", //normal|slide|fade
+			                time: 400,
+			                callback: function() {}
+		                }
                     }
                 });
             });
@@ -629,7 +671,18 @@ for($i = 0; $i < 5; $i++){
                     list: {
                         maxNumberOfElements: 15,
                         match: {enabled: true},
-                        sort: {enabled: true}
+                        sort: {enabled: true},
+                        showAnimation: {
+			                type: "fade", //normal|slide|fade
+			                time: 400,
+			                callback: function() {}
+		                },
+
+		                hideAnimation: {
+			                type: "slide", //normal|slide|fade
+			                time: 400,
+			                callback: function() {}
+		                }
                     }
                 });
             });
@@ -644,7 +697,18 @@ for($i = 0; $i < 5; $i++){
                     list: {
                         maxNumberOfElements: 15,
                         match: {enabled: true},
-                        sort: {enabled: true}
+                        sort: {enabled: true},
+                        showAnimation: {
+			                type: "fade", //normal|slide|fade
+			                time: 400,
+			                callback: function() {}
+		                },
+
+		                hideAnimation: {
+			                type: "slide", //normal|slide|fade
+			                time: 400,
+			                callback: function() {}
+		                }
                     }
                 });
             });

@@ -250,7 +250,7 @@ class ActivityController extends Controller
         $sub_activity = SubActivity::find($id);
         if ($sub_activity == null)
             return abort(404,"Kegiatan atau Sub-Kegiatan yang akan diedit tidak ditemukan");
-        if ($sub_activity->activity->created_by_user_id != auth()->user()->id)
+        if ($sub_activity->activity->created_by_user_id != auth()->user()->id && auth()->user()->role_id != 1)
             return abort(403, "Anda tidak diizinkan untuk mengedit kegiatan ini.");
 
         $SubActivityOriginal = SubActivity::find($id);
@@ -272,6 +272,7 @@ class ActivityController extends Controller
         }
         DB::transaction(function ()
         use(
+            $id,
             $SubActivityOriginal,
             $activity_name,
             $activity_kategori,
@@ -310,6 +311,13 @@ class ActivityController extends Controller
                 'menulis' =>config('scale.likert')[((int)$sub_activity['qualifikasi']['menulis']-1)],
                 'administrasi' =>config('scale.likert')[((int)$sub_activity['qualifikasi']['administrasi']-1)],
                 'pengalaman_survei' => config('scale.likert')[((int)$sub_activity['qualifikasi']['pengalaman'] -1)],
+            ]);
+            Assignment::where('sub_activity_id', '=', $id)->update([
+                'petugas' => '{}',
+                'realisasi' => '{}',
+                'keterangan' => '{}',
+                'tingkat_kualitas' => '{}',
+                'init_assign' => true
             ]);
         });
         return redirect()->route('activity.index')->withStatus(__('Kegiatan berhasil diubah.'))

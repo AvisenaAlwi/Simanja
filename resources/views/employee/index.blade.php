@@ -1,7 +1,9 @@
 @inject('Input', 'Illuminate\Support\Facades\Input')
 @extends('layouts.app', ['title' => 'Daftar Pegawai'])
 @push('style')
-
+@php
+$query = $Input::get('query','');
+@endphp
 @endpush
 @section('content')
 @include('users.partials.header', [
@@ -14,7 +16,7 @@
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
-                        <div class="col-12 col-lg-3 my-1 my-lg-0">
+                        <div class="col-12 col-lg-8 my-1 my-lg-0">
                             <h3 class="mb-0">Pegawai</h3>
                         </div>
                         <div class="col-12 col-lg-4 my-1 my-lg-0">
@@ -28,7 +30,7 @@
                                         </div>
                                         <input class="form-control text-dark pl-4"
                                             placeholder="Cari berdasarkan nama / NIP" type="text" name="query"
-                                            value="{{ $Input::get('query','') }}">
+                                            value="{{ $query }}">
                                     </div>
                                 </div>
                             </form>
@@ -68,7 +70,7 @@
                 <div class="card-footer py-4">
                         <h4>Total : {{ $users->total() }} Pengguna</h4>
                     <nav class="d-flex justify-content-end" aria-label="...">
-                            {{ $users->links() }}
+                            {{ $users->appends(['query'=>$query])->links() }}
                         </nav>
                     {{-- <nav class="d-flex justify-content-end" aria-label="...">
                             {{ $users->links() }}
