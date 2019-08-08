@@ -46,7 +46,7 @@ $pengalaman_survei = config('scale.likert_reverse')[$sub_activity->pengalaman_su
                     <div class="row align-items-center">
                         <h3 class="col-8 mb-0">Edit Kegiatan</h3>
                         <div class="col-4 text-right">
-                            <a href="{{ route('assignment.index') }}"
+                            <a href="{{ redirect()->getUrlGenerator()->previous() }}"
                                 title="Kembali" data-toggle="tooltip" data-placement="top">
                                 <button type="button"
                                     class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>

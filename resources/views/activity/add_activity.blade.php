@@ -38,7 +38,7 @@ for($i = 0; $i < 5; $i++){
                     <div class="row align-items-center">
                         <h3 class="col-6 mb-0">Tambah Kegiatan</h3>
                         <div class="col-6 text-right">
-                            <a href="{{ route('activity.index') }}"
+                            <a href="{{ redirect()->getUrlGenerator()->previous() }}"
                                 title="Kembali" data-toggle="tooltip" data-placement="top">
                                 <button type="button"
                                     class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>

@@ -438,7 +438,7 @@ if($monthQuery == 'now')
                 message: 'Perubahan belum disimpan sampai Anda menekan tombol simpan disebelah kanan'
             },{
                 type: "info",
-                allow_dismiss: false,
+                allow_dismiss: true,
                 newest_on_top: false,
                 showProgressbar: false,
                 placement: {

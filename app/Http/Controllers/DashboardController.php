@@ -43,7 +43,8 @@ class DashboardController extends Controller
         'petugas','realisasi',
         'assignment.sub_activity_id as sub_activity',
         'assignment.updated_at as update',
-        'assignment.sub_activity_id'
+        'assignment.sub_activity_id',
+        'assignment.update_state',
         ])
         ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
         ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")

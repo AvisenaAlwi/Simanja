@@ -205,7 +205,8 @@ class MyActivityController extends Controller
         $keterangan[$request->user_id][$request->month_year] = $request->keterangan;
         $f->update([
             'realisasi' => json_encode($realisasi),
-            'keterangan' => json_encode($keterangan)
+            'keterangan' => json_encode($keterangan),
+            'update_state' => 0,
         ]);
     }
     public function update_my_activity(Request $request, $id){

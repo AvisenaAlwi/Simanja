@@ -82,7 +82,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Realisasi <br> Berjalan</h5>
-                                    <span class="h1 font-weight-bold mb-0">{{ number_format($realisasiBulanSekarang/$alokasiBulanSekarang * 100) }}%</span>
+                                    <span class="h1 font-weight-bold mb-0">{{ number_format($alokasiBulanSekarang==0? 0 :$realisasiBulanSekarang/$alokasiBulanSekarang * 100) }}%</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -290,7 +290,7 @@
                                     </a>
                                 </td>
                                 </tr>
-                                @elseif ($dayNow <= 5)
+                                {{-- @elseif ($dayNow <= 5)
                                 @php
                                     $pengingatCounter++;
                                 @endphp
@@ -304,10 +304,12 @@
                                                     </h5>
                                         </a>
                                     </td>
-                                    </tr>
-                                    @endif
-                                    @foreach ($myAssignment as $assignment)
+                                </tr> --}}
+                                @endif
+                                @foreach ($myAssignment as $assignment)
                                     @php
+                                    if($assignment->update_state == 0)
+                                        continue;
                                     $date = $Carbon::parse($assignment->update)->timezone('Asia/Jakarta');
                                     //   dd($Carbon::now()->timezone('Asia/Jakarta')->format('d'), $Carbon::now()->timezone('Asia/Jakarta')->diffInDays($date), $date->format('d'))
                                     @endphp
@@ -318,9 +320,9 @@
                                     <tr class='bg-success'>
                                         <td>
                                             <a href="{{ route('myactivity.index') }}">
-                                                <h3>Anda baru saja ditugaskan!</h3>
-                                                <h5> {{$assignment->name}}<h5>
-                                                        <h5>{{ $Carbon::parse($assignment->update)->timezone('Asia/Jakarta')->diffForHumans() }}</h5>
+                                                <h3 class="text-white">Anda baru saja ditugaskan!</h3>
+                                                <h5 class="text-white"> {{$assignment->name}}<h5>
+                                                        <h5 class="text-white">{{ $Carbon::parse($assignment->update)->timezone('Asia/Jakarta')->diffForHumans() }}</h5>
                                             </a>
                                         </td>
                                     </tr>

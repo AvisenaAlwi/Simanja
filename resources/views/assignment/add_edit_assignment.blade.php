@@ -142,7 +142,7 @@ $petugas = json_decode($assignment->petugas, true);
                                 Tugaskan <strong class="text-success">{{ $assignment->subActivity->name . " " . $assignment->activity->name }}</strong>
                             </h3>
                             <div class="col-4 text-right">
-                                <a href="{{ route('assignment.index') }}"
+                                <a href="{{ redirect()->getUrlGenerator()->previous() }}"
                                     title="Kembali" data-toggle="tooltip" data-placement="top">
                                     <button type="button"
                                         class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>

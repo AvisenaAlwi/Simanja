@@ -73,6 +73,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19631004 199102 1 001_Drs. Sunaryo, M.Si.jpg',
         ]);
         User::create([
             'nip' => '19651005 198803 1 002',
@@ -87,6 +88,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19651005 198803 1 002_Rony Mugiartono.jpg',
         ]);
         User::create([
             'nip' => '19750930 199901 1 001',
@@ -101,6 +103,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19750930 199901 1 001_Henry Soeryaning Handoko, SST.jpg',
         ]);
         User::create([
             'nip' => '19620806 198310 1 001',
@@ -115,6 +118,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19620806 198310 1 001_Hery Suyanto, SE.jpg',
         ]);
         User::create([
             'nip' => '19681028 199401 2 001',
@@ -129,6 +133,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19681028 199401 2 001_Ir. Dwi Handayani Prasetyawati, MAP.jpg',
         ]);
         User::create([
             'nip' => '19670109 199203 2 001',
@@ -143,6 +148,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19670109 199203 2 001_Ir. Ernawaty, MM.jpg',
         ]);
         User::create([
             'nip' => '19631204 199003 1 001',
@@ -157,6 +163,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19631204 199003 1 001_Heru Prasetyo, SE.jpg',
         ]);
         User::create([
             'nip' => '19660410 199401 2 001',
@@ -171,6 +178,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Cukup',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19660410 199401 2 001_Ir. Rahmi Veronika.jpg',
         ]);
         User::create([
             'nip' => '19770404 200604 1 016',
@@ -185,6 +193,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Cukup',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19770404 200604 1 016_Rachmad Widi Wijayanto.jpg',
         ]);
         User::create([
             'nip' => '19851020 201101 2 017',
@@ -199,6 +208,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Cukup',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19851020 201101 2 017_Eka Prahara Resbiyanti, A.Md.jpg',
         ]);
         User::create([
             'nip' => '19881028 201101 1 004',
@@ -213,6 +223,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19881028 201101 1 004_Satria Candra Wibawa, A.Md.jpg',
         ]);
         User::create([
             'nip' => '19840412 200502 2 001',
@@ -227,6 +238,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19840412 200502 2 001_Rhyke Chrisdiana Novita, SE.jpg',
         ]);
         User::create([
             'nip' => '19851002 200902 2 012',
@@ -241,6 +253,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19851002 200902 2 012_Ratri Adhipradani Ratih, S.Si.jpg',
         ]);
         User::create([
             'nip' => '19880330 201012 2 002',
@@ -255,6 +268,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Cukup',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19880330 201012 2 002_Saras Wati Utami, S.Si.jpg',
         ]);
         User::create([
             'nip' => '19700925 199401 2 001',
@@ -269,6 +283,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19700925 199401 2 001_Soekesi Irawati, S.Psi, MM.jpg',
         ]);
         User::create([
             'nip' => '19660424 199203 2 002',
@@ -283,6 +298,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19660424 199203 2 002_Ir. Lies Alfiah.jpg',
         ]);
         User::create([
             'nip' => '19830910 200602 2 001',
@@ -290,13 +306,14 @@ class UsersTableSeeder extends Seeder
             'name' => 'Tasmilah, SST',
             'email' => 'tasmilah@bps.go.id',
             'jabatan' => 'Statistisi Muda',
-            'pendidikan' => 'D4',
+            'pendidikan' => 'D-IV',
             'ti' => 'Cukup',
             'menulis' => 'Sangat Tinggi',
             'administrasi' => 'Cukup',
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19830910 200602 2 001_Tasmilah, SST.jpg',
         ]);
         User::create([
             'nip' => '19680228 198903 1 003',
@@ -311,6 +328,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19680228 198903 1 003_Saruni Gincahyo, SE.jpg',
         ]);
         User::create([
             'nip' => '19701225 199703 1 004',
@@ -325,6 +343,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19701225 199703 1 004_Yusuf Fatoni, SE.jpg',
         ]);
         User::create([
             'nip' => '19680820 198903 1 003',
@@ -339,6 +358,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19680820 198903 1 003_Agustono Rahadi.jpg',
         ]);
         User::create([
             'nip' => '19620917 198503 1 005',
@@ -353,6 +373,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19620917 198503 1 005_Wahyu Hery Supriyanto, SE.jpg',
         ]);
         User::create([
             'nip' => '19880229 201101 1 005',
@@ -360,13 +381,14 @@ class UsersTableSeeder extends Seeder
             'name' => 'Rendra Anandhika, A.Md',
             'email' => 'rendra@bps.go.id',
             'jabatan' => 'Statistisi Pelaksana/KSK Lowokwaru',
-            'pendidikan' => 'D3',
+            'pendidikan' => 'D-III',
             'ti' => 'Tinggi',
             'menulis' => 'Cukup',
             'administrasi' => 'Kurang',
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19880229 201101 1 005_Rendra Anandhika, A.Md.jpg',
         ]);
         User::create([
             'nip' => '165150207111067',

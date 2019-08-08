@@ -136,14 +136,17 @@ class UserController extends Controller
         // ]);
         $photo = $request->file('photo');
         $temp = [
-            'password' => Hash::make($request->get('password')),
             'pendidikan' => config('scale.pendidikan')[$request['pendidikan']-1],
             'ti' => config('scale.likert')[$request['ti']-1],
             'menulis' => config('scale.likert')[$request['menulis']-1],
             'administrasi' => config('scale.likert')[$request['administrasi']-1],
             'pengalaman_survei' => config('scale.likert')[$request['pengalaman_survei']-1]
         ];
-        $merged = $request->merge($temp)->except([ !$request->get('password') ? '' : 'password']);
+        // dd(!$request->get('password'));
+        // dd(empty($request->get('password')));
+        $merged = $request->merge($temp)->except([ !empty($request->get('password')) ? '' : 'password' ]);
+        if (!empty($request->password))
+            $merged['password'] = Hash::make($request->get('password'));
         if ($photo != null){
             $photo_name = $request->nip.'_'.$request->name.'.'.$photo->getClientOriginalExtension();
             // $photo->storeAs('public/foto',$photo_name);
