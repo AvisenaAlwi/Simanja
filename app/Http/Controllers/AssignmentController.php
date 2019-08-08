@@ -26,7 +26,7 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        $monthQuery = Input::get('month', 'allMonth');
+        $monthQuery = Input::get('month', 'now');
         $yearQuery = Input::get('year', now()->year);
         $showQuery = Input::get('show', 'showAll');
         $searchQuery = Input::get('query', '');
@@ -75,7 +75,6 @@ class AssignmentController extends Controller
                                     ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
                             }, $boolean = 'and');
         }
-
         if ($showQuery == 'showAssignment'){
             $sub_activity = $sub_activity
                                 ->whereJsonLength('petugas', '!=', 0)
@@ -86,7 +85,7 @@ class AssignmentController extends Controller
                                 ->whereJsonLength('petugas', '=', 0)
                                 ->paginate(10);
             return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $showQuery]);
-        }else{
+        }else{ 
             $sub_activity = $sub_activity->paginate(10);
             return view('assignment.index', ['sub_activity' => $sub_activity, 'show' => $showQuery]);
         }

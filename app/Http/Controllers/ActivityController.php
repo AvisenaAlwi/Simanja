@@ -242,7 +242,7 @@ class ActivityController extends Controller
         $sub_activity = SubActivity::find($id);
         if ($sub_activity == null)
             return abort(404,"Kegiatan atau Sub-Kegiatan yang akan diedit tidak ditemukan");
-        if ($sub_activity->activity->created_by_user_id != auth()->user()->id)
+        if ($sub_activity->activity->created_by_user_id != auth()->user()->id && auth()->user()->role_id != 1)
             return abort(403, "Anda tidak diizinkan untuk mengedit kegiatan ini.");
 
         $SubActivityOriginal = SubActivity::find($id);

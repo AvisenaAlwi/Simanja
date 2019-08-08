@@ -10,6 +10,7 @@ $currentYear = now()->year;
 $currentMonth = $Carbon::now()->formatLocalized('%B');
 $monthQuery = $Input::get('month', 'now');
 $yearQuery = $Input::get('year', $currentYear);
+$query = $Input::get('query','');
 @endphp
 @section('content')
 @include('users.partials.header', [
@@ -62,7 +63,7 @@ $yearQuery = $Input::get('year', $currentYear);
                                             ><i class="fas fa-search"></i></span>
                                         </div>
                                     <input class="form-control text-dark pl-2" placeholder="Cari berdasarkan nama" type="text" name="query"
-                                    value="{{ $Input::get('query','') }}">
+                                    value="{{ $query }}">
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +172,7 @@ $yearQuery = $Input::get('year', $currentYear);
                             <h4>Total : {{ $sub_activity->total() }} penugasan</h4>
                         </div>
                         <div class="col-12 col-lg-8 d-flex justify-content-center justify-content-lg-end align-items-center">
-                            {{ $sub_activity->links() }}
+                            {{ $sub_activity->appends(['month'=>$monthQuery, 'year'=>$yearQuery, 'show'=>$show, 'query'=>$query])->links() }}
                         </div>
                     </div>
                 </div>
