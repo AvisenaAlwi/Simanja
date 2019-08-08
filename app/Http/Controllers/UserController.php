@@ -155,8 +155,7 @@ class UserController extends Controller
             $merged['photo'] = "foto/$photo_name";
         }
         $user->update($merged);
-        // return redirect()->route('user.index')->withStatus('Pengguna berhasil diupdate.');
-        return redirect()->back()->withStatus('Pengguna berhasil diupdate.');
+        return redirect()->route('user.index')->withStatus('Pengguna berhasil diupdate.');
     }
 
     /**

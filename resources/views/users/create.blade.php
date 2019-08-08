@@ -32,7 +32,7 @@
                             <h3 class="mb-0">Tambah Pengguna</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('user.index') }}" title="Kembali" data-toggle="tooltip"
+                            <a href="{{ redirect()->getUrlGenerator()->previous() }}" title="Kembali" data-toggle="tooltip"
                                 data-placement="top">
                                 <button type="button" class="btn btn-primary btn-sm"><span
                                         class="ni ni-bold-left"></span>
