@@ -1,7 +1,7 @@
 @inject('Input', 'Illuminate\Support\Facades\Input')
 @inject('Carbon', '\Carbon\Carbon')
 @inject('User', '\App\User')
-@extends('layouts.app', ['title' => $sub_activity->full_name])
+@extends('layouts.app', ['title' => 'Pelaporan '.$sub_activity->full_name])
 
 @push('style')
 <!-- Latest compiled and minified CSS -->

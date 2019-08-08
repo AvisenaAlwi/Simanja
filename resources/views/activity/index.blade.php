@@ -5,6 +5,15 @@
 @push('style')
 
 @endpush
+@php
+$months = config('scale.month');
+$currentMonth = $Carbon::now()->formatLocalized('%B');
+$currentYear = $Carbon::now()->format('Y');
+$monthQuery = $Input::get('month','now');
+$yearQuery = $Input::get('year',$currentYear);
+if($monthQuery == 'now')
+    $monthQuery = $currentMonth;
+@endphp
 @section('content')
 @include('users.partials.header', [
 'title' => 'Kegiatan',
@@ -16,27 +25,39 @@
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
+                    <form id="formChange" action="{{ route('activity.index') }}" method="get">
                     <div class="row align-items-center">
                         <div class="col-12 col-lg-3 my-1 my-lg-0">
-                            <h3 class="mb-0">
-                                @if ($showing == 'showAll')
-                                Semua Kegiatan
-                                @elseif ($showing == 'showOnlyMe')
-                                Kegiatan Yang Saya Buat
-                                @else
-                                Kegiatan Bulan
-                                {{ $Carbon::parse('this month')->formatLocalized('%B %Y') }}
-                                @endif
-                            </h3>
+                                <h3 class="mb-0">
+                                        @if ($monthQuery == 'now')
+                                        Kegiatan bulan ini
+                                        @else
+                                        Kegiatan bulan {{ $monthQuery }} {{ $yearQuery }}
+                                        @endif
+                                    </h3>
                         </div>
-                        <div class="col-12 col-lg-4 my-1 my-lg-0">
-                            <form id="formChange" action="{{ route('activity.index') }}" method="get">
-                                <select name="showing" id="select" class="browser-default custom-select">
-                                    <option value="showCurrentMonth" {{ $showing == 'showCurrentMonth' ? 'selected' :'' }}>Kegiatan bulan tahun sekarang</option>
-                                    <option value="showAll"  {{ $showing == 'showAll' ? 'selected' :'' }}>Semua kegiatan</option>
-                                    <option value="showOnlyMe" {{ $showing == 'showOnlyMe' ? 'selected' :'' }}>Hanya yang saya buat</option>
+                        <div class="col-6 col-lg-2 my-1 my-lg-0">
+                                <select name="month" id="select" class="browser-default custom-select">
+                                    @foreach($months as $m)
+                                        @if (($currentMonth = $Carbon::now()->formatLocalized("%B")) == $m)
+                                        <option value="now" {{ $monthQuery==$currentMonth || $monthQuery=='now' ? 'selected' : '' }}>Bulan sekarang</option>
+                                        @else
+                                        <option value="{{ $m }}" {{ $monthQuery==$m ? 'selected' : '' }}>{{ $m }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
-                        </div>
+                            </div>
+                            <div class="col-6 col-lg-2 my-1 my-lg-0">
+                                <select name="year" id="select" class="browser-default custom-select">
+                                    @php $x = 2019; @endphp
+                                    @while ($x <= $currentYear)
+                                        <option value="{{ $x }}" {{ $x == $yearQuery ? 'selected' : '' }}>{{ $x }}</option>
+                                        @php
+                                        $x += 1;
+                                        @endphp
+                                    @endwhile
+                                </select>
+                            </div>
                         <div class="col-12 col-lg-4 my-1 my-lg-0">
                                 <div class="form-group mb-0">
                                     <div class="input-group text-dark">
@@ -62,6 +83,7 @@
                         </div>
                         </form>
                     </div>
+                </form>
                 </div>
                 <div class="table-responsive">
                     <table class="table tablesorter table align-items-center table-flush table-hover align-item-start" id="tabel" style="min-height: 150px">

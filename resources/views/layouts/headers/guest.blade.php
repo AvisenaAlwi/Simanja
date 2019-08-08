@@ -1,9 +1,11 @@
 <div class="header bg-gradient-primary py-7 py-lg-8">
     <div class="container">
-        <div class="header-body text-center mb-7">
+        <div class="header-body text-center mb--6">
             <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-6">
-                    <h1 class="text-white">{{ 'Selamat datang di '.config('app.name') }}<br>[Sistem Manajemen Beban Kerja]</h1>
+                <div class="col-lg-5 col-md-5">
+                    {{-- <h1>Selamat Datang di Simanja</h1> --}}
+                    <h1 class="text-white">{{ 'Selamat datang di '.config('app.name') }}</h1>
+                    <h2 class="text-white"> ( Sistem Manajemen Beban Kerja) </h2><br>
                 </div>
             </div>
         </div>

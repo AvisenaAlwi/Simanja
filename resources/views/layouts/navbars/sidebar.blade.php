@@ -11,7 +11,8 @@
         <a class="navbar-brand pt-0" href="{{ route('landingpage') }}">
             {{-- <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."> --}}
             {{-- <span class="avatar avatar-sm rounded-circle"> --}}
-            <h1>{{ config('app.name') }}</h1>
+            <img src="{{ asset('img/logo simanja fix.png') }}" class="navbar-brand-img" style="" alt="">
+            {{-- <h1>{{ config('app.name') }}</h1> --}}
             {{-- </span> --}}
         </a>
         <style>
