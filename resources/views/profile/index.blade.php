@@ -71,7 +71,17 @@
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
                     <div class="row align-items-center">
-                        <h3 class="col-12 mb-0">{{ __('Profilku') }}</h3>
+                        <div class="col-8">
+                            <h3 >Profilku</h3>
+                        </div>
+                        <div class="col-4 text-right">
+                            <a href="{{ redirect()->getUrlGenerator()->previous() }}" 
+                                title="Kembali" data-toggle="tooltip" data-placement="top">
+                                <button type="button"
+                                    class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                                </button>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">

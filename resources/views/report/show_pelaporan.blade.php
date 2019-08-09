@@ -198,7 +198,7 @@ $yearQuery = $Input::get('year',$currentYear);
                             </div>
                             @else
                             <h4 class="text-center">Belum ada pegawai yang menerima tugas kegiatan ini</h4>
-                            <div class="col-7 text-right">
+                            <div class="col-12 text-center mb-4 mt-1">
                                 <a href="{{ route('assignment.edit', $sub_activity->sub_activity_id) }}"
                                     class="btn btn-warning">
                                     <i class="ni ni-single-copy-04"></i> Tugaskan</a>

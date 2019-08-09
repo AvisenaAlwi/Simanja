@@ -16,6 +16,14 @@
                             @method('put')
 
                             <div class="pl-lg-4">
+                                    <div class="col-12 text-right">
+                                            <a href="{{ redirect()->getUrlGenerator()->previous() }}" 
+                                                title="Kembali" data-toggle="tooltip" data-placement="top">
+                                                <button type="button"
+                                                    class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
+                                                </button>
+                                            </a>
+                                        </div>
                                 <div class="form-group{{ $errors->has('old_password') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-current-password">{{ __('Password saat ini') }}</label>
                                     <input type="password" name="old_password" id="input-current-password" class="form-control form-control-alternative{{ $errors->has('old_password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password saat ini') }}" value="" required>
