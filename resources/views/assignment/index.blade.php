@@ -125,7 +125,7 @@ $query = $Input::get('query','');
                                         @php
                                             $person = App\User::find($idPerson);
                                         @endphp
-                                        <a href="#" data-toggle="tooltip"
+                                        <a href="{{ route('employee', preg_replace('/\s+/', '', $person->nip)) }}" data-toggle="tooltip"
                                             data-original-title="{{ $person->name }}"
                                             class="avatar avatar-sm rounded-circle">
                                             <img alt="Image placeholder" src="{{ asset('storage') }}/{{ $person->photo }}">

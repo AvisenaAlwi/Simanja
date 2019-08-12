@@ -44,7 +44,8 @@ class MyActivityController extends Controller
                 'assignment.petugas as petugas',
                 'assignment.realisasi',
                 'assignment.tingkat_kualitas',
-                'assignment.keterangan as keterangan_r'
+                'assignment.keterangan as keterangan_r',
+                'nip'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")

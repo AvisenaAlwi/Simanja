@@ -53,8 +53,8 @@
                         <div class="col">
                             <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                                 <div>
-                                    <span class="heading">{{ $jumlahTugasYangDiemban }}</span>
-                                    <span class="description">Total Kegiatan Yang Diemban</span>
+                                    <span class="heading">{{ $jumlahTugasYangDiembanBulanIni }}</span>
+                                    <span class="description">Kegiatan Yang Diemban bulan sekarang</span>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Kegiatan</th>
-                                <th>Target Bulan Ini</th>
+                                <th>Volume Bulan Sekarang</th>
                             </tr>
                         </thead>
                         <tbody class="list">

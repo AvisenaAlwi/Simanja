@@ -42,6 +42,7 @@ class ActivityController extends Controller
                 'activity.awal',
                 'activity.akhir',
                 'activity.created_by_user_id',
+                'nip'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->orderBy('created_at', 'DESC');

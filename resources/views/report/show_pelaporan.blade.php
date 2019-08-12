@@ -141,6 +141,7 @@ $yearQuery = $Input::get('year',$currentYear);
                                                             <th id='no' scope="col">No</th>
                                                             <th scope="col">NIP</th>
                                                             <th scope="col">Nama</th>
+                                                            <th scope="col">Volume</th>
                                                             <th scope="col">Realisasi</th>
                                                             <th scope="col">Keterangan</th>
                                                             <th scope="col">Tingkat kualitas (%)</th>
@@ -155,6 +156,7 @@ $yearQuery = $Input::get('year',$currentYear);
                                                             <th scope="row">{{$counter}}</th>
                                                             <td>{{$user_data->nip}}</td>
                                                             <td>{{$user_data->name}}</td>
+                                                            <td>{{ (int)json_decode($sub_activity->petugas)->$idPetugas->$idCollapse }}</td>
                                                             <td>
                                                                 <input type="number" name="realisasi_{{$user_data->id}}" class="realisasi"
                                                                     value="{{ (int)json_decode($sub_activity->realisasi)->$idPetugas->$idCollapse }}"
@@ -239,7 +241,6 @@ $yearQuery = $Input::get('year',$currentYear);
                         var userArray = {{ json_encode($user_data_save) }};
                         for (let index = 0; index < userArray.length; index++)
                         {
-                            console.log(monthYear);
                             realisasi.push(parseInt($('.realisasi[data-id="'+monthYear+'_'+userArray[index]+'"]').val()));
                             keterangan.push($('.keterangan[data-id="'+monthYear+'_'+userArray[index]+'"]').val());
                             kualitas.push($('.kualitas[data-id="'+monthYear+'_'+userArray[index]+'"]').val());

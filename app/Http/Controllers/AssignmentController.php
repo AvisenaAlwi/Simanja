@@ -42,7 +42,8 @@ class AssignmentController extends Controller
                 'users.name as user_name',
                 'sub_activity.*',
                 'assignment.id as assignment_id',
-                'assignment.petugas as petugas'
+                'assignment.petugas as petugas',
+                'nip'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->orderByDesc('created_at');

@@ -3,7 +3,7 @@
         <div class="header-body text-center mb-7">
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-6">
-                    <h1 class="text-white">{{ 'Selamat datang di '.config('app.name') }}<br>[Sistem Manajemen Beban Kerja]</h1>
+                    <h1 class="text-white">{{ 'Selamat datang di '.config('app.name') }}<br>[Sistem Informasi Manajemen Beban Kerja]</h1>
                 </div>
             </div>
         </div>

@@ -19,10 +19,20 @@ class ProfileController extends Controller
     public function index()
     {
         $userId = auth()->user()->id;
-        $jumlahTugasYangDiemban = Assignment::selectRaw("COUNT(`id`) as count")
+        // $jumlahTugasYangDiemban = Assignment::selectRaw("COUNT(`id`) as count, awal,")
+        //                 ->join('activity', 'assignment.activity_id', '=', 'activity.id')
+        //                 ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
+        //                 ->whereDate('awal', '<=', now() )
+        //                 ->whereDate('akhir', '>=', now() )
+        //                 ->first()->count;
+        $jumlahTugasYangDiemban = DB::table('assignment')
+                        ->join('activity', 'assignment.activity_id', '=', 'activity.id')
+                        ->select(['awal', 'akhir'])
                         ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
-                        ->first()->count;
-        return view('profile.index', ['jumlahTugasYangDiemban' => $jumlahTugasYangDiemban]);
+                        ->whereDate('awal', '<=', now() )
+                        ->whereDate('akhir', '>=', now() )
+                        ->get()->count();
+        return view('profile.index', ['jumlahTugasYangDiembanBulanIni' => $jumlahTugasYangDiemban]);
     }
 
     public function edit()
@@ -71,7 +81,7 @@ class ProfileController extends Controller
                             ->whereDate('akhir', '>=', now() )
                             ->get();
             $count = $assignment->count();
-            return view('profile.profile_user', ['user'=>$user, 'assignments'=>$assignments,'jumlahTugasYangDiemban' => $count]);
+            return view('profile.profile_user', ['user'=>$user, 'assignments'=>$assignments,'jumlahTugasYangDiembanBulanIni' => $count]);
         }else{
             return abort(404);
         }
