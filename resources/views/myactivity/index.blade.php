@@ -105,6 +105,7 @@ if($monthQuery == 'now')
                                 <th>Nama Kegiatan</th>
                                 <th>Waktu</th>
                                 <th>Diberikan Oleh</th>
+                                <th>Volume</th>
                                 <th>Realisasi</th>
                                 <th>Tingkat kualitas</th>
                                 <th>Keterangan*</th>
@@ -151,12 +152,15 @@ if($monthQuery == 'now')
                                 </td>
                                 <td>
                                     <div class="avatar-group"><a href="#" data-toggle="tooltip">
-                                            <a href="#" data-toggle="tooltip"
+                                            <a href="{{ route('employee', preg_replace('/\s+/', '', $sub->nip)) }}" data-toggle="tooltip"
                                                 data-original-title="{{ $sub->users_name }}"
                                                 class="avatar avatar-sm rounded-circle">
                                                 <img alt="Image placeholder" src="{{ asset('storage') }}/{{ $sub->photo }}">
                                             </a>
                                     </div>
+                                </td>
+                                <td>
+                                    {{ $maxRealisasi }}
                                 </td>
                                 <td>
                                     <input type="number" maxlength="50" placeholder="Belum diisi" value="{{ $relal }}" class="form-control realisasi" data-id="{{ $sub->id }}" min="0" max="{{ $maxRealisasi }}">
@@ -226,13 +230,14 @@ if($monthQuery == 'now')
                                 </td>
                                 <td>
                                     <div class="avatar-group"><a href="#" data-toggle="tooltip">
-                                            <a href="#" data-toggle="tooltip"
+                                            <a href="{{ route('profile.index') }}" data-toggle="tooltip"
                                                 data-original-title="{{ auth()->user()->name }}"
                                                 class="avatar avatar-sm rounded-circle">
                                                 <img alt="Image placeholder" src="{{ asset('storage') }}/{{auth()->user()->photo}}">
                                             </a>
                                     </div>
                                 </td>
+                                <td>{{ $maxRealisasi }}</td>
                                 <td>
                                     <input type="number" maxlength="50" placeholder="Belum diisi" value="{{ $activity->realisasi }}" class="form-control realisasi-myactivity" data-id="{{ $activity->id }}" min="0" max="{{ $maxRealisasi }}">
                                 </td>

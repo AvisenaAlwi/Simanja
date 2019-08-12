@@ -131,7 +131,7 @@ if($monthQuery == 'now')
                                 </td>
                                 <td>
                                     <div class="avatar-group"><a href="#" data-toggle="tooltip">
-                                            <a href="#" data-toggle="tooltip"
+                                            <a href="{{ route('employee', preg_replace('/\s+/', '', $sub->nip)) }}" data-toggle="tooltip"
                                                 data-original-title="{{ $sub->users_name }}"
                                                 class="avatar avatar-sm rounded-circle">
                                                 <img alt="Image placeholder" src="{{ asset('storage') }}/{{ $sub->photo }}">

@@ -47,7 +47,8 @@ class ReportController extends Controller
                 'activity.akhir',
                 'assignment.petugas as petugas',
                 'assignment.realisasi as realisasi',
-                'assignment.keterangan as keterangan'
+                'assignment.keterangan as keterangan',
+                'nip'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->where('user_id','=',auth()->user()->id)

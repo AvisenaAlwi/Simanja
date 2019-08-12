@@ -63,7 +63,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $pejabat_penilai = User::where('role_id', '=', 1)->orWhere('role_id', '=', 2)->get()->all();
+        return view('users.create', ['pejabat_penilai' => $pejabat_penilai]);
     }
 
     /**
@@ -114,7 +115,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $pejabat_penilai = User::where('role_id', '=', 1)->orWhere('role_id', '=', 2)->get()->all();
+        return view('users.edit', ['user' => $user, 'pejabat_penilai' => $pejabat_penilai]);
     }
 
     /**

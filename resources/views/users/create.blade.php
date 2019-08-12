@@ -127,9 +127,15 @@
                                 <div class="form-group{{ $errors->has('pejabat_penilai_nip') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-account-penilai_nip">Pejabat
                                         penilai NIP</label>
-                                    <input type="text" name="pejabat_penilai_nip" id="input-account-penilai_nip"
+                                    <select name="pejabat_penilai_nip" id="" class="form-control form-control-alternative custom-select" required>
+                                        <option value="">-- Pilih Pejabat penilai --</option>
+                                        @foreach ($pejabat_penilai as $user)
+                                            <option value="{{ $user->nip }}" {{ old('pejabat_penilai_nip') == $user->nip ? 'selected': '' }}>{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- <input type="text" name="pejabat_penilai_nip" id="input-account-penilai_nip"
                                         class="form-control form-control-alternative{{ $errors->has('pejabat_penilai_nip') ? ' is-invalid' : '' }}"
-                                        value="{{ old('pejabat_penilai_nip') }}" required autofocus>
+                                        value="" required autofocus> --}}
 
                                     @if ($errors->has('pejabat_penilai_nip'))
                                     <span class="invalid-feedback" role="alert">

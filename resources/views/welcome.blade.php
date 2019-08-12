@@ -32,7 +32,7 @@
                         <br>
                         @guest
                         <a class="nav-link nav-link-icon" href="{{ route('login') }}">
-                            <button type="button" class="btn butstyle info bg-gradient-primary" style="border-radius: 25px;"> <i class="ni ni-key-25"></i> Login</button>
+                            <button type="button" class="btn butstyle info bg-gradient-primary text-white" style="border-radius: 25px;"> <i class="ni ni-key-25"></i> Login</button>
                         </a>
                         @endguest
 

@@ -3,7 +3,7 @@
 @section('content')
 @include('users.partials.header', [
 'title' => 'Tentang kami',
-'description' => 'Informasi seputar pengembang Sistem Manajemen Beban Kerja (SIMANJA)'
+'description' => 'Informasi seputar pengembang Sistem Informasi Manajemen Beban Kerja (SIMANJA)'
 ])
 
 <div class="container-fluid mt--7">

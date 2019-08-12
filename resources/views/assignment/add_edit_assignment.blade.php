@@ -304,7 +304,6 @@ $petugas = json_decode($assignment->petugas, true);
             function inputalokasi(){
                 var value = $(this).val();
                 let maxValue = calculateTotalAllocation() - value;
-                console.log(maxValue);
                 if (value == ''){
                     value = 0;
                 }

@@ -54,8 +54,8 @@
                             </div>
                             <div class="card-profile-stats d-flex justify-content-center mt-md--2">
                                 <div>
-                                    <span class="heading">{{ $jumlahTugasYangDiemban }}</span>
-                                    <span class="description">Total Kegiatan Yang Diemban</span>
+                                    <span class="heading">{{ $jumlahTugasYangDiembanBulanIni }}</span>
+                                    <span class="description">Kegiatan Yang Diemban bulan sekarang</span>
                                 </div>
                             </div>
                         </div>
