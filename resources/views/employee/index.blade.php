@@ -8,6 +8,7 @@ $query = $Input::get('query','');
 @section('content')
 @include('users.partials.header', [
 'title' => 'Daftar Pegawai',
+'description' => 'tabel berikut menampilkan tabel akun pegawai secara keseluruhan.'
 ])
 
 <div class="container-fluid mt--7">

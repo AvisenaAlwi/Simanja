@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
             'pejabat_penilai_nip' => '196802281989031003',
             'name' => 'Admin',
             'email' => 'admin@bps.go.id',
-            'jabatan' => 'Pimpinan',
+            'jabatan' => 'Kepala BPS Kota Malang',
             'pendidikan' => 'S2',
             'ti' => 'Tinggi',
             'menulis' => 'Sangat Tinggi',
@@ -28,6 +28,8 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Sangat Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
+
         ]);
         User::create([
             'nip' => '196802281989031004',
@@ -43,6 +45,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '196802281989031005',
@@ -58,6 +61,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
 
         User::create([
@@ -74,6 +78,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19631004 199102 1 001_Drs. Sunaryo, M.Si.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19651005 198803 1 002',
@@ -89,13 +94,14 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19651005 198803 1 002_Rony Mugiartono.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19750930 199901 1 001',
-            'role_id' => 3,
+            'role_id' => 2,
             'name' => 'Henry Soeryaning Handoko, SST',
             'email' => 'henrys@bps.go.id',
-            'jabatan' => 'Kasi Statistik Sosial',
+            'jabatan' => 'Kepala Seksi Statistik Sosial',
             'pendidikan' => 'D-IV',
             'ti' => 'Cukup',
             'menulis' => 'Tinggi',
@@ -104,13 +110,14 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19750930 199901 1 001_Henry Soeryaning Handoko, SST.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19620806 198310 1 001',
-            'role_id' => 3,
+            'role_id' => 2,
             'name' => 'Hery Suyanto, SE',
             'email' => 'hery.suyanto@bps.go.id',
-            'jabatan' => 'Kasi Statistik Produksi',
+            'jabatan' => 'Kepala Seksi Statistik Produksi',
             'pendidikan' => 'S1',
             'ti' => 'Sangat Kurang',
             'menulis' => 'Tinggi',
@@ -119,13 +126,14 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19620806 198310 1 001_Hery Suyanto, SE.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19681028 199401 2 001',
-            'role_id' => 3,
+            'role_id' => 2,
             'name' => 'Ir. Dwi Handayani Prasetyawati, MAP',
             'email' => 'dwi.handayani@bps.go.id',
-            'jabatan' => 'Kasi Statistik Distribusi',
+            'jabatan' => 'Kepala Seksi Statistik Distribusi',
             'pendidikan' => 'S2',
             'ti' => 'Kurang',
             'menulis' => 'Tinggi',
@@ -134,13 +142,14 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19681028 199401 2 001_Ir. Dwi Handayani Prasetyawati, MAP.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19670109 199203 2 001',
-            'role_id' => 3,
+            'role_id' => 2,
             'name' => 'Ir. Ernawaty, MM',
             'email' => 'ernawaty@bps.go.id',
-            'jabatan' => 'Kasi Nerwilis',
+            'jabatan' => 'Kepala Seksi Nerwilis',
             'pendidikan' => 'S2',
             'ti' => 'Kurang',
             'menulis' => 'Tinggi',
@@ -149,13 +158,14 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19670109 199203 2 001_Ir. Ernawaty, MM.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19631204 199003 1 001',
-            'role_id' => 3,
+            'role_id' => 2,
             'name' => 'Heru Prasetyo, SE',
             'email' => 'heruprasetyo@bps.go.id',
-            'jabatan' => 'Kasi IPDS',
+            'jabatan' => 'Kepala Seksi IPDS',
             'pendidikan' => 'S1',
             'ti' => 'Tinggi',
             'menulis' => 'Tinggi',
@@ -164,6 +174,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19631204 199003 1 001_Heru Prasetyo, SE.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19660410 199401 2 001',
@@ -179,6 +190,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19660410 199401 2 001_Ir. Rahmi Veronika.jpg',
+            'pejabat_penilai_nip' => '19651005 198803 1 002',
         ]);
         User::create([
             'nip' => '19770404 200604 1 016',
@@ -194,6 +206,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19770404 200604 1 016_Rachmad Widi Wijayanto.jpg',
+            'pejabat_penilai_nip' => '19651005 198803 1 002',
         ]);
         User::create([
             'nip' => '19851020 201101 2 017',
@@ -209,6 +222,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19851020 201101 2 017_Eka Prahara Resbiyanti, A.Md.jpg',
+            'pejabat_penilai_nip' => '19651005 198803 1 002',
         ]);
         User::create([
             'nip' => '19881028 201101 1 004',
@@ -224,6 +238,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19881028 201101 1 004_Satria Candra Wibawa, A.Md.jpg',
+            'pejabat_penilai_nip' => '19750930 199901 1 001',
         ]);
         User::create([
             'nip' => '19840412 200502 2 001',
@@ -239,6 +254,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19840412 200502 2 001_Rhyke Chrisdiana Novita, SE.jpg',
+            'pejabat_penilai_nip' => '19620806 198310 1 001',
         ]);
         User::create([
             'nip' => '19851002 200902 2 012',
@@ -254,6 +270,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19851002 200902 2 012_Ratri Adhipradani Ratih, S.Si.jpg',
+            'pejabat_penilai_nip' => '19620806 198310 1 001',
         ]);
         User::create([
             'nip' => '19880330 201012 2 002',
@@ -269,6 +286,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19880330 201012 2 002_Saras Wati Utami, S.Si.jpg',
+            'pejabat_penilai_nip' => '19681028 199401 2 001',
         ]);
         User::create([
             'nip' => '19700925 199401 2 001',
@@ -284,6 +302,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19700925 199401 2 001_Soekesi Irawati, S.Psi, MM.jpg',
+            'pejabat_penilai_nip' => '19670109 199203 2 001',
         ]);
         User::create([
             'nip' => '19660424 199203 2 002',
@@ -299,6 +318,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19660424 199203 2 002_Ir. Lies Alfiah.jpg',
+            'pejabat_penilai_nip' => '19631204 199003 1 001',
         ]);
         User::create([
             'nip' => '19830910 200602 2 001',
@@ -314,6 +334,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19830910 200602 2 001_Tasmilah, SST.jpg',
+            'pejabat_penilai_nip' => '19631204 199003 1 001',
         ]);
         User::create([
             'nip' => '19680228 198903 1 003',
@@ -329,6 +350,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19680228 198903 1 003_Saruni Gincahyo, SE.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19701225 199703 1 004',
@@ -344,21 +366,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19701225 199703 1 004_Yusuf Fatoni, SE.jpg',
-        ]);
-        User::create([
-            'nip' => '19680820 198903 1 003',
-            'role_id' => 3,
-            'name' => 'Agustono Rahadi',
-            'email' => 'agustono.rahadi@bps.go.id',
-            'jabatan' => 'Statistisi Penyelia/KSK Klojen',
-            'pendidikan' => 'SMA',
-            'ti' => 'Sangat Kurang',
-            'menulis' => 'Cukup',
-            'administrasi' => 'Kurang',
-            'pengalaman_survei' => 'Sangat Tinggi',
-            'email_verified_at' => now(),
-            'password' => Hash::make('rahasia'),
-            'photo' => 'foto/19680820 198903 1 003_Agustono Rahadi.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19620917 198503 1 005',
@@ -374,6 +382,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19620917 198503 1 005_Wahyu Hery Supriyanto, SE.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
             'nip' => '19880229 201101 1 005',
@@ -389,20 +398,23 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19880229 201101 1 005_Rendra Anandhika, A.Md.jpg',
+            'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
-            'nip' => '165150207111067',
-            'role_id' => 1,
-            'name' => 'Muhammad Fajriansyah',
-            'email' => 'rian@bps.go.id',
-            'jabatan' => 'Pegawai PKL Magang',
-            'pendidikan' => 'SMA',
-            'ti' => 'Sangat Tinggi',
-            'menulis' => 'Sangat Tinggi',
-            'administrasi' => 'Sangat Tinggi',
-            'pengalaman_survei' => 'Sangat Tinggi',
+            'nip' => '19910916 201410 2 0002',
+            'role_id' => 3,
+            'name' => 'Christiayu Natalia, SST',
+            'email' => 'christiayu@bps.go.id',
+            'jabatan' => 'Statistisi Pertama',
+            'pendidikan' => 'D-IV',
+            'ti' => 'Tinggi',
+            'menulis' => 'Cukup',
+            'administrasi' => 'Kurang',
+            'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
+            'photo' => 'foto/19910916 201410 2 0002_Christiayu Natalia, SST',
+            'pejabat_penilai_nip' => '19681028 199401 2 001',
         ]);
     }
 }

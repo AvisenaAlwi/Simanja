@@ -14,7 +14,8 @@ $query = $Input::get('query','');
 @endphp
 @section('content')
 @include('users.partials.header', [
-'title' => 'Penugasan'
+'title' => 'Penugasan',
+'description' => 'Melakukan penugasan kepada pegawai yang akan ditugaskan pada kegiatan yang anda telah buat.'
 ])
 
 <div class="container-fluid mt--7">

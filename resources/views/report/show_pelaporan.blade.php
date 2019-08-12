@@ -101,7 +101,7 @@ $yearQuery = $Input::get('year',$currentYear);
                             $users_size = sizeof($petugasArray);
                             $user_data_save = array_keys($petugasArray);
                             @endphp
-                            
+
                      </div>
                         @if ($users_size!=0)
                         {{-- @php dd($period); @endphp --}}
@@ -184,12 +184,11 @@ $yearQuery = $Input::get('year',$currentYear);
                                             </div>
                                             <div class="row">
                                                 <div class="col-12 d-flex justify-content-center">
-                                                    <button class="mx-auto m-3 w-auto btn btn-success btn-save-realisasi text-center" data-title="{{ $sub_activity->full_name.' '.$periode['monthName'] }}" 
-                                                        month-year="{{ $idCollapse }}"> Simpan 
+                                                    <button class="mx-auto m-3 w-auto btn btn-success btn-save-realisasi text-center" data-title="{{ $sub_activity->full_name.' '.$periode['monthName'] }}"
+                                                        month-year="{{ $idCollapse }}"> Simpan
                                                     </button>
                                                 </div>
                                             </div>
-                                            </form>
                                             @endif
                                         </div>
                                     </div>

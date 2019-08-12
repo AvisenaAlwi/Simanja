@@ -269,7 +269,7 @@ class ReportController extends Controller
             'keterangan' => json_encode($keterangan),
             'tingkat_kualitas' => json_encode($tingkul),
             'update_state' => 0,
-            'init_assign' => empty(json_decode($assignment->petugas, true)) ? true : false,
+            'init_assign' => empty(json_decode($f->petugas, true)) ? true : false,
         ]);
     }
 

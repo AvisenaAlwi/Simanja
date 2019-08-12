@@ -16,7 +16,7 @@ $query = $Input::get('query','');
 @section('content')
 @include('users.partials.header', [
 'title' => 'Manajemen Akun',
-'description' => 'Tabel berikut menunjukkan tabel akun yang sudah ditambah ke sistem..'
+'description' => 'Tabel berikut menunjukkan tabel akun yang sudah ditambah ke sistem.'
 ])
 
 <div class="container-fluid mt--7">
