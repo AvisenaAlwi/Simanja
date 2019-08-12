@@ -325,7 +325,7 @@
                     @if ($pengingatCounter == 0)
                     <tr>
                         <td>
-                    <h3 class="text-center">Selamat bekerja</h3>
+                            <h3 class="text-center my-5">Selamat bekerja</h3>
                         </td>
                     </tr>
                     @endif

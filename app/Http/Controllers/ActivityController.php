@@ -28,7 +28,13 @@ class ActivityController extends Controller
     {
         $showing = Input::get('showing', 'showCurrentMonth');
         $searchQuery = Input::get('query', '');
-        $userId = Auth::id();
+        $currentYear = Carbon::now()->format('Y');
+        $currentMonth = Carbon::now()->formatLocalized('%B');
+        $month = Input::get('month', 'now');
+        $year = Input::get('year', $currentYear);
+        if($month == 'now')
+            $month = $currentMonth;
+
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
             ->join('users', 'activity.created_by_user_id', '=', 'users.id')
@@ -46,6 +52,24 @@ class ActivityController extends Controller
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->orderBy('created_at', 'DESC');
+
+            if ($month == 'now' && $year == $currentYear){
+                $sub_activity = $sub_activity
+                                    ->whereDate('awal', '<=', now() )
+                                    ->whereDate('akhir', '>=', now() );
+            }else if (in_array($month, config('scale.month')) && $year >= 2019 && $year <= $currentYear)
+            {
+                $idMonth = (int)config('scale.month_reverse')[$month];
+                $date = Carbon::parse("$year-$idMonth-2");
+                $sub_activity = $sub_activity
+                                    ->whereDate('awal', '<=', $date )
+                                    ->whereDate('akhir', '>=', $date );
+            }
+            else{
+                return abort(404, 'bulan atau tahun yang akan dicari tidak valid');
+            }
+
+
         if (!empty($searchQuery)){
             // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
             $sub_activity = $sub_activity->where(function($query) use($searchQuery){
@@ -54,23 +78,7 @@ class ActivityController extends Controller
                             }, $boolean = 'and');
         }
 
-        if ($showing == 'showAll'){
-            // Menampilkan semua sub dan kegiatan yang ada pada tabel sub_activity
             $sub_activity = $sub_activity->paginate(10);
-        }
-        else if ($showing == 'showOnlyMe'){
-            // Menampilkan sub dan kegiatan yang dibuat oleh user yang login saat ini
-            $sub_activity = $sub_activity->where('users.id','=', $userId)
-                                ->paginate(10);
-        }
-        else{
-            // Menampilkan sub dan kegiatan yang aktif bulan dan tahun saat ini
-            $month = Input::get('month', Carbon::now()->formatLocalized('%B'));
-            $sub_activity = $sub_activity
-                                ->whereDate('awal', '<=', now() )
-                                ->whereDate('akhir', '>=', now() )
-                                ->paginate(10);
-        }
         return view('activity.index', ['sub_activity' => $sub_activity, 'showing' => $showing]);
     }
 

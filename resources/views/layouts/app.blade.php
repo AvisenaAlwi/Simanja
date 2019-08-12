@@ -17,7 +17,8 @@
 
         <title>{{ isset($title) ? $title .' | ' : '' }}{{ config('app.name', 'Simanja') }}</title>
         <!-- Favicon -->
-        <link href="{{ asset('argon') }}/img/brand/favicon.png" rel="icon" type="image/png">
+        <link href="{{ asset('img/simanja favicon 16x16.png') }}"  rel="icon" type="image/png">
+        {{-- <link href="{{ asset('argon') }}/img/brand/favicon.png" rel="icon" type="image/png"> --}}
         <!-- Fonts -->
         {{-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"> --}}
         <link href="{{ asset('vendor/googlefonts/opensans-family.css') }}" rel="stylesheet">
@@ -39,7 +40,7 @@
             </form>
             @include('layouts.navbars.sidebar', ['selectedMenu' => $selectedMenu ?? 'dashboard', 'activeSidebar' => $activeSideBar])
         @endauth
-        
+
         <div class="main-content">
             @include('layouts.navbars.navbar', ['showSearch' => false])
             @yield('content')

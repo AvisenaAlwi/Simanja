@@ -2,7 +2,7 @@
 @inject('Carbon', '\Carbon\Carbon')
 @inject('Activity', '\App\Activity')
 
-@extends('layouts.app', ['title' => 'Kegiatan'])
+@extends('layouts.app', ['title' => 'Pelaporan'])
 @push('style')
 
 @endpush
