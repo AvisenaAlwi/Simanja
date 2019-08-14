@@ -33,7 +33,7 @@
                                 <h3 class="text-muted">Kegiatan</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ redirect()->getUrlGenerator()->previous() }}" 
+                                <a href="{{ redirect()->getUrlGenerator()->previous() }}"
                                     title="Kembali" data-toggle="tooltip" data-placement="top">
                                     <button type="button"
                                         class="btn btn-primary btn-sm"><span class="ni ni-bold-left"></span>
@@ -73,6 +73,8 @@
                             <h1 class="display-4 text-success">{{$sub_activity->sub_activity_name}}</h1>
                             <h4>Satuan: {{$sub_activity->satuan}} | Volume: {{$sub_activity->volume}} | Kode Butir Kegiatan : {{ $sub_activity->kode_butir != null ? $sub_activity->kode_butir : ' -' }}
                                 | Angka Kredit : {{$sub_activity->angka_kredit != null ? $sub_activity->kode_butir : ' -'}}</h4>
+                                <h4>Keterangan :</h4>
+                                <h5>{{$sub_activity->keterangan != null ? $sub_activity->keterangan : ' -'}}</h5>
                             <h4>Pendidikan minimal: {{$sub_activity->pendidikan}}</h4>
                             <h4>Kualifikasi minimal:</h4>
                             <table class="table table-sm table-dark">

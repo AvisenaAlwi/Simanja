@@ -71,7 +71,7 @@ class MyActivityController extends Controller
         }else{
             return abort(404, 'bulan atau tahun yang akan dicari tidak valid');
         }
-        for ($i=0; $i < sizeof($sub_activity); $i++) { 
+        for ($i=0; $i < sizeof($sub_activity); $i++) {
             $sub = $sub_activity[$i];
             $volumeBulanan = json_decode($sub->petugas, true)[auth()->user()->id]["${month}_${year}"];
                 if ($volumeBulanan <= 0)
@@ -129,7 +129,33 @@ class MyActivityController extends Controller
      */
     public function show($id)
     {
-        //
+        $my_activity = DB::table('my_activity')
+            //->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
+            ->join('users', 'my_activity.created_by_user_id', '=', 'users.id')
+            //->join('assignment', 'assignment.sub_activity_id', '=', 'sub_activity.id')
+            ->select([
+                'my_activity.name as my_activity_name',
+                //'activity.name as activity_name',
+                'users.id as users_id',
+                'my_activity.*',
+                'my_activity.id as my_activity_id',
+                'my_activity.*',
+                'users.name as user_name',
+                //'assignment.petugas'
+            ])
+             ->where('my_activity.id','=',$id)
+             ->first();
+
+            $users = DB::table('users')
+            ->select([
+                'users.*'
+            ])
+            ->get();
+        if ($my_activity != null){
+            return view('myactivity.show', ['my_activity' => $my_activity],  ['users' => $users]);
+        }else{
+            return abort(404, "Kegiatan atau Sub-Kegiatan dengan id $id tidak ditemukan");
+        }
     }
 
     /**

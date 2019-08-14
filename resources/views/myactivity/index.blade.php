@@ -202,7 +202,7 @@ if($monthQuery == 'now')
                             @endforelse
                             <thead class="thead-light">
                                 <tr>
-                                    <th colspan="7">Kegiatan yang saya tambahkan</th>
+                                    <th colspan="8">Kegiatan yang saya tambahkan</th>
                                 </tr>
                             </thead>
                             @forelse ($my_activity as $activity)
@@ -323,7 +323,7 @@ if($monthQuery == 'now')
                         data: {user_id: {{ auth()->user()->id }}, month_year: monthYear, realisasi: realisasi, keterangan: keterangan}
                     }).then(function (res) {
                         Swal.fire({
-                            title: 'Berhasil', 
+                            title: 'Berhasil',
                             html: "<b>" + title + "</b> berhasil disimpan",
                             type: 'success'
                         });
@@ -361,13 +361,13 @@ if($monthQuery == 'now')
                         let data = res.data;
                         if(data.status == 'sukses'){
                             Swal.fire({
-                                title: 'Berhasil', 
+                                title: 'Berhasil',
                                 html: data.message,
                                 type: 'success'
                             });
                         }else{
                             Swal.fire({
-                                title: 'Gagal', 
+                                title: 'Gagal',
                                 html: data.message,
                                 type: 'failed'
                             });
