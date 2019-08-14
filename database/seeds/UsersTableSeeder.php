@@ -413,7 +413,7 @@ class UsersTableSeeder extends Seeder
             'pengalaman_survei' => 'Tinggi',
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
-            'photo' => 'foto/19910916 201410 2 0002_Christiayu Natalia, SST',
+            'photo' => 'foto/19910916 201410 2 0002_Christiayu Natalia, SST.jpg',
             'pejabat_penilai_nip' => '19681028 199401 2 001',
         ]);
     }
