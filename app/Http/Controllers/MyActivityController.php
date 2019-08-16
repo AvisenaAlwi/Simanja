@@ -243,7 +243,6 @@ class MyActivityController extends Controller
             return response()->json(['status'=>'gagal', 'message'=>'Id tidak ditemukan'], 400);
         $f->update([
             'realisasi' => $request->realisasi,
-            'tingkat_kualitas' => $request->tingkat_kualitas,
             'keterangan_r' => $request->keterangan
         ]);
         if($f){

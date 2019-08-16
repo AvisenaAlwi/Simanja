@@ -152,7 +152,7 @@
     </div>
     <div id="sign_penilai">
         <br>
-        <p> Malang, {{$today.' '.$currentMonth.' '.$currentYear}} <br>
+        <p> Malang, {{$firstDay.' '.$currentMonth.' '.$currentYear}} <br>
             Pejabat Penilai,<br>
             {{$penilai->jabatan}}
             <br><br><br><br>

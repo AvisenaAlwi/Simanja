@@ -15,9 +15,9 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::create([
-            'nip' => '196802281989031003',
+            'nip' => '111111111111111111',
             'role_id' => 1,
-            'pejabat_penilai_nip' => '196802281989031003',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
             'name' => 'Admin',
             'email' => 'admin@bps.go.id',
             'jabatan' => 'Kepala BPS Kota Malang',
@@ -32,9 +32,9 @@ class UsersTableSeeder extends Seeder
 
         ]);
         User::create([
-            'nip' => '196802281989031004',
+            'nip' => '222222222222222222',
             'role_id' => 2,
-            'pejabat_penilai_nip' => '196802281989031003',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
             'name' => 'Supervisor',
             'email' => 'supervisor@bps.go.id',
             'jabatan' => 'Kepala Seksi',
@@ -48,9 +48,9 @@ class UsersTableSeeder extends Seeder
             'pejabat_penilai_nip' => '19880229 201101 1 005',
         ]);
         User::create([
-            'nip' => '196802281989031005',
+            'nip' => '333333333333333333',
             'role_id' => 3,
-            'pejabat_penilai_nip' => '196802281989031004',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
             'name' => 'Pegawai',
             'email' => 'pegawai@bps.go.id',
             'jabatan' => 'Pegawai',
@@ -78,7 +78,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19631004 199102 1 001_Drs. Sunaryo, M.Si.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19651005 198803 1 002',
@@ -94,7 +94,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19651005 198803 1 002_Rony Mugiartono.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19750930 199901 1 001',
@@ -110,7 +110,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19750930 199901 1 001_Henry Soeryaning Handoko, SST.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19620806 198310 1 001',
@@ -126,7 +126,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19620806 198310 1 001_Hery Suyanto, SE.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19681028 199401 2 001',
@@ -142,7 +142,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19681028 199401 2 001_Ir. Dwi Handayani Prasetyawati, MAP.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19670109 199203 2 001',
@@ -158,7 +158,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19670109 199203 2 001_Ir. Ernawaty, MM.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19631204 199003 1 001',
@@ -174,7 +174,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19631204 199003 1 001_Heru Prasetyo, SE.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19660410 199401 2 001',
@@ -350,7 +350,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19680228 198903 1 003_Saruni Gincahyo, SE.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19701225 199703 1 004',
@@ -366,7 +366,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19701225 199703 1 004_Yusuf Fatoni, SE.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19620917 198503 1 005',
@@ -382,7 +382,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19620917 198503 1 005_Wahyu Hery Supriyanto, SE.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19880229 201101 1 005',
@@ -398,7 +398,7 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia'),
             'photo' => 'foto/19880229 201101 1 005_Rendra Anandhika, A.Md.jpg',
-            'pejabat_penilai_nip' => '19880229 201101 1 005',
+            'pejabat_penilai_nip' => '19631004 199102 1 001',
         ]);
         User::create([
             'nip' => '19910916 201410 2 0002',

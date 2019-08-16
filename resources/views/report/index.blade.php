@@ -113,7 +113,8 @@ $monthQuery = $currentMonth;
                         </td>
                         <td>
                             <div class="avatar-group"><a href="#" data-toggle="tooltip">
-                                    <a href="{{ route('employee', preg_replace('/\s+/', '', $sub->nip)) }}" data-toggle="tooltip" data-original-title="{{ $sub->users_name }}"
+                                    <a href="{{ route('employee', preg_replace('/\s+/', '', $sub->nip)) }}"
+                                        data-toggle="tooltip" data-original-title="{{ $sub->users_name }}"
                                         class="avatar avatar-sm rounded-circle">
                                         <img alt="Image placeholder"
                                             src="{{ asset('storage') }}/{{auth()->user()->photo}}">
@@ -147,6 +148,69 @@ $monthQuery = $currentMonth;
                         </td>
                     </tr>
                     @endforelse
+
+                    {{-- ================================================================================== --}}
+                    <tr>
+                        <th colspan="4">Kegiatan yang ditambahkan oleh pegawai</th>
+                    </tr>
+                    @forelse ($my_employee_activies as $my_employee_activity)
+                    <tr>
+                        <th scope="row">
+                            <div class="media align-items-center">
+                                <a href="{{ route('report.show_pelaporan_my_activity', $my_employee_activity->id) }}">
+                                    <div class="media-body">
+                                        <span class="name mb-0 text-sm">
+                                            {{ $my_employee_activity->activity_name }}
+                                        </span>
+                                    </div>
+                            </div>
+                            </a>
+                        </th>
+                        <td>
+                            @if ($Carbon::parse($my_employee_activity->awal)->format('Y-m') ==
+                            $Carbon::parse($my_employee_activity->akhir)->format('Y-m') || $my_employee_activity->akhir == null)
+                            {{ $Carbon::parse($my_employee_activity->awal)->formatLocalized('%b %Y') }}
+                            @else
+                            {{ $Carbon::parse($my_employee_activity->awal)->formatLocalized('%b %Y') . ' - ' . $Carbon::parse($my_employee_activity->akhir)->formatLocalized('%b %Y') }}
+                            @endif
+                        </td>
+                        <td>
+                            <div class="avatar-group"><a href="#" data-toggle="tooltip">
+                                    <a href="{{ route('employee', preg_replace('/\s+/', '', $my_employee_activity->nip)) }}"
+                                        data-toggle="tooltip" data-original-title="{{ $my_employee_activity->users_name }}"
+                                        class="avatar avatar-sm rounded-circle">
+                                        <img alt="Image placeholder"
+                                            src="{{ asset('storage') }}/{{ $my_employee_activity->photo }}">
+                                    </a>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <li aria-haspopup="true" class="dropdown dropdown dropdown">
+                                <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    class="btn btn-sm btn-icon-only text-primary">
+                                    <i class="fas fa-ellipsis-v" title="Aksi" data-toggle="tooltip"
+                                        data-placement="left"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <a href="{{ route('report.show_pelaporan', $my_employee_activity->id) }}" class="dropdown-item"><i
+                                            class="fa fa-info text-info"></i>Detail kegiatan</a>
+                                    @if (auth()->user()->role_id == 1 ||
+                                    $Activity::find($my_employee_activity->activity_id)->create_by_user_id == auth()->user()->id)
+                                    <a href="{{ route('activity.edit', $my_employee_activity->id) }}" class="dropdown-item"><i
+                                            class="fa fa-edit text-success"></i> Edit</a>
+                                    @endif
+                                </ul>
+                            </li>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <h3>Tidak ada kegiatan</h3>
+                        </td>
+                    </tr>
+                    @endforelse
+
                 </tbody>
             </table>
         </div>

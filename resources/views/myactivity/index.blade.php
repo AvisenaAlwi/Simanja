@@ -200,6 +200,7 @@ if($monthQuery == 'now')
                                     </td>
                                 </tr>
                             @endforelse
+                            {{-- ======================================================================================= --}}
                             <thead class="thead-light">
                                 <tr>
                                     <th colspan="8">Kegiatan yang saya tambahkan</th>
@@ -242,7 +243,7 @@ if($monthQuery == 'now')
                                     <input type="number" maxlength="50" placeholder="Belum diisi" value="{{ $activity->realisasi }}" class="form-control realisasi-myactivity" data-id="{{ $activity->id }}" min="0" max="{{ $maxRealisasi }}">
                                 </td>
                                 <td>
-                                    <input type="number" maxlength="50" placeholder="Belum dinilai" value="{{ $activity->tingkat_kualitas ?? 0 }}" class="form-control tingkat-kualitas-myactivity" data-id="{{ $activity->id }}" min="0">
+                                    <input type="number" maxlength="50" placeholder="Belum dinilai" value="{{ $activity->tingkat_kualitas ?? 0 }}" class="form-control tingkat-kualitas-myactivity" data-id="{{ $activity->id }}" min="0" disabled>
                                 </td>
                                 <td>
                                     <input type="text" maxlength="100" placeholder="Belum diisi" value="{{ $activity->keterangan_r }}" class="form-control keterangan-myactivity" data-id="{{ $activity->id }}" style="width: 150px !important">
@@ -352,11 +353,10 @@ if($monthQuery == 'now')
                 if (result.value) {
                     var realisasi = $('.realisasi-myactivity[data-id='+id+']').val();
                     var keterangan = $('.keterangan-myactivity[data-id='+id+']').val();
-                    var tingkat_kualitas = $('.tingkat-kualitas-myactivity[data-id='+id+']').val();
                     axios({
                         method: 'put',
                         url: '{{ url('/') }}/myactivity/update-my-activity/' + id,
-                        data: {user_id: {{ auth()->user()->id }}, realisasi: realisasi, tingkat_kualitas: tingkat_kualitas, keterangan: keterangan}
+                        data: {user_id: {{ auth()->user()->id }}, realisasi: realisasi, keterangan: keterangan}
                     }).then(function (res) {
                         let data = res.data;
                         if(data.status == 'sukses'){
@@ -423,7 +423,7 @@ if($monthQuery == 'now')
         $("#select").change(function () {
             $("#formChange").submit();
         });
-        $('input.realisasi').on('input', function () {
+        $('input.realisasi, input.realisasi-myactivity').on('input', function () {
             var value = $(this).val();
             let maxValue = $(this).attr('max');
             if ((value !== '') && (value.indexOf('.') === -1)) {

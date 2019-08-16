@@ -25,11 +25,13 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('profile/gantiPassword', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
-    Route::get('report/index', ['as' => 'report.index', 'uses' => 'ReportController@index']);
+    Route::get('report', ['as' => 'report.index', 'uses' => 'ReportController@index']);
     Route::get('report/show_pelaporan/{id}', ['as' => 'report.show_pelaporan', 'uses' => 'ReportController@pelaporan']);
+    Route::get('report/show_pelaporan_my_activity/{id}', ['as' => 'report.show_pelaporan_my_activity', 'uses' => 'ReportController@pelaporan_my_activity']);
     Route::get('report/ckpt', ['as' => 'report.print_ckpt', 'uses' => 'ReportController@print_ckp']);
     Route::get('report/ckpr', ['as' => 'report.print_ckpr', 'uses' => 'ReportController@print_ckp']);
     Route::put('report/update/{assignmentId}', 'ReportController@update_pelaporan')->name('updatey');
+    Route::put('report/update-my-activity/{assignmentId}', 'ReportController@update_pelaporan_my_activity')->name('updatemy');
 });
 
 

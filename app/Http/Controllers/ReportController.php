@@ -14,6 +14,8 @@ use DateInterval;
 use DatePeriod;
 use Illuminate\Http\Request;
 use App\Assignment;
+use App\MyActivity;
+use App\User;
 
 class ReportController extends Controller
 {
@@ -53,14 +55,26 @@ class ReportController extends Controller
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->where('user_id','=',auth()->user()->id)
             ->orderBy('created_at', 'DESC');
+        $my_employee_activity = DB::table('my_activity')
+        ->join('users', 'created_by_user_id', '=', 'users.id')
+        ->select(['*',
+        'my_activity.name as activity_name',
+        'users.name as users_name'])
+        ->where('users.pejabat_penilai_nip', '=', auth()->user()->nip);
+
         if (!empty($searchQuery)){
             // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
             $sub_activity = $sub_activity
                                 ->where('sub_activity.name','LIKE',"%$searchQuery%")
                                 ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
+            $my_employee_activity = $my_employee_activity
+                                ->where('name','LIKE',"%$searchQuery%");
         }
         if ($month == 'now' && $year == $currentYear){
             $sub_activity = $sub_activity
+                                ->whereDate('awal', '<=', now() )
+                                ->whereDate('akhir', '>=', now() );
+            $my_employee_activity = $my_employee_activity
                                 ->whereDate('awal', '<=', now() )
                                 ->whereDate('akhir', '>=', now() );
         }else if (in_array($month, config('scale.month')) && $year >= 2019 && $year <= $currentYear){
@@ -69,11 +83,15 @@ class ReportController extends Controller
             $sub_activity = $sub_activity
                                 ->whereDate('awal', '<=', $date )
                                 ->whereDate('akhir', '>=', $date );
+            $my_employee_activity = $my_employee_activity
+                                ->whereDate('awal', '<=', $date )
+                                ->whereDate('akhir', '>=', $date );
         }else{
             return abort(404, 'bulan atau tahun yang akan dicari tidak valid');
         }
         $sub_activity = $sub_activity->paginate(10);
-        return view('report.index', ['sub_activity' => $sub_activity]);
+        $my_employee_activity = $my_employee_activity->paginate(10);
+        return view('report.index', ['sub_activity' => $sub_activity, 'my_employee_activies' => $my_employee_activity]);
     }
 
     public function print_ckp()
@@ -250,6 +268,15 @@ class ReportController extends Controller
         }
     }
 
+    function pelaporan_my_activity ($id){
+        $myActivity = MyActivity::find($id)->first();
+        if ($myActivity != null){
+            return view('report.show_pelaporan_myactivity', ['myActivity'=>$myActivity, 'user'=> User::find($myActivity->created_by_user_id)->first()]);
+        }else{
+            return abort(404, "Kegiatan atau KegiatanKu dengan id $myActivity tidak ditemukan");
+        }
+    }
+
     function update_pelaporan (Request $request, $assignmentId){
         $f = Assignment::where('sub_activity_id','=',$assignmentId)->first();
         // dd($f->toJson());
@@ -271,6 +298,15 @@ class ReportController extends Controller
             'tingkat_kualitas' => json_encode($tingkul),
             'update_state' => 0,
             'init_assign' => empty(json_decode($f->petugas, true)) ? true : false,
+        ]);
+    }
+
+    function update_pelaporan_my_activity (Request $request, $id){
+        $myActivity = MyActivity::find($id)->first();
+        $myActivity->update([
+            'realisasi' => $request->realisasi,
+            'keterangan_r' => $request->keterangan,
+            'tingkat_kualitas' => $request->tingkat_kualitas,
         ]);
     }
 
