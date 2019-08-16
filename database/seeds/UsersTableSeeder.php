@@ -66,7 +66,7 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'nip' => '19631004 199102 1 001',
-            'role_id' => 3,
+            'role_id' => 1,
             'name' => 'Drs. Sunaryo, M.Si',
             'email' => 'naryo@bps.go.id',
             'jabatan' => 'Kepala',
@@ -82,7 +82,7 @@ class UsersTableSeeder extends Seeder
         ]);
         User::create([
             'nip' => '19651005 198803 1 002',
-            'role_id' => 3,
+            'role_id' => 2,
             'name' => 'Rony Mugiartono',
             'email' => 'rmugi@bps.go.id',
             'jabatan' => 'Kasubbag Tata Usaha',

@@ -59,7 +59,8 @@ class ReportController extends Controller
         ->join('users', 'created_by_user_id', '=', 'users.id')
         ->select(['*',
         'my_activity.name as activity_name',
-        'users.name as users_name'])
+        'users.name as users_name',
+        'my_activity.id as id_my_activity'])
         ->where('users.pejabat_penilai_nip', '=', auth()->user()->nip);
 
         if (!empty($searchQuery)){

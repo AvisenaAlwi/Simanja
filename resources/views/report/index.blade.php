@@ -1,6 +1,7 @@
 @inject('Input', 'Illuminate\Support\Facades\Input')
 @inject('Carbon', '\Carbon\Carbon')
 @inject('Activity', '\App\Activity')
+@inject('MyActivity', '\App\MyActivity')
 
 @extends('layouts.app', ['title' => 'Pelaporan'])
 @push('style')
@@ -134,6 +135,9 @@ $monthQuery = $currentMonth;
                                         kegiatan</a>
                                     @if (auth()->user()->role_id == 1 ||
                                     $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
+                                    @php
+                                        dd($sub);
+                                    @endphp
                                     <a href="{{ route('activity.edit', $sub->id) }}" class="dropdown-item"><i
                                             class="fa fa-edit text-success"></i> Edit</a>
                                     @endif
@@ -150,14 +154,16 @@ $monthQuery = $currentMonth;
                     @endforelse
 
                     {{-- ================================================================================== --}}
-                    <tr>
-                        <th colspan="4">Kegiatan yang ditambahkan oleh pegawai</th>
-                    </tr>
+                    <thead class="thead-light">
+                        <tr>
+                            <th colspan="4">Kegiatan yang ditambahkan oleh pegawai</th>
+                        </tr>
+                    </thead>
                     @forelse ($my_employee_activies as $my_employee_activity)
                     <tr>
                         <th scope="row">
                             <div class="media align-items-center">
-                                <a href="{{ route('report.show_pelaporan_my_activity', $my_employee_activity->id) }}">
+                                <a href="{{ route('report.show_pelaporan_my_activity', $my_employee_activity->id_my_activity) }}">
                                     <div class="media-body">
                                         <span class="name mb-0 text-sm">
                                             {{ $my_employee_activity->activity_name }}
@@ -195,7 +201,7 @@ $monthQuery = $currentMonth;
                                     <a href="{{ route('report.show_pelaporan', $my_employee_activity->id) }}" class="dropdown-item"><i
                                             class="fa fa-info text-info"></i>Detail kegiatan</a>
                                     @if (auth()->user()->role_id == 1 ||
-                                    $Activity::find($my_employee_activity->activity_id)->create_by_user_id == auth()->user()->id)
+                                    $MyActivity::find($my_employee_activity->id_my_activity)->create_by_user_id == auth()->user()->id)
                                     <a href="{{ route('activity.edit', $my_employee_activity->id) }}" class="dropdown-item"><i
                                             class="fa fa-edit text-success"></i> Edit</a>
                                     @endif
