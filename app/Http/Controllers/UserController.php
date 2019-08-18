@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Assignment;
 use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -169,7 +170,27 @@ class UserController extends Controller
     public function destroy(User  $user)
     {
         $user->delete();
-
+        $userId = $user->id;
+        $assignments = Assignment::whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")->get();
+        foreach($assignments as $assignment){
+            $petugas = json_decode($assignment->petugas, true);
+            $realisasi = json_decode($assignment->realisasi, true);
+            $tingkat_kualitas = json_decode($assignment->tingkat_kualitas, true);
+            $keterangan = json_decode($assignment->keterangan, true);
+            unset($petugas[$userId]);
+            unset($realisasi[$userId]);
+            unset($tingkat_kualitas[$userId]);
+            unset($keterangan[$userId]);
+            $petugas = json_encode($petugas);
+            $realisasi = json_encode($realisasi);
+            $tingkat_kualitas = json_encode($tingkat_kualitas);
+            $keterangan = json_encode($keterangan);
+            $assignment->petugas = $petugas;
+            $assignment->realisasi = $realisasi;
+            $assignment->tingkat_kualitas = $tingkat_kualitas;
+            $assignment->keterangan = $keterangan;
+            $assignment->save();
+        }
         return redirect()->route('user.index')->withStatus(__('Pengguna berhasil dihapus.'));
     }
 
