@@ -18,11 +18,10 @@
 4. Ketik perintah ``` git clone https://github.com/AvisenaAlwi/Simanja ``` kalau muncul prompt login github langsung login pakai akun gitlab kalian
 5. Masuk ke direktori project ``` cd "Simanja" ```. Btw nama folder bisa diubah
 6. Jalankan perintah ``` composer install ``` di terminal. Tunggu sampai selesai
-7. Jalankan perintah ``` npm install ``` di terminal. Tunggu sampai selesai
-8. Duplikat file ```.env.example``` dan rename menjadi ```.env``` [dot env] saja
-9. Jalankan perintah ``` php artisan key:generate ``` di terminal
-10. Buka file ```.env```
-11. Setting bagian database. Contoh sebagai berikut :
+7. Duplikat file ```.env.example``` dan rename menjadi ```.env``` [dot env] saja
+8. Jalankan perintah ``` php artisan key:generate ``` di terminal
+9. Buka file ```.env```
+10. Setting bagian database. Contoh sebagai berikut :
 
 ```
 DB_CONNECTION=mysql
@@ -33,13 +32,12 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-12. Pastikan service DB kalian sudah jalan dan sebelumnya telah membuat database dengan nama ```simanja``` pada contoh diatas
-13. Setting hal lain pada file ```.env``` misal APP_NAME atau APP_URL
-14. Jalankan perintah ```php artisan migrate --seed``` pada terminal dan pastikan masih didalam folder project kasirplus-web
-15. Lalu untuk menjalankan laravel bisa melalui perintah ```php artisan serve --port=80```, maka host dapat diakses pada ```http://localhost```. Pastikan Xampp kalian berjalan pada port 81 atau lainya
-16. Selain dari ```php artisan serve``` kita bisa pakai XAMPP, WAMPP, LAMPP atau yang lebih praktis kita bisa pakai laravel Valet, cara install laravel Valet bisa di cek di channel YouTube <b>IDStack</b>
-17. Jalankan perintah ```php artisan storage:link```
-18. Untuk development menggunakan laravel mix jalankan perintah ```npm run watch``` pada terminal [OPTIONAL]
+11. Pastikan service DB kalian sudah jalan dan sebelumnya telah membuat database dengan nama ```simanja``` pada contoh diatas
+12. Setting hal lain pada file ```.env``` misal APP_NAME atau APP_URL
+13. Jalankan perintah ```php artisan migrate --seed``` pada terminal dan pastikan masih didalam folder project simanja
+14. Lalu untuk menjalankan laravel bisa melalui perintah ```php artisan serve --port=80```, maka host dapat diakses pada ```http://localhost```. Pastikan Xampp kalian berjalan pada port 81 atau lainya
+15. Selain dari ```php artisan serve``` kita bisa pakai XAMPP, WAMPP, LAMPP atau yang lebih praktis kita bisa pakai laravel Valet, cara install laravel Valet bisa di cek di channel YouTube <b>IDStack</b>
+16. Jalankan perintah ```php artisan storage:link```
 
 
 <h2 id="requirement">Requirement</h2>
