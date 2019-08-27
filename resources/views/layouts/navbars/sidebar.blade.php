@@ -8,10 +8,13 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="{{ route('landingpage') }}">
+        <a class="navbar-brand pt-0 d-flex justify-item-center flex-column" href="{{ route('landingpage') }}">
             {{-- <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."> --}}
             {{-- <span class="avatar avatar-sm rounded-circle"> --}}
-            <img src="{{ asset('img/logo simanja fix.png') }}" class="navbar-brand-img" style="" alt="">
+            <div>
+                <img src="{{ asset('img/logo simanja fix.png') }}" class="navbar-brand-img" style="display:block; margin:auto;" alt="">
+            </div>
+            <h1 style="font-size: 1.5rem">BPS Kota Malang</h1>
             {{-- <h1>{{ config('app.name') }}</h1> --}}
             {{-- </span> --}}
         </a>
@@ -75,6 +78,7 @@
                         <a href="{{ route('landingpage') }}">
                             {{-- <img src="{{ asset('argon') }}/img/brand/blue.png"> --}}
                             <h1>{{ config('app.name') }}</h1>
+                            <h1>BPS Kota Malang</h1>
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
@@ -111,7 +115,7 @@
                     <a class="nav-link" href="{{ route('myactivity.index') }}">
                         <i class="ni ni-single-copy-04 text-danger"></i> <b id="text">Kegiatanku
                             @if ($tenggatWaktu <= 5)
-                            <span class="text-danger"><i class="far fa-clock"></i> {{$tenggatWaktu}} hari</span>
+                            <br><span class="text-danger"><i class="far fa-clock"></i> {{$tenggatWaktu}} hari</span>
                             @endif
                         </b>
                     </a>

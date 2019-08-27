@@ -124,7 +124,7 @@ class ReportController extends Controller
                 'assignment.petugas as petugas',
                 'assignment.keterangan as keterangan_r',
                 'assignment.realisasi as realisasi',
-                'assignment.tingkat_kualitas as tingkat_kualitas'
+                'assignment.tingkat_kualitas as tingkat_kualitas',
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
             ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
@@ -270,9 +270,9 @@ class ReportController extends Controller
     }
 
     function pelaporan_my_activity ($id){
-        $myActivity = MyActivity::find($id)->first();
+        $myActivity = MyActivity::where('id', $id)->first();
         if ($myActivity != null){
-            return view('report.show_pelaporan_myactivity', ['myActivity'=>$myActivity, 'user'=> User::find($myActivity->created_by_user_id)->first()]);
+            return view('report.show_pelaporan_myactivity', ['myActivity'=>$myActivity, 'user'=> User::where('id', $myActivity->created_by_user_id)->first()]);
         }else{
             return abort(404, "Kegiatan atau KegiatanKu dengan id $myActivity tidak ditemukan");
         }
@@ -303,7 +303,7 @@ class ReportController extends Controller
     }
 
     function update_pelaporan_my_activity (Request $request, $id){
-        $myActivity = MyActivity::find($id)->first();
+        $myActivity = MyActivity::where('id', $id)->first();
         $myActivity->update([
             'realisasi' => $request->realisasi,
             'keterangan_r' => $request->keterangan,

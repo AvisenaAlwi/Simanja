@@ -4,8 +4,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-5">
                     {{-- <h1>Selamat Datang di Simanja</h1> --}}
-                    <h1 class="text-white">{{ 'Selamat datang di '.config('app.name') }}</h1>
-                    <h2 class="text-white"> ( Sistem Manajemen Beban Kerja) </h2><br>
+                    <h1 class="text-white">{{ 'Selamat datang di '.config('app.name') }} <br>BPS Kota Malang</h1>
+                    <h2 class="text-white"> ( Sistem Informasi Manajemen Beban Kerja) </h2><br>
                 </div>
             </div>
         </div>

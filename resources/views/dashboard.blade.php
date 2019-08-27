@@ -276,7 +276,7 @@
                         @php
                             $pengingatCounter++;
                         @endphp
-                        <div class="bg-danger" style="border-bottom: 1px solid rgba(0,0,0,0.1)">
+                        <div class="bg-danger p-3" style="border-bottom: 1px solid rgba(0,0,0,0.1)">
                             <a href="{{ route('myactivity.index') }}">
                                 <h3 class="text-white">{{ $tenggatWaktu }} hari tersisa bulan ini</h3>
                                 <h5 class="text-white">Segera isi realisasi!</h5>

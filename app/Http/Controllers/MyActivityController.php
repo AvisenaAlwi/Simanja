@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Assignment;
+use App\User;
 
 class MyActivityController extends Controller
 {
@@ -143,8 +144,8 @@ class MyActivityController extends Controller
                 'users.name as user_name',
                 //'assignment.petugas'
             ])
-             ->where('my_activity.id','=',$id)
-             ->first();
+            ->where('my_activity.id','=',$id)
+            ->first();
 
             $users = DB::table('users')
             ->select([
@@ -166,7 +167,16 @@ class MyActivityController extends Controller
      */
     public function edit($id)
     {
-        return view('myactivity.edit', ['my_activity' => MyActivity::find($id)]);
+        $myActivity = MyActivity::where('id', $id)->first();
+        if ($myActivity != null){
+            $pejabatPenilai = User::where('id', $myActivity->created_by_user_id)->first()->pejabat_penilai_nip;
+            if (Auth::user()->role_id == 1 || $myActivity->created_by_user_id == Auth::id() || $pejabatPenilai == Auth::id())
+                return view('myactivity.edit', ['my_activity' => $myActivity]);
+            else
+                return abort(403, 'Anda tidak diizinkan untuk mengakses halaman ini');
+        }else{
+            return abort(404, 'Kegiatanku tidak ditemukan');
+        }
     }
 
     /**
@@ -178,17 +188,9 @@ class MyActivityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $startMonth = config('scale.month_reverse')[$request['start_month']];
-        $startYear = $request['start_year'];
-        $endMonth = config('scale.month_reverse')[$request['end_month']];
-        $endYear = $request['end_year'];
-        $start = Carbon::parse("$startYear-$startMonth-1");
-        $end = Carbon::parse("$endYear-$endMonth-28")->endOfMonth();
         MyActivity::where('id', '=', $id)->update([
             "name" => $request['name'],
             "kategori" => $request['kategori'],
-            "awal" => $start,
-            "akhir" => $end,
             "satuan" => $request['satuan'],
             "volume" => $request['volume'],
             "kode_butir" => $request['kode_butir'],
@@ -206,7 +208,7 @@ class MyActivityController extends Controller
      */
     public function destroy($id)
     {
-        $myActivity = MyActivity::find($id);
+        $myActivity = MyActivity::where('id', $id);
         $name = $myActivity->name;
         if ($myActivity != null){
             if (auth()->user()->id == $myActivity->created_by_user_id){

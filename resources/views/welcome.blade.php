@@ -28,7 +28,8 @@
                             {{-- untuk <img src="{{ asset('img/BPS_logo.png') }}" class="img-fluid" alt="Responsive image" width="5%"> --}}
                             {{-- untuk Badan Pusat Statistik Kota Malang kami persembahkan</h5> --}}
                         <img src="{{ asset('img/logo simanja fix.png') }}" class="img-fluid" alt="Responsive image">
-                        <h1>Sistem Informasi Manajemen Beban Kerja</h1>
+                        <h1 style="color: white">Sistem Informasi Manajemen Beban Kerja</h1>
+                        <h1 style="font-size: 1.7rem; color: white">BADAN PUSAT STATISTIK KOTA MALANG</h1>
                         <br>
                         @guest
                         <a class="nav-link nav-link-icon" href="{{ route('login') }}">

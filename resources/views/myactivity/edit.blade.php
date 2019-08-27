@@ -43,7 +43,7 @@ for($i = 0; $i < 5; $i++){
                 <div class="card-body">
                     <form id="form-activity" method="POST" action="{{ route('myactivity.update', $my_activity->id) }}">
                         @csrf
-                        @method('post')
+                        @method('put')
                         <h6 class="heading-small text-muted mb-4">Kegiatan</h6>
                         <div class="pl-lg-4">
                             <div class ="row">
@@ -96,7 +96,7 @@ for($i = 0; $i < 5; $i++){
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">Keterangan Sub Kegiatan 1</label>
-                                <textarea name="keterangan" id="" rows="2" class="form-control form-control-alternative">{{ $my_activity->keterangan }}</textarea>
+                                <textarea name="keterangan" id="" rows="2" class="form-control form-control-alternative">{{ $my_activity->keterangan_t }}</textarea>
                             </div>
                         </div>
                         <hr class="my-4" />

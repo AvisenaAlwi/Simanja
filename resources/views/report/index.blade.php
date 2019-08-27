@@ -135,9 +135,6 @@ $monthQuery = $currentMonth;
                                         kegiatan</a>
                                     @if (auth()->user()->role_id == 1 ||
                                     $Activity::find($sub->activity_id)->create_by_user_id == auth()->user()->id)
-                                    @php
-                                        dd($sub);
-                                    @endphp
                                     <a href="{{ route('activity.edit', $sub->id) }}" class="dropdown-item"><i
                                             class="fa fa-edit text-success"></i> Edit</a>
                                     @endif
@@ -198,11 +195,11 @@ $monthQuery = $currentMonth;
                                         data-placement="left"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <a href="{{ route('report.show_pelaporan', $my_employee_activity->id) }}" class="dropdown-item"><i
+                                    <a href="{{ route('report.show_pelaporan_my_activity', $my_employee_activity->id_my_activity) }}" class="dropdown-item"><i
                                             class="fa fa-info text-info"></i>Detail kegiatan</a>
                                     @if (auth()->user()->role_id == 1 ||
                                     $MyActivity::find($my_employee_activity->id_my_activity)->create_by_user_id == auth()->user()->id)
-                                    <a href="{{ route('activity.edit', $my_employee_activity->id) }}" class="dropdown-item"><i
+                                    <a href="{{ route('myactivity.edit', $my_employee_activity->id_my_activity) }}" class="dropdown-item"><i
                                             class="fa fa-edit text-success"></i> Edit</a>
                                     @endif
                                 </ul>
