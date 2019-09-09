@@ -143,8 +143,8 @@ $yearQuery = $Input::get('year',$currentYear);
                                                             <th scope="col">Nama</th>
                                                             <th scope="col">Volume</th>
                                                             <th scope="col">Realisasi</th>
-                                                            <th scope="col">Keterangan</th>
                                                             <th scope="col">Tingkat kualitas (%)</th>
+                                                            <th scope="col">Keterangan</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -164,18 +164,18 @@ $yearQuery = $Input::get('year',$currentYear);
                                                                     data-id="{{ $idCollapse }}_{{ $user_data->id }}"
                                                                     max="{{ $petugasArray[$user_data->id][$idCollapse] }}" min="0">
                                                                 </td>
-                                                            <td><textarea class="keterangan"
-                                                                    id="keterangan_{{$user_data->id}}" cols="30"
-                                                                    rows="1" placeholder="Belum diisi"
-                                                                    data-id="{{ $idCollapse }}_{{ $user_data->id }}">{{ json_decode($sub_activity->keterangan_r)->$idPetugas->$idCollapse }}</textarea>
-                                                            </td>
                                                             <td><input type="number" name="kualitas_{{$user_data->id}}" class="kualitas"
                                                                     value="{{ json_decode($sub_activity->tingkat_kualitas)->$idPetugas->$idCollapse }}"
                                                                     id="kualitas_{{$user_data->id}}"
                                                                     style="width: 50px" placeholder="Belum diisi"
                                                                     data-id="{{ $idCollapse }}_{{ $user_data->id }}"
                                                                     max="100" min="0">
-                                                                </td>
+                                                            </td>
+                                                            <td><textarea class="keterangan"
+                                                                    id="keterangan_{{$user_data->id}}" cols="30"
+                                                                    rows="1" placeholder="Belum diisi"
+                                                                    data-id="{{ $idCollapse }}_{{ $user_data->id }}">{{ json_decode($sub_activity->keterangan_r)->$idPetugas->$idCollapse }}</textarea>
+                                                            </td>
                                                         </tr>
                                                         @endforeach
                                                         @php
@@ -267,6 +267,13 @@ $yearQuery = $Input::get('year',$currentYear);
                         });
                     }
                 });
+            });
+            $('input[type="number"]').on('input', function () {
+                var value = $(this).val();
+                let maxValue = $(this).attr('max');
+                if ((value !== '') && (value.indexOf('.') === -1)) {
+                    $(this).val(Math.max(Math.min(value, maxValue), 0));
+                }
             });
         });
     </script>

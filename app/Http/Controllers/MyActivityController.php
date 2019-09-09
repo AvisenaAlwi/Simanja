@@ -208,10 +208,12 @@ class MyActivityController extends Controller
      */
     public function destroy($id)
     {
-        $myActivity = MyActivity::where('id', $id);
+        $myActivity = MyActivity::where('id', $id)->first();
         $name = $myActivity->name;
         if ($myActivity != null){
             if (auth()->user()->id == $myActivity->created_by_user_id){
+                if ($myActivity->tingkat_kualitas != 0)
+                    return response()->json(['status'=>'gagal', 'message'=>'Gagal meghapus kegiatan karena sudah dinilai']);
                 $result = $myActivity->delete();
                 if ($result){
                     DB::table('autocomplete_activity')->where('name', '=', $name)->delete();

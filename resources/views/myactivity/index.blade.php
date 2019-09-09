@@ -262,8 +262,10 @@ if($monthQuery == 'now')
                                                 class="dropdown-item"><i class="fa fa-info text-info"></i>Detail kegiatan</a>
                                             <a href="{{ route('myactivity.edit', $activity->id) }}"
                                                 class="dropdown-item"><i class="fa fa-edit text-success"></i>Edit</a>
+                                            @if ($activity->tingkat_kualitas == null || $activity->tingkat_kualitas == '' || $activity->tingkat_kualitas == 0)
                                             <a href="" class="dropdown-item btn-delete-item-my-activity" title="{{ $activity->name }}"
                                                 id-item="{{ $activity->id }}"><i class="fa fa-trash text-danger"></i> Hapus</a>
+                                            @endif
                                         </ul>
                                     </li>
                                 </td>

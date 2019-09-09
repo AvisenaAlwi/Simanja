@@ -207,7 +207,7 @@
             <p>Malang, {{$lastDay.' '.$currentMonth.' '.$currentYear}} <br>
                 Pegawai Yang dinilai <br>
                 <br><br><br><br>
-                {{auth()->user()->name}} <br>
+                <u>{{auth()->user()->name}}</u><br>
                 NIP. {{auth()->user()->nip}}
         </div>
         <div id="sign_penilai">

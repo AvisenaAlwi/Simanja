@@ -95,8 +95,8 @@
                                         <th scope="col">Nama</th>
                                         <th scope="col">Volume</th>
                                         <th scope="col">Realisasi</th>
-                                        <th scope="col">Keterangan</th>
                                         <th scope="col">Tingkat kualitas (%)</th>
+                                        <th scope="col">Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,12 +109,12 @@
                                                 style="width: 50px" placeholder="Belum diisi"
                                                 max="{{ $myActivity->volume }}" min="0" id="realisasi">
                                         </td>
+                                        <td><input type="number" class="kualitas" id="kualitas"
+                                            value="{{ $myActivity->tingkat_kualitas }}" style="width: 50px"
+                                            placeholder="Belum diisi" max="100" min="0">
+                                        </td>
                                         <td><textarea class="keterangan" id="keterangan" cols="30" rows="1"
                                                 placeholder="Belum diisi">{{ $myActivity->keterangan_r }}</textarea>
-                                        </td>
-                                        <td><input type="number" class="kualitas" id="kualitas"
-                                                value="{{ $myActivity->tingkat_kualitas }}" style="width: 50px"
-                                                placeholder="Belum diisi" max="100" min="0">
                                         </td>
                                     </tr>
                                 </tbody>
