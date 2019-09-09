@@ -14,6 +14,7 @@
         "intervention/image": "^2.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "markbaker/matrix": "^1.1",
         "yajra/laravel-datatables-oracle": "^9.4"
     },
     "require-dev": {

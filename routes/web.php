@@ -59,4 +59,5 @@ Route::group([
     Route::resource('myactivity', 'MyActivityController');
     Route::get('employees', 'EmployeeController@index')->name('employees');
 });
+Route::get('rekomendasi', 'RekomendasiController@index');
 Route::get('{nip}/', ['middleware'=>['auth'], 'uses'=>'ProfileController@profile', 'as'=>'employee']);
