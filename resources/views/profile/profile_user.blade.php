@@ -101,7 +101,7 @@
                             <tr>
                                 <th scope="row">
                                     <div class="media align-items-center">
-                                        <a href="{{ route('activity.show', $assignment->id) }}">
+                                        <a href="{{ route('activity.show', $assignment->sub_activity_id) }}">
                                             <div class="media-body">
                                                 <span class="name mb-0 text-sm">
                                                     {{ $assignment->subActivity->name }} {{ $assignment->activity->name }}

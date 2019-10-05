@@ -2,94 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use App\MyActivity;
 use App\User;
 use ArrayObject;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Matrix\Matrix;
 
 class RekomendasiController extends Controller
 {
-    function index(){
+    function index()
+    {
         $pendidikan = 3;
         $ti = 3;
         $menulis = 2;
         $administrasi = 3;
         $pengalaman_survei = 4;
-        $aktivitas = 20;
-        $k = ['pendidikan'=>$pendidikan, 'ti'=>$ti, 'menulis'=>$menulis, 'administrasi'=>$administrasi, 'pengalaman_survei'=>$pengalaman_survei, 'aktivitas'=>$aktivitas];
-        $kriterias = [];
-        foreach ($k as $ka=>$va) {
-            $z = [];
-            foreach ($k as $ks=>$vs){
-                if ($ks != 'aktivitas'){
-                    $z[$ks] = $this->convertToIntensitasKepentingan($va, $vs);
-                    if ($ka == 'aktivitas')
-                        $z[$ks] = 7;
-                }else{
-                    if ($ka == 'aktivitas' && $ks == 'aktivitas')
-                        $z[$ks] = 1;
-                    else if ($ks == 'aktivitas')
-                            $z[$ks] = 1/7;
-                }
-            }
-            $kriterias[$ka] = $z;
+
+        $task_criteria = [$pendidikan, $ti, $menulis, $administrasi, $pengalaman_survei];
+
+        // START Mendapatkan data id, nip, dan nama user dan mengkonversi data dari database kedalam skala likert terbalik
+        $users = User::select(['id', 'nip', 'name'])->get()->toArray();
+        $user_criterias = User::select(['pendidikan', 'ti', 'menulis', 'administrasi', 'pengalaman_survei'])->get()->toArray();
+        for ($i = 0; $i < sizeof($user_criterias); $i++)
+            foreach ($user_criterias[$i] as $key => $value)
+                $user_criterias[$i][$key] = $this->convertToLikert($value) ?? $user_criterias[$i][$key];
+        // END
+
+        // START Mencari similarity antara kriteria dari tugas dengan masing-masing kriteria pegawai
+        $criteria_similarity = [];
+        foreach ($user_criterias as $user_criteria) {
+            $user_criteria = array_values($user_criteria);
+            $similarity = $this->cosine_similarity($task_criteria, $user_criteria);
+            array_push($criteria_similarity, $similarity);
         }
-        // dd($kriterias);
-        $kriterias = $this->normalisasiDanBobotkan($kriterias);
-        $users = User::all();
-        $alternativeValues = [];
-        foreach ($k as $kri=>$val){
-            $tabel = [];
-            foreach ($users as $user1){
-                $z = [];
-                foreach ($users as $user2){
-                    if ($kri != 'aktivitas')
-                        $z[(int)$user2->id] = $this->convertToIntensitasKepentingan(
-                            $this->convertToLikert($user1->$kri),
-                            $this->convertToLikert($user2->$kri)
-                        );
-                    else
-                        $z[(int)$user2->id] = $this->convertToIntensitasKepentingan(
-                            $this->convertToLikertAktivitas($user1->$kri),
-                            $this->convertToLikertAktivitas($user2->$kri)
-                        );
-                    
-                    // if ($this->convertToIntensitasKepentingan(
-                    //     $this->convertToLikert($user1->$kri),
-                    //     $this->convertToLikertAktivitas($user2->$kri)
-                    // ) == null)
-                    //     dd($user1->$kri,$this->convertToLikertAktivitas($user1->$kri), $this->convertToLikertAktivitas($user2->$kri));
-                }
-                $tabel[(int)$user1->id] = $z;
+        // END
+
+        // START Mencari banyak kegiatan yang diemban oleh masing-masing pegawai selama bulan sekarang
+        $banyakKegiatanYangDiemban = [];
+        $jumlahVolumeKegiatan = [];
+        $monthNow = Carbon::now()->formatLocalized('%B_%Y');
+        foreach ($users as $user) {
+            $user_id = $user['id'];
+            $assignments = DB::table('assignment')
+                ->join('activity', 'assignment.activity_id', '=', 'activity.id')
+                ->select(['awal', 'akhir', 'petugas'])
+                ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$user_id\"') = true")
+                ->whereDate('awal', '<=', now())
+                ->whereDate('akhir', '>=', now())
+                ->get();
+            $count = $assignments->count();
+            $volumeKegiatan = 0;
+            foreach ($assignments as $assignment) {
+                try {
+                    $volumeKegiatan += (int) json_encode($assignment->petugas)[$user_id][$monthNow];
+                } catch (Exception $e) { }
             }
-            $tabel = $this->normalisasiDanBobotkan($tabel);
-            $alternativeValues[$kri] = $tabel;
+
+            $myactivies = MyActivity::where('created_by_user_id', '=', $user_id)
+                ->whereDate('awal', '<=', now())
+                ->whereDate('akhir', '>=', now())
+                ->get();
+            $count += $myactivies->count();
+            foreach ($myactivies as $myactivity)
+                $volumeKegiatan += $myactivity->volume;
+
+            $banyakKegiatanYangDiemban[(int) $user['id']] = $count;
+            $jumlahVolumeKegiatan[(int) $user['id']] = $volumeKegiatan;
         }
-        $hasilAlternative = [];
-        foreach ($alternativeValues as $ke => $value){
-            foreach ($value['bobot'] as $key => $v){
-                if (!isset($hasilAlternative[$key]))
-                    $hasilAlternative[$key] = [];
-                $hasilAlternative[$key][$ke] = $v;
-            }
-        }
-        $hasilAlternative = new Matrix($hasilAlternative);
-        $hasilKriteria = new Matrix($kriterias['bobot']);
-        $f = $hasilAlternative->multiply($hasilKriteria)->toArray();
-        $maxValue = PHP_INT_MIN;
-        $indexPemenang = -1;
-        foreach ($f as $key => $value){
-            if ($value > $maxValue){
-                $indexPemenang = $key;
-                $maxValue = $value;
-            }
-        }
-        $idPemenang = $users[$indexPemenang]->name;
-        return view('rekomendasi', ['kriterias'=>$kriterias,'alternativeValues'=>$alternativeValues, 'pemenang'=>$idPemenang]);
+        // END
+
+        $criteria_weight = [10, 3, 7];
+        $criteria_alternatif = [$criteria_similarity, $banyakKegiatanYangDiemban, $jumlahVolumeKegiatan];
+        $index_pemenang = $this->weightedProduct($criteria_weight, $criteria_alternatif);
+        echo $users[$index_pemenang]['name'];
     }
 
-    function convertToLikert($value) 
+    function convertToLikert($value)
     {
         if ($value == 'Sangat Tinggi')
             return 1;
@@ -112,102 +103,75 @@ class RekomendasiController extends Controller
         else if ($value == 'SMA')
             return 5;
     }
-    public function convertToLikertAktivitas($value)
+
+    public function weightedProduct($criteria_weight, $criteria_alternatif)
     {
-        if ($value <= 4)
-            return 1;
-        else if ($value <= 8)
-            return 2;
-        else if ($value <= 12)
-            return 3;
-        else if ($value <= 16)
-            return 4;
-        else if ($value > 16)
-            return 5;
+        $sum_of_criteria_weight = array_sum($criteria_weight);
+        $criteria_weight_normalizied = [];
+        array_map(function ($x) use (&$sum_of_criteria_weight, &$criteria_weight_normalizied) {
+            array_push($criteria_weight_normalizied, ($x / $sum_of_criteria_weight));
+        }, $criteria_weight);
+        $S = $this->hitung_S($criteria_weight_normalizied, $criteria_alternatif, [1, -1, -1]);
+        $Si = $this->hitung_Si($S);
+        $Vi = $this->hitung_Vi($Si);
+        return array_search(max($Vi), $Vi);
     }
-    function convertToIntensitasKepentingan($value1, $value2) 
+
+    public function hitung_S($criteria_weight_normalizied, $criteria_alternatif, $sign = [])
     {
-        if ($value1 - $value2 == 0)
-            return 1/1;
-        else if ($value1 - $value2 == 1)
-            return 1/3;
-        else if ($value1 - $value2 == 2)
-            return 1/5;
-        else if ($value1 - $value2 == 3)
-            return 1/7;
-        else if ($value1 - $value2 == 4)
-            return 1/9;
-        else if ($value1 - $value2 == -1)
-            return 3;
-        else if ($value1 - $value2 == -2)
-            return 5;
-        else if ($value1 - $value2 == -3)
-            return 7;
-        else if ($value1 - $value2 == -4)
-            return 9;
-    }
-    function convertToIntensitasKepentinganAktivitas($value1, $value2)
-    {
-        $x = $value1 - $value2; 
-        if ($x < 2 && $x > -2)
-            return 1;
-        else if ($x > -4 && $x < 0)
-            return 3;
-        else if ($x > -6 && $x < 0)
-            return 5;
-        else if ($x > -8 && $x < 0)
-            return 7;
-        else if ($x <= -8 && $x < 0)
-            return 9;
-        else if ($x < 4 && $x > 0)
-            return 1/3;
-        else if ($x < 6 && $x > 0)
-            return 1/5;
-        else if ($x < 8 && $x > 0)
-            return 1/7;
-        else if ($x >= 8 && $x > 0)
-            return 1/9;
-    }
-    function normalisasiDanBobotkan($array) 
-    {
-        $array = collect($array);
-        $jumlah = [];
-        // $z = $array->sum('Drs. Sunaryo, M.Si');
-        // $zz = 0;
-        // foreach($array as $ke => $v){
-        //     foreach($v as $kee => $vv){
-        //         if ($kee == 'Drs. Sunaryo, M.Si')
-        //             $zz += $vv;
-        //     }
-        // }
-        // dd($array, $z, $zz);
-        foreach ($array as $key1 => $value1) {
-            $jumlah[$key1] = $array->sum($key1);
-        }
-        $normalisasi = collect([]);
-        foreach ($array as $key1 => $value1) {
-            $zr = [];
-            foreach ($value1 as $key2 => $value2) {
-                $zr[$key2] = $value2 / $jumlah[$key2];
+        $S = [];
+        foreach ($criteria_weight_normalizied as $key => $cwn) {
+            $cwm_temp = [];
+            foreach ($criteria_alternatif[$key] as $criteria) {
+                $value = pow($criteria, $cwn * $sign[$key]);
+                array_push($cwm_temp, !is_infinite($value) ? $value : 0);
             }
-            $normalisasi[$key1] = $zr;
+            array_push($S, $cwm_temp);
         }
-        $jumlah = [];
-        foreach ($normalisasi as $key1 => $value1) {
-            $jumlah[$key1] = $normalisasi->sum($key1);
+        return $S;
+    }
+
+    public function hitung_Si(array $S)
+    {
+        $Si = [];
+        foreach ($S as $criteria_alternatif) {
+            foreach ($criteria_alternatif as $index => $alternatif) {
+                if (array_key_exists($index, $Si)) {
+                    $Si[$index] *= $alternatif;
+                } else {
+                    $Si[$index] = $alternatif;
+                }
+            }
         }
-        $normalisasi = collect($normalisasi);
-        $jumlah = collect($jumlah);
-        
-        $rerata = $normalisasi->map(function ($item, $key) {
-            return array_sum($item)/count($item);
-        });
-        $bobot = new Matrix($normalisasi->toArray());
-        $bobot = $bobot->multiply($rerata->toArray())->toArray();
-        $b = [];
-        foreach (array_keys($normalisasi->toArray()) as $key => $val){
-            $b[$val] = $bobot[$key][0];
+        return $Si;
+    }
+
+    public function hitung_Vi($Si)
+    {
+        $sum = array_sum($Si);
+        $sum = $sum == 0 ? 0 : $sum;
+        $Vi = [];
+        foreach ($Si as $si) {
+            array_push($Vi, $si / $sum);
         }
-        return ['normalisasi'=>$normalisasi, 'rerata'=>$rerata->toArray(), 'bobot'=>$b];
+        return $Vi;
+    }
+
+    public function cosine_similarity(array $p1, array $p2)
+    {
+        $top = 0;
+        for ($i = 0; $i < sizeof($p1); $i++)
+            $top += $p1[$i] * $p2[$i];
+        $bottom = $this->panjang_vektor($p1) * $this->panjang_vektor($p2);
+        return $bottom == 0 ? 0 : ($top / $bottom);
+    }
+
+    public function panjang_vektor(array $p1)
+    {
+        $top = 0;
+        array_map(function ($x) use (&$top) {
+            $top += pow($x, 2);
+        }, $p1);
+        return sqrt($top);
     }
 }

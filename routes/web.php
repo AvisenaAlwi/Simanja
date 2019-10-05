@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', ['as'=>"landingpage", function () {
+Route::get('/', ['as' => "landingpage", function () {
     return view('welcome');
 }]);
 Auth::routes();
@@ -21,9 +22,9 @@ Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('user', 'UserController', ['except' => ['show']]);
-	Route::get('profile', ['as' => 'profile.index', 'uses' => 'ProfileController@index']);
-	Route::get('profile/gantiPassword', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
-	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
+    Route::get('profile', ['as' => 'profile.index', 'uses' => 'ProfileController@index']);
+    Route::get('profile/gantiPassword', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
+    Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
     Route::get('report', ['as' => 'report.index', 'uses' => 'ReportController@index']);
     Route::get('report/show-pelaporan/{id}', ['as' => 'report.show_pelaporan', 'uses' => 'ReportController@pelaporan']);
@@ -60,4 +61,4 @@ Route::group([
     Route::get('employees', 'EmployeeController@index')->name('employees');
 });
 Route::get('rekomendasi', 'RekomendasiController@index');
-Route::get('{nip}/', ['middleware'=>['auth'], 'uses'=>'ProfileController@profile', 'as'=>'employee']);
+Route::get('{nip}/', ['middleware' => ['auth'], 'uses' => 'ProfileController@profile', 'as' => 'employee']);

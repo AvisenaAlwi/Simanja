@@ -7,6 +7,7 @@ use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Assignment;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -26,12 +27,12 @@ class ProfileController extends Controller
         //                 ->whereDate('akhir', '>=', now() )
         //                 ->first()->count;
         $jumlahTugasYangDiemban = DB::table('assignment')
-                        ->join('activity', 'assignment.activity_id', '=', 'activity.id')
-                        ->select(['awal', 'akhir'])
-                        ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
-                        ->whereDate('awal', '<=', now() )
-                        ->whereDate('akhir', '>=', now() )
-                        ->get()->count();
+            ->join('activity', 'assignment.activity_id', '=', 'activity.id')
+            ->select(['awal', 'akhir'])
+            ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
+            ->whereDate('awal', '<=', now())
+            ->whereDate('akhir', '>=', now())
+            ->get()->count();
         return view('profile.index', ['jumlahTugasYangDiembanBulanIni' => $jumlahTugasYangDiemban]);
     }
 
@@ -66,23 +67,31 @@ class ProfileController extends Controller
         return redirect('profile')->withPasswordStatus(__('Password berhasil diganti.'));
     }
 
-    public function profile($nip){
+    public function profile($nip)
+    {
         $nip = preg_replace('/\s+/', '', $nip);
-        if($nip == preg_replace('/\s+/', '', auth()->user()->nip))
+        if ($nip == preg_replace('/\s+/', '', auth()->user()->nip))
             return redirect()->route('profile.index');
         $user = User::whereRaw("REPLACE(`nip`, ' ', '')='$nip'")->first();
-        if ($user ?? ($user = User::whereRaw("REPLACE(`name`, ' ', '')='$nip'")->first())){
-            $assignments = Assignment::whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$user->id\"') = true")->get();
+        if ($user ?? ($user = User::whereRaw("REPLACE(`name`, ' ', '')='$nip'")->first())) {
+            $now = Carbon::now()->timezone('Asia/Jakarta')->formatLocalized('%B_%Y');
+            $assignments = Assignment::whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$user->id\"') = true")
+                ->join('activity', 'assignment.activity_id', '=', 'activity.id')
+                ->whereDate('awal', '<=', now())
+                ->whereDate('akhir', '>=', now())
+                ->select(['*', 'assignment.sub_activity_id as sub_activity_id'])
+                ->get();
             $assignment = DB::table('assignment')
-                            ->join('activity', 'assignment.activity_id', '=', 'activity.id')
-                            ->select(['awal', 'akhir'])
-                            ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$user->id\"') = true")
-                            ->whereDate('awal', '<=', now() )
-                            ->whereDate('akhir', '>=', now() )
-                            ->get();
+                ->join('activity', 'assignment.activity_id', '=', 'activity.id')
+                ->select(['awal', 'akhir'])
+                ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$user->id\"') = true")
+                ->whereRaw("petugas LIKE '%$now%'")
+                ->whereDate('awal', '<=', now())
+                ->whereDate('akhir', '>=', now())
+                ->get();
             $count = $assignment->count();
-            return view('profile.profile_user', ['user'=>$user, 'assignments'=>$assignments,'jumlahTugasYangDiembanBulanIni' => $count]);
-        }else{
+            return view('profile.profile_user', ['user' => $user, 'assignments' => $assignments, 'jumlahTugasYangDiembanBulanIni' => $count]);
+        } else {
             return abort(404);
         }
     }

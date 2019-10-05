@@ -65,7 +65,6 @@
         $lastDay = $date->lastOfMonth()->format('j');
         $month = $date->timezone('Asia/Jakarta')->formatLocalized('%B');
         $year = $date->timezone('Asia/Jakarta')->formatLocalized('%Y');
-
         @endphp
         <div style="display: flex; justify-content: flex-end;">
             <h2 id="reportType">CKP-T</h2>
@@ -152,7 +151,7 @@
     </div>
     <div id="sign_penilai">
         <br>
-        <p> Malang, {{$firstDay.' '.$currentMonth.' '.$currentYear}} <br>
+        <p> Malang, {{$firstDay.' '.$month.' '.$currentYear}} <br>
             Pejabat Penilai,<br>
             {{$penilai->jabatan}}
             <br><br><br><br>

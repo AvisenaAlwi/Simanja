@@ -33,7 +33,7 @@ class ReportController extends Controller
         $currentMonth = Carbon::now()->formatLocalized('%B');
         $month = Input::get('month', 'now');
         $year = Input::get('year', $currentYear);
-        if($month == 'now')
+        if ($month == 'now')
             $month = $currentMonth;
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
@@ -53,41 +53,43 @@ class ReportController extends Controller
                 'nip'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
-            ->where('user_id','=',auth()->user()->id)
+            ->where('user_id', '=', auth()->user()->id)
             ->orderBy('created_at', 'DESC');
         $my_employee_activity = DB::table('my_activity')
-        ->join('users', 'created_by_user_id', '=', 'users.id')
-        ->select(['*',
-        'my_activity.name as activity_name',
-        'users.name as users_name',
-        'my_activity.id as id_my_activity'])
-        ->where('users.pejabat_penilai_nip', '=', auth()->user()->nip);
+            ->join('users', 'created_by_user_id', '=', 'users.id')
+            ->select([
+                '*',
+                'my_activity.name as activity_name',
+                'users.name as users_name',
+                'my_activity.id as id_my_activity'
+            ])
+            ->where('users.pejabat_penilai_nip', '=', auth()->user()->nip);
 
-        if (!empty($searchQuery)){
+        if (!empty($searchQuery)) {
             // Menampilkan sub dan kegiatan yang dicari berdasarkan namanya
             $sub_activity = $sub_activity
-                                ->where('sub_activity.name','LIKE',"%$searchQuery%")
-                                ->where('activity.name','LIKE',"%$searchQuery%", 'OR');
+                ->where('sub_activity.name', 'LIKE', "%$searchQuery%")
+                ->where('activity.name', 'LIKE', "%$searchQuery%", 'OR');
             $my_employee_activity = $my_employee_activity
-                                ->where('name','LIKE',"%$searchQuery%");
+                ->where('name', 'LIKE', "%$searchQuery%");
         }
-        if ($month == 'now' && $year == $currentYear){
+        if ($month == 'now' && $year == $currentYear) {
             $sub_activity = $sub_activity
-                                ->whereDate('awal', '<=', now() )
-                                ->whereDate('akhir', '>=', now() );
+                ->whereDate('awal', '<=', now())
+                ->whereDate('akhir', '>=', now());
             $my_employee_activity = $my_employee_activity
-                                ->whereDate('awal', '<=', now() )
-                                ->whereDate('akhir', '>=', now() );
-        }else if (in_array($month, config('scale.month')) && $year >= 2019 && $year <= $currentYear){
-            $idMonth = (int)config('scale.month_reverse')[$month];
+                ->whereDate('awal', '<=', now())
+                ->whereDate('akhir', '>=', now());
+        } else if (in_array($month, config('scale.month')) && $year >= 2019 && $year <= $currentYear) {
+            $idMonth = (int) config('scale.month_reverse')[$month];
             $date = Carbon::parse("$year-$idMonth-2");
             $sub_activity = $sub_activity
-                                ->whereDate('awal', '<=', $date )
-                                ->whereDate('akhir', '>=', $date );
+                ->whereDate('awal', '<=', $date)
+                ->whereDate('akhir', '>=', $date);
             $my_employee_activity = $my_employee_activity
-                                ->whereDate('awal', '<=', $date )
-                                ->whereDate('akhir', '>=', $date );
-        }else{
+                ->whereDate('awal', '<=', $date)
+                ->whereDate('akhir', '>=', $date);
+        } else {
             return abort(404, 'bulan atau tahun yang akan dicari tidak valid');
         }
         $sub_activity = $sub_activity->paginate(10);
@@ -100,13 +102,13 @@ class ReportController extends Controller
         $userId = Auth::id();
         $currentYear = Carbon::now()->format('Y');
         $currentMonth = Carbon::now()->formatLocalized('%B');
-        $ckp = Input::get('ckp','x');
+        $ckp = Input::get('ckp', 'x');
         $month = Input::get('month', 'now');
         $year = Input::get('year', $currentYear);
         $penilai = DB::table('users')
-        ->select(['users.*'])
-        ->where('nip','=',auth()->user()->pejabat_penilai_nip)
-        ->first();
+            ->select(['users.*'])
+            ->where('nip', '=', auth()->user()->pejabat_penilai_nip)
+            ->first();
 
         $sub_activity = DB::table('sub_activity')
             ->join('activity', 'sub_activity.activity_id', '=', 'activity.id')
@@ -130,92 +132,97 @@ class ReportController extends Controller
             ->whereRaw("JSON_CONTAINS(JSON_KEYS(`petugas`), '\"$userId\"') = true")
             ->orderBy('created_at', 'DESC');
         $my_activity = DB::table('my_activity')
-                        ->select([
-                            'name as full_name',
-                            'my_activity.*'
-                        ])
-                        ->where('created_by_user_id', '=', Auth::id())
-                        ->orderBy('created_at', 'DESC');
-        if ($month == 'now' && $year == $currentYear){
+            ->select([
+                'name as full_name',
+                'my_activity.*'
+            ])
+            ->where('created_by_user_id', '=', Auth::id())
+            ->orderBy('created_at', 'DESC');
+        if ($month == 'now' && $year == $currentYear) {
             $date = now();
-            $idMonth = (int)$date->format('m');
+            $idMonth = (int) $date->format('m');
             $sub_activity = $sub_activity
-                                ->whereDate('awal', '<=', $date )
-                                ->whereDate('akhir', '>=', $date )
-                                ->get();
+                ->whereDate('awal', '<=', $date)
+                ->whereDate('akhir', '>=', $date)
+                ->get();
             $my_activity = $my_activity
-                                ->whereDate('awal', '<=', $date )
-                                ->whereDate('akhir', '>=', $date )
-                                ->get();
-        }else if (in_array($month, config('scale.month')) && $year >= 2019 && $year <= $currentYear){
-            $idMonth = (int)config('scale.month_reverse')[$month];
+                ->whereDate('awal', '<=', $date)
+                ->whereDate('akhir', '>=', $date)
+                ->get();
+        } else if (in_array($month, config('scale.month')) && $year >= 2019 && $year <= $currentYear) {
+            $idMonth = (int) config('scale.month_reverse')[$month];
             $date = Carbon::parse("$year-$idMonth-2");
             $sub_activity = $sub_activity
-                                ->whereDate('awal', '<=', $date )
-                                ->whereDate('akhir', '>=', $date )
-                                ->get();
+                ->whereDate('awal', '<=', $date)
+                ->whereDate('akhir', '>=', $date)
+                ->get();
             $my_activity = $my_activity
-                                ->whereDate('awal', '<=', $date )
-                                ->whereDate('akhir', '>=', $date )
-                                ->get();
-        }else{
+                ->whereDate('awal', '<=', $date)
+                ->whereDate('akhir', '>=', $date)
+                ->get();
+        } else {
             return abort(404, 'bulan atau tahun yang akan dicari tidak valid');
         }
 
-        if ($month=='now') {
+        if ($month == 'now') {
             $month = $currentMonth;
         }
 
         $utama = [];
         $tambahan = [];
-        foreach($sub_activity as $sub){
-            try{
+        foreach ($sub_activity as $sub) {
+            try {
                 $sub->month_volume = json_decode($sub->petugas, true)[$userId]["${month}_${currentYear}"];
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 $sub->month_volume = json_decode($sub->petugas, true)[$userId]["${month}"];
             }
-            if ($sub->month_volume != 0 && $sub->month_volume > 0){
-                if ($sub->kategori == 'Utama'){
+            if ($sub->month_volume != 0 && $sub->month_volume > 0) {
+                if ($sub->kategori == 'Utama') {
                     $sub->tipe = 'tugas';
                     array_push($utama, $sub);
-                }else{
+                } else {
                     $sub->tipe = 'tugas';
                     array_push($tambahan, $sub);
                 }
             }
         }
         // die();
-        foreach($my_activity as $my){
+        foreach ($my_activity as $my) {
             $my->month_volume = $my->volume;
-            if ($my->month_volume != 0 && $my->month_volume > 0){
-                if ($my->kategori == 'Utama'){
+            if ($my->month_volume != 0 && $my->month_volume > 0) {
+                if ($my->kategori == 'Utama') {
                     $my->tipe = 'myactivity';
                     array_push($utama, $my);
-                }else{
+                } else {
                     $my->tipe = 'myactivity';
                     array_push($tambahan, $my);
                 }
             }
         }
-        if($ckp == 't'){
-            $pdf = PDF::loadview('report.ckpt',
-            ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan, 'date'=>$date]);
-            return $pdf->stream($month.'_'.$year.'_CKP-T_'.auth()->user()->name.'_'.auth()->user()->nip.'.pdf');
+        if ($ckp == 't') {
+            $pdf = PDF::loadview(
+                'report.ckpt',
+                ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan, 'date' => $date]
+            );
+            return $pdf->stream($month . '_' . $year . '_CKP-T_' . auth()->user()->name . '_' . auth()->user()->nip . '.pdf');
             // return view('report.ckpt',
             // ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan]);
 
-        }else if($ckp == 'r'){
-            $pdf = PDF::loadview('report.ckpr',
-            ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan, 'date'=>$date]);
-            return $pdf->stream($month.'_'.$year.'_CKP-R_'.auth()->user()->name.'_'.auth()->user()->nip.'.pdf');
+        } else if ($ckp == 'r') {
+            $pdf = PDF::loadview(
+                'report.ckpr',
+                ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan, 'date' => $date]
+            );
+            return $pdf->stream($month . '_' . $year . '_CKP-R_' . auth()->user()->name . '_' . auth()->user()->nip . '.pdf');
             // return view('report.ckpr',
             // ['penilai' => $penilai, 'sub_activity' => $sub_activity, 'keg_utama' =>  $utama, 'keg_tambahan' =>  $tambahan]);
-        }else{
+        } else {
             return abort(404, 'CKP tidak valid');
         }
     }
 
-    function pelaporan (Subactivity $id){
+    function pelaporan(Subactivity $id)
+    {
 
         // dd($id);
         $activity = $id->activity;
@@ -225,7 +232,7 @@ class ReportController extends Controller
 
         $interval = DateInterval::createFromDateString('1 month');
         $period = new DatePeriod($awal, $interval, $akhir);
-        foreach($period as $dt){
+        foreach ($period as $dt) {
             $mo = new Carbon($dt);
             $monthName = $mo->timezone('Asia/Jakarta')->formatLocalized('%B %Y');
             $monthId = $mo->timezone('Asia/Jakarta')->formatLocalized('%m');
@@ -251,35 +258,37 @@ class ReportController extends Controller
                 'assignment.tingkat_kualitas as tingkat_kualitas'
             ])
             ->selectRaw("CONCAT(sub_activity.name,' ',activity.name) as full_name")
-            ->where('sub_activity.id','=',$id->id)
+            ->where('sub_activity.id', '=', $id->id)
             ->first();
-            // dd($sub_activity);
+        // dd($sub_activity);
 
-            $users = DB::table('users')
+        $users = DB::table('users')
             ->select([
                 'users.*'
             ])
             ->get();
 
-        if ($sub_activity != null){
+        if ($sub_activity != null) {
             // dd($period);
-            return view('report.show_pelaporan', ['idz'=>$id->id,'sub_activity' => $sub_activity], ['period'=>$months]);
-        }else{
+            return view('report.show_pelaporan', ['idz' => $id->id, 'sub_activity' => $sub_activity], ['period' => $months]);
+        } else {
             return abort(404, "Kegiatan atau Sub-Kegiatan dengan id $id tidak ditemukan");
         }
     }
 
-    function pelaporan_my_activity ($id){
+    function pelaporan_my_activity($id)
+    {
         $myActivity = MyActivity::where('id', $id)->first();
-        if ($myActivity != null){
-            return view('report.show_pelaporan_myactivity', ['myActivity'=>$myActivity, 'user'=> User::where('id', $myActivity->created_by_user_id)->first()]);
-        }else{
+        if ($myActivity != null) {
+            return view('report.show_pelaporan_myactivity', ['myActivity' => $myActivity, 'user' => User::where('id', $myActivity->created_by_user_id)->first()]);
+        } else {
             return abort(404, "Kegiatan atau KegiatanKu dengan id $myActivity tidak ditemukan");
         }
     }
 
-    function update_pelaporan (Request $request, $assignmentId){
-        $f = Assignment::where('sub_activity_id','=',$assignmentId)->first();
+    function update_pelaporan(Request $request, $assignmentId)
+    {
+        $f = Assignment::where('sub_activity_id', '=', $assignmentId)->first();
         // dd($f->toJson());
         $realisasi = json_decode($f->realisasi, true);
         $keterangan = json_decode($f->keterangan, true);
@@ -302,7 +311,8 @@ class ReportController extends Controller
         ]);
     }
 
-    function update_pelaporan_my_activity (Request $request, $id){
+    function update_pelaporan_my_activity(Request $request, $id)
+    {
         $myActivity = MyActivity::where('id', $id)->first();
         $myActivity->update([
             'realisasi' => $request->realisasi,
@@ -310,5 +320,4 @@ class ReportController extends Controller
             'tingkat_kualitas' => $request->tingkat_kualitas,
         ]);
     }
-
 }

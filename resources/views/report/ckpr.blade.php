@@ -204,7 +204,7 @@
     <div id="sign">
         <div id="sign_dinilai">
             <br>
-            <p>Malang, {{$lastDay.' '.$currentMonth.' '.$currentYear}} <br>
+            <p>Malang, {{$lastDay.' '.$month.' '.$currentYear}} <br>
                 Pegawai Yang dinilai <br>
                 <br><br><br><br>
                 <u>{{auth()->user()->name}}</u><br>
